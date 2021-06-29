@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "8.x",
+    "node": "13.x",
     "npm": "*"
   },
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synicalsyntax/discord.js-heroku.git"
+    "url": "git+https://github.com/Hippo137/Bot-Hippo.git"
   },
   "author": "Hippo",
   "license": "ISC",
