@@ -1,0 +1,24 @@
+:loudspeaker: Welcome to the {finalName} of today’s Cash Tournament!
+
+:game_die: **__Settings__**
+```diff
+- Room Name: CCCash {tournament} {finalName} {number} Table {table}
+- Hide Bank Cards
++ Normal Game Speed
++ Private Game
++ 4 Players
++ 10 Victory Points
++ Base Mode
++ Base Map
++ Random Dice
++ Discard Limit 7 Cards
+```
+:arrow_right: <https://colonist.io/#{tournament}{finalNameShort}{number}T{table}>
+
+:bell: Tag your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Tournament Support to notify us. We will find a back-up player.
+
+:star: This is your last match in the tournament.
+
+:white_check_mark: Be sure to say when you started the match here in the chat as well!
+
+:computer: The winner of the match posts the screenshot in {screenshots}.
