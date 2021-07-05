@@ -3,14 +3,13 @@ var botID = 848599387403059200
 var hostID = 750503012056825959
 module.exports = (Discord, client, message) =>
 {
-    
     if (message.author.id != botID && message.author.id != myID) //not written by the bot or myself
     {
         if (message.guild == null) //DM
         {
             client.users.cache.get(myID).send(`${message.author} via DM:\n${message.cleanContent}`);
         }
-        else if (message.mentions.has(client.user) && message.mentions.has(client.users.cache.get(myID)) //mentioned the bot on a server and not myself
+        else if (message.mentions.has(client.user) && !message.mentions.has(client.users.cache.get(myID))) //mentioned the bot on a server and not myself
         {
             client.users.cache.get(myID).send(`${message.author}:\n${message.cleanContent}\n${message.url}`);
         }
