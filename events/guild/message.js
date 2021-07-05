@@ -1,6 +1,7 @@
 var myID = 383011975057113088
 var botID = 848599387403059200
-var hostID = 750503012056825959
+//var hostID = 750503012056825959
+var hostID = 848612682781163622
 
 module.exports = (Discord, client, message) =>
 {
