@@ -5,8 +5,9 @@ __**Available commands:**__
 ```o : Open Tournanent
 c : Cash Tournament```
 [b]
-```q : Qualifiers
+```r : Qualifiers
 d : Day Final
+q : Quarterfinals
 s : Semifinals
 f : Finals```
 [c]
