@@ -1,0 +1,22 @@
+**Available commands:**
+[a][b][c]
+
+*[a]*
+o : Open Tourmanent
+c : Cash Tournament
+
+*[b]*
+q : Qualifiers
+d : Day Final
+s : Semifinals
+f : Finals
+
+*[c]*
+  : Base Tournament
+ck: Cities & Knights Tournament
+
+
+**Example:**
+os : Semifinals for a regular Open Base Tournament 
+
+*Keep in mind that not all combinations exist!*
