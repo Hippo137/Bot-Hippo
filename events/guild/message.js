@@ -18,7 +18,7 @@ module.exports = (Discord, client, message) =>
     }
     
     const prefix = process.env.PREFIX;
-    if (!message.content.startsWith(prefix) || /*message.author.id != myID &&*/ !message.member.roles.cache.has(hostID)) return;
+    if (!message.content.startsWith(prefix) || /*message.author.id != myID &&*/ !message.member.roles.cache.has(hostID.toString())) return;
     
     const args = message.content.slice(prefix.length).split(/ +/);
     const cmd = args.shift().toLowerCase();
