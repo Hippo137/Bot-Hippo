@@ -1,22 +1,22 @@
-**Available commands:**
-[a][b][c]
+__**Available commands:**__
+`[a][b][c]`
 
-*[a]*
-o : Open Tourmanent
-c : Cash Tournament
+[a]
+```o : Open Tournanent
+c : Cash Tournament```
 
-*[b]*
-q : Qualifiers
+[b]
+```q : Qualifiers
 d : Day Final
 s : Semifinals
-f : Finals
+f : Finals```
 
-*[c]*
-  : Base Tournament
-ck: Cities & Knights Tournament
+[c]
+```  : Base Tournament
+ck: Cities & Knights Tournament```
 
 
 **Example:**
-os : Semifinals for a regular Open Base Tournament 
+`os : Semifinals for a regular Open Base Tournament`
 
 *Keep in mind that not all combinations exist!*

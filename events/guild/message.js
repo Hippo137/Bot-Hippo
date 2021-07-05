@@ -10,7 +10,7 @@ module.exports = (Discord, client, message) =>
         {
             client.users.cache.get(myID).send(`${message.author} via DM:\n${message.cleanContent}`);
         }
-        else if (message.mentions.has(client.user)) //mentioned the bot on a server
+        else if (message.mentions.has(client.user) && message.mentions.has(client.users.cache.get(myID)) //mentioned the bot on a server and not myself
         {
             client.users.cache.get(myID).send(`${message.author}:\n${message.cleanContent}\n${message.url}`);
         }
