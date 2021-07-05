@@ -1,6 +1,7 @@
 var myID = 383011975057113088
 var botID = 848599387403059200
 var hostID = 750503012056825959
+
 module.exports = (Discord, client, message) =>
 {
     if (message.author.id != botID && message.author.id != myID) //not written by the bot or myself
@@ -16,7 +17,7 @@ module.exports = (Discord, client, message) =>
     }
     
     const prefix = process.env.PREFIX;
-    if (!message.content.startsWith(prefix) || message.author.id != myID && !message.member.roles.cache.has(hostID)) return;
+    if (!message.content.startsWith(prefix) || /*message.author.id != myID &&*/ !message.member.roles.cache.has(hostID)) return;
     
     const args = message.content.slice(prefix.length).split(/ +/);
     const cmd = args.shift().toLowerCase();
