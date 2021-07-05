@@ -16,7 +16,7 @@ module.exports = (Discord, client, message) =>
     }
     
     const prefix = process.env.PREFIX;
-    if (!message.content.startsWith(prefix) || /*message.author.id != myID &&*/ !message.member.roles.cache.some(role => role.name === 'Host')) return;
+    if (!message.content.startsWith(prefix) || message.author.id != myID && !message.member.roles.cache.some(role => role.name === 'Host')) return; //only I and Hosts can use commands
     
     const args = message.content.slice(prefix.length).split(/ +/);
     const cmd = args.shift().toLowerCase();
