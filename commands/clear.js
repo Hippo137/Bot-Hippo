@@ -18,18 +18,18 @@ module.exports = {
             if (amount>100) return message.reply('The maximum number of messages to remove is 100');
             if (amount<1) return message.reply('Please enter a positive number');
         }
-        if (message.guild !== null) await message.channel.bulkDelete(amount);
+        if (message.guild !== null) await message.channel.bulkDelete(amount).catch(console.error);
         else
         {
             message.channel.messages.fetch({limit: amount})
                 .then(messages =>
                 {
-                    messages = messages.filter(m => m.author.id === botID);
+                    messages = messages.filter(m => m.author.id == botID);
                     messages.forEach(msg =>
                     {
                         msg.delete();
                         console.log(msg.content);
-                    });//.catch(console.error);    //gives an error, but works anyway
+                    }).catch(console.error);    //gives an error, but works anyway
                 })
                 .catch(console.error);
         }
