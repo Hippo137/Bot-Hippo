@@ -4,17 +4,14 @@ __**Available commands:**__
 [a]
 ```o : Open Tournanent
 c : Cash Tournament```
-
 [b]
 ```q : Qualifiers
 d : Day Final
 s : Semifinals
 f : Finals```
-
 [c]
 ```  : Base Tournament
 ck: Cities & Knights Tournament```
-
 
 **Example:**
 `os : Semifinals for a regular Open Base Tournament`
