@@ -8,11 +8,11 @@ module.exports = (Discord, client, message) =>
     {
         if (message.guild == null) //DM
         {
-            client.users.cache.get(myID.send(`${message.author} via DM:\n${message.cleanContent}`);
+            client.users.cache.get(myID).send(`${message.author} via DM:\n${message.cleanContent}`);
         }
         else if (message.mentions.has(client.user)) //mentioned the bot on a server
         {
-            client.users.cache.get(myID.send(`${message.author}:\n${message.cleanContent}\n${message.url}`);
+            client.users.cache.get(myID).send(`${message.author}:\n${message.cleanContent}\n${message.url}`);
         }
     }
     
