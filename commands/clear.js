@@ -28,6 +28,7 @@ module.exports = {
                     messages.forEach(msg =>
                     {
                         msg.delete();
+                        console.log(msg.content);
                     });//.catch(console.error);    //gives an error, but works anyway
                 })
                 .catch(console.error);
