@@ -9,7 +9,7 @@ client.events = new Discord.Collection();
 (
     handler =>
     {
-        require(`./handlers/${handler}`)(client, Discord)
+        require(`./handlers/${handler}`)(client, Discord);
     }
 )
 client.login(process.env.TOKEN);
