@@ -17,7 +17,7 @@ module.exports = (Discord, client, message) =>
     
     if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
     {
-        global.botPresence = 1;
+        botPresence = 1;
     }
     
     const prefix = process.env.PREFIX;

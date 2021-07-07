@@ -17,16 +17,16 @@ module.exports =
         switch (args[0].toLowerCase)
         {
             case '1': case 'checkin': case 'check-in': case 'c':
-            global.botPresence = 1;
+            botPresence = 1;
 
             case '2': case 'tournament': case 'tour': case 't':
-            global.botPresence = 2;
+            botPresence = 2;
 
             case '3': case 'final': case 'last': case 'f':
-            global.botPresence = 3;
+            botPresence = 3;
             
             case '0': case '4': case 'end': case 'over': case 'e': case 'o':
-            global.botPresence = 4;
+            botPresence = 4;
         }
     }
 };

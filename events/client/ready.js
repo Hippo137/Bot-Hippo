@@ -27,14 +27,14 @@ function updatePresence()
         timeUntilEndOfTournament -= interval;
         if (timeUntilEndOfTournament <= 0)
         {
-            global.botPresence = 4;
+            botPresence = 4;
         }
     }
-    if (global.botPresence == 0) return;
+    if (botPresence == 0) return;
     
     let status;
     let name;
-    switch (global.botPresence)
+    switch (botPresence)
     {
         case 1: //check-in started
         status = 'idle';
@@ -57,7 +57,7 @@ function updatePresence()
         status = 'dnd';
         name = 'after the tournament is before the tournament';
     }
-    
+    botPresence = 0;
     client.user.setPresence
     (
         {

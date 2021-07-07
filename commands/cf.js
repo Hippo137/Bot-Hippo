@@ -53,7 +53,7 @@ module.exports =
             
         msg.channel.send(embedMessage);
         
-        global.botPresence = 3;
+        botPresence = 3;
     }
 };
 

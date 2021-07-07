@@ -42,7 +42,7 @@ module.exports =
         
         msg.channel.send(embedMessage);
         
-        global.botPresence = 2;
+        botPresence = 2;
     }
 };
 
