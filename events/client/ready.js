@@ -5,7 +5,7 @@ const botPresenceMessage = '862425269063254069';
 var cl
 
 //862425269063254069
-module.exports = (Discord, client) =>
+async module.exports = (Discord, client) =>
 {
     cl = client;
     client.setInterval(() => updatePresence(), 1000*interval)
