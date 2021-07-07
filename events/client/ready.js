@@ -33,18 +33,18 @@ async function updatePresence()
     {
         case 1: //check-in started
         status = 'idle';
-        name = ':Hype:';
+        name = 'Hype 🙂';
         break;
         
         case 2: //tournament started
         status = 'online';
-        name = 'good luck to everyone :slight_smile:';
+        name = 'good luck to everyone';
         timeUntilEndOfTournament = 100*60;
         break;
         
         case 3: //tournament final started
         status = 'online';
-        name = 'good luck to everyone :slight_smile:';
+        name = 'good luck to everyone';
         timeUntilEndOfTournament = 1*60;
         break;
         
