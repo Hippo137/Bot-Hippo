@@ -16,7 +16,7 @@ module.exports = async (Discord, client) =>
 async function updatePresence()
 {
     presence = await getPresence();
-    
+    console.log(`1: ${presence}`);
     if (timeUntilEndOfTournament > 0)
     {
         timeUntilEndOfTournament -= interval;
@@ -34,6 +34,7 @@ async function updatePresence()
         case 1: //check-in started
         status = 'idle';
         name = 'Hype 🙂';
+        timeUntilEndOfTournament = 0;
         break;
         
         case 2: //tournament started
@@ -51,7 +52,9 @@ async function updatePresence()
         case 4: //tournament is over
         status = 'dnd';
         name = 'after the tournament is before the tournament';
+        timeUntilEndOfTournament = 0;
     }
+    console.log(`2: ${status} ${name}`);
     setPresence(0);
     cl.user.setPresence
     (
@@ -59,7 +62,7 @@ async function updatePresence()
             status: status,
             activity:
             {
-                name: name,
+                name: name
             }
         }
     )
