@@ -1,4 +1,4 @@
-var interval = 100000;
+var interval = 10;
 var timeUntilEndOfTournament = 0;
 var cl
 
