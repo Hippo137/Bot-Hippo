@@ -11,17 +11,18 @@ module.exports = (Discord, client, message) =>
         }
         else if (message.mentions.has(client.user) && !message.mentions.has(client.users.cache.get(myID))) //mentioned the bot on a server and not myself
         {
-            client.users.cache.get(myID).send(`${message.author}:\n${message.cleanContent}\n${message.url}`);
+            client.users.cache.get(myID).send(`${message.author}:\n\n${message.cleanContent}\n\n${message.url}`);
         }
     }
     
     const prefix = process.env.PREFIX;
     if (!message.content.startsWith(prefix) || message.author.id != myID && !message.member.roles.cache.some(role => role.name === 'Host')) return; //only I and Hosts can use commands
     
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const cmd = args.shift().toLowerCase();
+    const args = message.content.slice(prefix.length).split(/ +/); //removes the prefix and create a string array with each element separated by a space in the message
+    const cmd = args.shift().toLowerCase(); //cmd is the first element in the list and is removed from the message. It is also changed to lowercase
     
     const command = client.commands.get(cmd);
     
-    if (command) command.execute(client, message, args, Discord);
+    if (command) command.execute(client, message, args, Discord); //execute the command if the command exists
+    else message.reply(`Use “${prefix}commandName parameter1 parameter2 ...” with an existing commandName. Use “${prefix}help” for additional help.`);
 }
