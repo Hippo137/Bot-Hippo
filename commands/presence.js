@@ -15,7 +15,7 @@ module.exports =
         if (msg.guild.me.hasPermission('MANAGE_MESSAGES')) msg.delete();
         
         if (!args[0]) return message.channel.send('This command needs an argument');
-        
+        console.log(args[0]);
         switch (args[0].toLowerCase)
         {
             case 1: case 'checkin': case 'check-in': case 'c':
