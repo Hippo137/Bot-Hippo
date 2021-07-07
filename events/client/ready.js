@@ -1,13 +1,15 @@
 var interval = 10;
 var timeUntilEndOfTournament = 0;
-var botPresence = 0;
+const botDBChannel = '862422544652828713'
+const botPresenceMessage = '862425269063254069';
 
-//862424115896778784
+//862425269063254069
 module.exports = (Discord, client) =>
 {
     client.setInterval(() => updatePresence(), 1000*interval)
     
-    client.channels.cache.get('862422544652828713').send('0');
+    //client.channels.cache.get(botDBChannel).send('0');
+    setPresence(2);
     
     client.user.setPresence
     (
@@ -24,19 +26,21 @@ module.exports = (Discord, client) =>
 
 function updatePresence()
 {
+    presence = getPresence();
+    
     if (timeUntilEndOfTournament > 0)
     {
         timeUntilEndOfTournament -= interval;
         if (timeUntilEndOfTournament <= 0)
         {
-            botPresence = 4;
+            presence = 4;
         }
     }
-    if (botPresence == 0) return;
+    if (presence == 0) return;
     
     let status;
     let name;
-    switch (botPresence)
+    switch (presence)
     {
         case 1: //check-in started
         status = 'idle';
@@ -59,7 +63,7 @@ function updatePresence()
         status = 'dnd';
         name = 'after the tournament is before the tournament';
     }
-    botPresence = 0;
+    setPresence(0);
     client.user.setPresence
     (
         {
@@ -70,4 +74,14 @@ function updatePresence()
             }
         }
     )
+}
+
+function getPresence()
+{
+    return parseInt(client.channels.cache.get(botDBChannel).fetch(botPresenceMessage).content);
+}
+
+function setPresence(p)
+{
+    parseInt(client.channels.cache.get(botDBChannel).fetch(botPresenceMessage).edit(p));
 }
