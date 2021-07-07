@@ -25,7 +25,7 @@ module.exports =
             case '3': case 'final': case 'last': case 'f':
             global.botPresence = 3;
             
-            case '4': case 'end': case 'over': case 'e': case 'o':
+            case '0': case '4': case 'end': case 'over': case 'e': case 'o':
             global.botPresence = 4;
         }
     }
