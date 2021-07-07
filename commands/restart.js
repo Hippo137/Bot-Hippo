@@ -2,7 +2,7 @@ const fs = require('fs');
 
 module.exports =
 {
-    name: 'logout',
+    name: 'restart',
     execute(client, message, args, Discord)
     {
         client.destroy();

@@ -82,7 +82,7 @@ function updatePresence()
 function getPresence()
 {
     let i = 0;
-    cl.channels.cache.get(botDBChannel).messages.fetch(botPresenceMessage).then(message => i = parseInt(message.content));
+    cl.channels.cache.get('862422544652828713'').messages.fetch('862425269063254069').then(message => i = parseInt(message.content));
     return i;
 }
 
