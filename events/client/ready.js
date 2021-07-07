@@ -66,7 +66,7 @@ function updatePresence()
         name = 'after the tournament is before the tournament';
     }
     setPresence(0);
-    client.user.setPresence
+    cl.user.setPresence
     (
         {
             status: status,
