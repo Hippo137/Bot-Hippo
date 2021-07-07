@@ -12,6 +12,7 @@ module.exports = (Discord, client) =>
     
     //client.channels.cache.get(botDBChannel).send('0');
     setPresence(2);
+    console.log(getPresence());
     
     client.user.setPresence
     (
