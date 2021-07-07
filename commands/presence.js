@@ -17,16 +17,21 @@ module.exports =
         switch (args[0].toLowerCase)
         {
             case '1': case 'checkin': case 'check-in': case 'c':
-            botPresence = 1;
+            setPresence(1);
 
             case '2': case 'tournament': case 'tour': case 't':
-            botPresence = 2;
+            setPresence(2);
 
             case '3': case 'final': case 'last': case 'f':
-            botPresence = 3;
+            setPresence(3);
             
             case '0': case '4': case 'end': case 'over': case 'e': case 'o':
-            botPresence = 4;
+            setPresence(4);
         }
     }
-};
+}
+
+function setPresence(p)
+{
+    cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
+}

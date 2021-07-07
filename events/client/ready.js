@@ -11,25 +11,13 @@ module.exports = async (Discord, client) =>
     client.setInterval(() => updatePresence(), 1000*interval)
     
     //client.channels.cache.get(botDBChannel).send('0');
-    await setPresence(2);
-    await console.log(getPresence());
     
-    client.user.setPresence
-    (
-        {
-            status: 'dnd',
-            activity:
-            {
-                name: 'table spam',
-            }
-        }
-    )
     console.log('Bot is online');
 }
 
 function updatePresence()
 {
-    presence = getPresence();
+    presence = await getPresence();
     
     if (timeUntilEndOfTournament > 0)
     {
@@ -81,12 +69,8 @@ function updatePresence()
 
 async function getPresence()
 {
-    let i = 0;
     let msg = await cl.channels.cache.get(botDBChannel).messages.fetch(botPresenceMessage);
-    console.log(msg);
-    console.log(msg.content);
-    i = parseInt(message.content);
-    return i;
+    return parseInt(msg.content);
 }
 
 function setPresence(p)
