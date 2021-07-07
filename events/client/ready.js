@@ -11,8 +11,8 @@ module.exports = (Discord, client) =>
     client.setInterval(() => updatePresence(), 1000*interval)
     
     //client.channels.cache.get(botDBChannel).send('0');
-    setPresence(2);
-    console.log(getPresence());
+    await setPresence(2);
+    await console.log(getPresence());
     
     client.user.setPresence
     (
