@@ -1,4 +1,4 @@
-var interval = 10;
+var interval = 100000;
 var timeUntilEndOfTournament = 0;
 const botDBChannel = '862422544652828713'
 const botPresenceMessage = '862425269063254069';
