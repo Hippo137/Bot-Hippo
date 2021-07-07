@@ -1,6 +1,7 @@
 const fs = require('fs');
 var dc
 var msg
+var cl
 
 module.exports =
 {
@@ -9,6 +10,7 @@ module.exports =
     {
         dc = Discord;
         msg = message;
+        cl = client;
         
         if (msg.guild.me.hasPermission('MANAGE_MESSAGES')) msg.delete();
         
@@ -16,16 +18,16 @@ module.exports =
         
         switch (args[0].toLowerCase)
         {
-            case '1': case 'checkin': case 'check-in': case 'c':
+            case 1: case 'checkin': case 'check-in': case 'c':
             setPresence(1);
 
-            case '2': case 'tournament': case 'tour': case 't':
+            case 2: case 'tournament': case 'tour': case 't':
             setPresence(2);
 
-            case '3': case 'final': case 'last': case 'f':
+            case 3: case 'final': case 'last': case 'f':
             setPresence(3);
             
-            case '0': case '4': case 'end': case 'over': case 'e': case 'o':
+            case 0: case 4: case 'end': case 'over': case 'e': case 'o':
             setPresence(4);
         }
     }
