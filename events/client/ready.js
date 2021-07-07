@@ -6,7 +6,7 @@ module.exports = (Discord, client) =>
 {
     client.setInterval(() => updatePresence(), 1000*interval)
     
-    client.channels.get('862422544652828713').send('0');
+    client.channels.cache.get('862422544652828713').send('0');
     
     client.user.setPresence
     (
