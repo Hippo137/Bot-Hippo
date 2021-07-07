@@ -55,6 +55,8 @@ module.exports =
             .addField('tableStart', tableStart, true)
         
         msg.channel.send(embedMessage);
+        
+        global.botPresence = 2;
     }
 };
 

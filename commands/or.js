@@ -72,6 +72,8 @@ module.exports =
             .addField('dayFinal', dayFinal, true)
         
         msg.channel.send(embedMessage);
+        
+        global.botPresence = 2;
     }
 };
 

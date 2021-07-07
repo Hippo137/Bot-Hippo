@@ -15,6 +15,11 @@ module.exports = (Discord, client, message) =>
         }
     }
     
+    if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
+    {
+        global.botPresence = 1;
+    }
+    
     const prefix = process.env.PREFIX;
     if (!message.content.startsWith(prefix) || message.author.id != myID && !message.member.roles.cache.some(role => role.name === 'Host')) return; //only I and Hosts can use commands
     

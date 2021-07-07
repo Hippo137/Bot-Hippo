@@ -52,6 +52,8 @@ module.exports =
             .addField('loserFinals', loserFinals, false)
             
         msg.channel.send(embedMessage);
+        
+        global.botPresence = 3;
     }
 };
 

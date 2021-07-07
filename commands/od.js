@@ -34,6 +34,8 @@ module.exports =
             .addField('tournament', tournament, false)
         
         msg.channel.send(embedMessage);
+        
+        global.botPresence = 3;
     }
 };
 

@@ -44,6 +44,8 @@ module.exports =
             .addField('loserFinal', loserFinal, false)
         
         msg.channel.send(embedMessage);
+        
+        global.botPresence = 2;
     }
 };
 
