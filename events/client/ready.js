@@ -1,6 +1,6 @@
 var interval = 10;
 var timeUntilEndOfTournament = 0;
-window.botPresence = 0;
+var botPresence = 0;
 
 module.exports = (Discord, client) =>
 {
