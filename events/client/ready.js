@@ -2,6 +2,7 @@ var interval = 10;
 var timeUntilEndOfTournament = 0;
 var botPresence = 0;
 
+//862424115896778784
 module.exports = (Discord, client) =>
 {
     client.setInterval(() => updatePresence(), 1000*interval)
