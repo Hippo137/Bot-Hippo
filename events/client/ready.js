@@ -4,7 +4,7 @@ global.botPresence;
 
 module.exports = (Discord, client) =>
 {
-    bot.setInterval(updatePresence(), 1000*interval)
+    client.setInterval(updatePresence(), 1000*interval)
     
     
     client.user.setPresence
