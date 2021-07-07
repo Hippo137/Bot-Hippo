@@ -80,7 +80,7 @@ function updatePresence()
 
 function getPresence()
 {
-    return parseInt(cl.channels.cache.get(botDBChannel).messages.fetch(botPresenceMessage).content);
+    return parseInt(cl.channels.cache.get(botDBChannel).messages.fetch(botPresenceMessage).then(message => message.content));
 }
 
 function setPresence(p)
