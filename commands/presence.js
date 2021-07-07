@@ -37,7 +37,7 @@ module.exports =
     }
 }
 
-function setPresence(p)
+async function setPresence(p)
 {
-    cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
+    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
 }
