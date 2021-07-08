@@ -72,8 +72,8 @@ async function updatePresence()
 async function getPresence()
 {
     let msg = await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069');
-    console.log(msg);
-    console.log(msg.content);
+    console.log(`get1:\n${msg}`);
+    console.log(`get2:\n${msg.content}`);
     presence = parseInt(msg.content);
 }
 
@@ -81,5 +81,8 @@ async function setPresence(p)
 {
     //await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
     let msg = await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069');
+    console.log(`set01:\n${msg}`);
+    console.log(`set02:\n${msg.content}`);
     msg.edit(p);
+    console.log(`set03:\n${msg.content}`);
 }

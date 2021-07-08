@@ -41,5 +41,8 @@ async function setPresence(p)
 {
     //await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
     let msg = await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069');
+    console.log(`set11:\n${msg}`);
+    console.log(`set12:\n${msg.content}`);
     msg.edit(p);
+    console.log(`set13:\n${msg.content}`);
 }
