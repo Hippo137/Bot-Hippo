@@ -16,7 +16,7 @@ module.exports = async (Discord, client) =>
 
 async function updatePresence()
 {
-    currentPresence = presence;
+    let currentPresence = presence;
     await getPresence();
     if (currentPresence == presence) return;
     
