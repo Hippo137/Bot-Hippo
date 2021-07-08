@@ -20,3 +20,5 @@
 :white_check_mark: Be sure to say when you started the match here in the chat as well!
 
 :computer: The winner of the match posts the screenshot in {screenshots}.
+
+:star: This is your last match in this qualifier.

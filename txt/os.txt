@@ -17,8 +17,8 @@
 
 :bell: Tag your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Tournament Support to notify us. We will find a back-up player.
 
-:star: For all of you, there will be one more match after this one.
-
 :white_check_mark: Be sure to say when you started the match here in the chat as well!
 
 :computer: The winner of the match posts the screenshot in {screenshots}.
+
+:star: For all of you, there will be one more match after this one.

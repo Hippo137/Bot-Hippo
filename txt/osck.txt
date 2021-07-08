@@ -17,8 +17,8 @@
 
 :bell: Tag your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Tournament Support to notify us. We will find a back-up player.
 
-:star: Win this game to qualify for the Final.{extraMessage}
-
 :white_check_mark: Be sure to say when you started the match here in the chat as well!
 
 :computer: The winner of the match posts the screenshot in {screenshots}.
+
+:star: Win this game to qualify for the Final.{extraMessage}
