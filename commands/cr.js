@@ -57,7 +57,7 @@ module.exports =
         
         msg.channel.send(embedMessage);
         
-        botPresence = 2;
+        setPresence(2);
     }
 };
 
@@ -74,4 +74,9 @@ function errorMessage()
         .addField('tableStart', '[1, tables]', true)
 
     msg.channel.send(embedMessage);
+}
+
+async function setPresence(p)
+{
+    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
 }

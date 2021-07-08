@@ -24,13 +24,9 @@ async function updatePresence()
             setPresence(0);
         }
     }
-    
     let currentPresence = presence;
     await getPresence();
     if (currentPresence == presence) return;
-    
-    console.log(`1: ${presence}`);
-    
     
     let status;
     let name;
@@ -60,8 +56,6 @@ async function updatePresence()
         timeUntilEndOfTournament = 1*60;
         break;
     }
-    console.log(`2: ${status} ${name}`);
-    //await setPresence(0);
     cl.user.setPresence
     (
         {
@@ -77,13 +71,9 @@ async function updatePresence()
 async function getPresence()
 {
     await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => presence = parseInt(message.content));
-    //let msg = await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069');
-    //presence = parseInt(msg.content);
 }
 
 async function setPresence(p)
 {
     await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
-    //let msg = await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069');
-    //msg.edit(p);
 }

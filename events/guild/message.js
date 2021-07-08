@@ -17,7 +17,7 @@ module.exports = (Discord, client, message) =>
     
     if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
     {
-        botPresence = 1;
+        setPresence(1);
     }
     
     const prefix = process.env.PREFIX;
@@ -30,4 +30,9 @@ module.exports = (Discord, client, message) =>
     
     if (command) command.execute(client, message, args, Discord); //execute the command if the command exists
     else message.reply(`Use “${prefix}commandName parameter1 parameter2 ...” with an existing commandName. Use “${prefix}help” for additional help.`);
+}
+
+async function setPresence(p)
+{
+    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
 }

@@ -55,7 +55,7 @@ module.exports =
         
         msg.channel.send(embedMessage);
         
-        botPresence = 3;
+        setPresence(3);
     }
 };
 
@@ -68,4 +68,9 @@ function errorMessage()
         .addField('tournament', '>0', true)
 
     msg.channel.send(embedMessage);
+}
+
+async function setPresence(p)
+{
+    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
 }
