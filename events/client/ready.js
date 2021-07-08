@@ -1,4 +1,4 @@
-var interval = 10;
+var interval = 100000;
 var timeUntilEndOfTournament = 0;
 var cl
 var presence = 0;
@@ -10,7 +10,7 @@ module.exports = async (Discord, client) =>
     client.setInterval(() => updatePresence(), 1000*interval)
     
     //client.channels.cache.get('').send('0');
-    
+    await updatePresence();
     console.log('Bot is online');
 }
 
