@@ -16,25 +16,9 @@ module.exports =
         
         if (!args[0]) return message.channel.send('This command needs an argument');
         console.log(args[0]);
-        console.log(args[0].toLowerCase());
-        switch (args[0])
-        {
-            case '1': case 'checkin': case 'check-in': case 'c':
-            await setPresence(1);
-            break;
-
-            case '2': case 'tournament': case 'tour': case 't':
-            await setPresence(2);
-            break;
-
-            case '3': case 'final': case 'last': case 'f':
-            await setPresence(3);
-            break;
-            
-            case '0': case '4': case 'end': case 'over': case 'e': case 'o':
-            await setPresence(4);
-            break;
-        }
+        if (isNaN(args[0])) args[0] = 0;
+        else if (args[0] < 0 || args[0] > 4) args[0] = 0;
+        await setPresence(args[0]);
     }
 }
 
