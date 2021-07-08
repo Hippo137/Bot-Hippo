@@ -1,5 +1,3 @@
-var botID = 848599387403059200
-
 module.exports = {
     name: 'clear',
     description: 'Clear x messages',
@@ -24,7 +22,7 @@ module.exports = {
             message.channel.messages.fetch({limit: amount})
                 .then(messages =>
                 {
-                    messages = messages.filter(m => m.author.id == botID);
+                    messages = messages.filter(m => m.author == client.user);
                     messages.forEach(msg =>
                     {
                         msg.delete();
