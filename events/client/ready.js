@@ -1,6 +1,7 @@
 var interval = 10;
 var timeUntilEndOfTournament = 0;
 var cl
+var presence
 
 //862425269063254069
 module.exports = async (Discord, client) =>
@@ -15,7 +16,7 @@ module.exports = async (Discord, client) =>
 
 async function updatePresence()
 {
-    presence = await getPresence();
+    getPresence();
     console.log(`1: ${presence}`);
     if (timeUntilEndOfTournament > 0)
     {
@@ -71,10 +72,11 @@ async function updatePresence()
 async function getPresence()
 {
     let msg = await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069');
-    return parseInt(msg.content);
+    presence = parseInt(msg.content);
 }
 
 async function setPresence(p)
 {
     await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
+    presence = p;
 }
