@@ -1,14 +1,18 @@
 module.exports = (Discord, client, message) =>
 {
-    if (message.author.id != 848599387403059200 && message.author.id != 383011975057113088) //not written by the bot or myself
+    if (message.author != client.user)// && message.author.id != 383011975057113088) //not written by the bot or myself
     {
+        console.log(message.mentions.has(client.user))
+        console.log(!message.mentions.has(client.users.cache.get('383011975057113088')))
+        
+        
         if (message.guild == null) //DM
         {
-            client.users.cache.get('383011975057113088').send(`${message.author} via DM:\n${message.cleanContent}`);
+            client.users.cache.get('383011975057113088').send(`${message.author} via DM:\n${message.content}`);
         }
         else if (message.mentions.has(client.user) && !message.mentions.has(client.users.cache.get('383011975057113088'))) //mentioned the bot on a server and not myself
         {
-            client.users.cache.get('383011975057113088').send(`${message.author}:\n\n${message.cleanContent}\n\n${message.url}`);
+            client.users.cache.get('383011975057113088').send(`${message.author}:\n\n${message.content}\n\n${message.url}`);
         }
     }
     
