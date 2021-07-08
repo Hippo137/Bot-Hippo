@@ -26,15 +26,20 @@ async function updatePresence()
         timeUntilEndOfTournament -= interval;
         if (timeUntilEndOfTournament <= 0)
         {
-            presence = 4;
+            presence = 0;
         }
     }
-    if (presence == 0) return;
     
     let status;
     let name;
     switch (presence)
     {
+        case 0: //tournament is over
+        status = 'idle';
+        name = 'after the tournament is before the tournament';
+        timeUntilEndOfTournament = 0;
+        break;
+        
         case 1: //check-in started
         status = 'online';
         name = '🙂 Hype 🙂';
@@ -52,11 +57,6 @@ async function updatePresence()
         name = 'good luck to everyone';
         timeUntilEndOfTournament = 1*60;
         break;
-        
-        case 4: //tournament is over
-        status = 'idle';
-        name = 'after the tournament is before the tournament';
-        timeUntilEndOfTournament = 0;
     }
     console.log(`2: ${status} ${name}`);
     //await setPresence(0);
