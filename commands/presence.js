@@ -6,7 +6,7 @@ var cl
 module.exports =
 {
     name: 'presence',
-    execute(client, message, args, Discord)
+    async execute(client, message, args, Discord)
     {
         dc = Discord;
         msg = message;
