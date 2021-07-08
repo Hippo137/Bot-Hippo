@@ -16,7 +16,7 @@ module.exports = async (Discord, client) =>
 
 async function updatePresence()
 {
-    getPresence();
+    await getPresence();
     console.log(`1: ${presence}`);
     if (timeUntilEndOfTournament > 0)
     {
