@@ -16,19 +16,21 @@ module.exports = async (Discord, client) =>
 
 async function updatePresence()
 {
-    let currentPresence = presence;
-    await getPresence();
-    if (currentPresence == presence) return;
-    
-    console.log(`1: ${presence}`);
     if (timeUntilEndOfTournament > 0)
     {
         timeUntilEndOfTournament -= interval;
         if (timeUntilEndOfTournament <= 0)
         {
-            presence = 0;
+            setPresence(0);
         }
     }
+    
+    let currentPresence = presence;
+    await getPresence();
+    if (currentPresence == presence) return;
+    
+    console.log(`1: ${presence}`);
+    
     
     let status;
     let name;
