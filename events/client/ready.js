@@ -53,7 +53,7 @@ async function updatePresence(client)
         timeUntilEndOfTournament = 1*60;
         break;
     }
-    cl.user.setPresence
+    client.user.setPresence
     (
         {
             status: status,
