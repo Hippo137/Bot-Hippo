@@ -18,19 +18,19 @@ module.exports =
         console.log(args[0]);
         switch (args[0].toLowerCase)
         {
-            case 1: case 'checkin': case 'check-in': case 'c':
+            case '1': case 'checkin': case 'check-in': case 'c':
             await setPresence(1);
             break;
 
-            case 2: case 'tournament': case 'tour': case 't':
+            case '2': case 'tournament': case 'tour': case 't':
             await setPresence(2);
             break;
 
-            case 3: case 'final': case 'last': case 'f':
+            case '3': case 'final': case 'last': case 'f':
             await setPresence(3);
             break;
             
-            case 0: case 4: case 'end': case 'over': case 'e': case 'o':
+            case '0': case '4': case 'end': case 'over': case 'e': case 'o':
             await setPresence(4);
             break;
         }
