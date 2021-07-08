@@ -16,7 +16,7 @@ module.exports =
         
         if (!args[0]) return message.channel.send('This command needs an argument');
         console.log(args[0]);
-        switch (args[0].toLowerCase)
+        switch (args[0])
         {
             case '1': case 'checkin': case 'check-in': case 'c':
             await setPresence(1);
