@@ -56,7 +56,7 @@ async function updatePresence()
         timeUntilEndOfTournament = 0;
     }
     console.log(`2: ${status} ${name}`);
-    setPresence(0);
+    await setPresence(0);
     cl.user.setPresence
     (
         {
