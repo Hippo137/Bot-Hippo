@@ -57,7 +57,7 @@ function errorMessage()
     msg.channel.send(embedMessage);
 }
 
-async function setPresence(cl, p)
+async function setPresence(client, newPresence)
 {
-    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
+    await client.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(newPresence));
 }

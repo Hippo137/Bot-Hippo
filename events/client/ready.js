@@ -2,17 +2,16 @@ var interval = 10;
 var timeUntilEndOfTournament = 0;
 var presence = -1;
 
-//862425269063254069
 module.exports = async (Discord, client) =>
 {
-    client.setInterval(() => updatePresence(), 1000*interval)
+    client.setInterval(() => updatePresence(client), 1000*interval)
     
-    //client.channels.cache.get('').send('0');
-    await updatePresence();
+    //client.channels.cache.get('862422544652828713').send('0');
+    await updatePresence(client);
     console.log('Bot is online');
 }
 
-async function updatePresence()
+async function updatePresence(client)
 {
     if (timeUntilEndOfTournament > 0)
     {
@@ -66,12 +65,12 @@ async function updatePresence()
     )
 }
 
-async function getPresence(cl)
+async function getPresence(client)
 {
-    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => presence = parseInt(message.content));
+    await client.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => presence = parseInt(message.content));
 }
 
-async function setPresence(cl, p)
+async function setPresence(client, newPresence)
 {
-    await cl.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(p));
+    await client.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(newPresence));
 }
