@@ -5,7 +5,7 @@ module.exports =
     name: 'presence',
     async execute(client, message, args, Discord)
     {
-        if (msg.guild.me.hasPermission('MANAGE_MESSAGES')) message.delete();
+        if (message.guild.me.hasPermission('MANAGE_MESSAGES')) message.delete();
         
         if (!args[0]) return message.channel.send('This command needs an argument');
         console.log(args[0]);
