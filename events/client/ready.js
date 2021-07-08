@@ -1,7 +1,7 @@
 var interval = 10;
 var timeUntilEndOfTournament = 0;
 var cl
-var presence = 0;
+var presence = -1;
 
 //862425269063254069
 module.exports = async (Discord, client) =>
