@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'sendMsg',
+    name: 'sendmsg',
     execute(client, message, args)
     {
         //const channelTarget = client.channels.cache.find(channel => channel.name == 'inner-circle');
