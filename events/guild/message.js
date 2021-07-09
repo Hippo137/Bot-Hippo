@@ -2,7 +2,7 @@ module.exports = (Discord, client, message) =>
 {
     if (message.author != client.user)// && message.author.id != 383011975057113088) //not written by the bot or myself
     {
-        console.log(`1:${message.author}: ${message.mentions.has(client.user)}, ${message.mentions.has('383011975057113088')}, ${message.mentions.has('862840978654363669')}`);
+        console.log(`1:${message.author}: ${message.mentions.has(client.user)}, ${message.mentions.has('383011975057113088')}, ${message.mentions.has('848653342342774785')}`);
         
         
         if (message.guild == null) //DM
