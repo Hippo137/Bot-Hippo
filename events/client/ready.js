@@ -44,13 +44,13 @@ async function updatePresence(client)
         case 2: //tournament started
         status = 'online';
         name = 'good luck to everyone';
-        timeUntilEndOfTournament = 100*60;
+        timeUntilEndOfTournament = 120*60;
         break;
         
         case 3: //tournament final started
         status = 'online';
         name = 'good luck to everyone';
-        timeUntilEndOfTournament = 1*60;
+        timeUntilEndOfTournament = 60*60;
         break;
     }
     client.user.setPresence

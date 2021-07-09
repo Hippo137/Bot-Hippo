@@ -1,21 +1,31 @@
 module.exports = (Discord, client, message) =>
 {
-    if (message.author != client.user)// && message.author.id != 383011975057113088) //not written by the bot or myself
+    if (message.author != client.user && message.author.id != 383011975057113088) //not written by the bot or myself
     {
         console.log(`1:${message.author}: ${message.mentions.has(client.user)}, ${message.mentions.has('383011975057113088')}, ${message.mentions.has('848653342342774785')}`);
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         if (message.guild == null) //DM
         {
             client.users.cache.get('383011975057113088').send(`${message.author} via DM:\n${message.content}`);
         }
-        else if (message.mentions.has(client.user) && !message.mentions.has(client.users.cache.get('383011975057113088'))) //mentioned the bot on a server and not myself
+        else if ((message.mentions.has(client.user) || message.mentions.has('848653342342774785') || message.mentions.has('849809423178268704')) && !(message.mentions.has('383011975057113088') || message.mentions.has('848612682781163622') || message.mentions.has('861750799821832223') || message.mentions.has('827244724091748363') || message.mentions.has('747216338833113149') || !message.mentions.has('747217237034926081')) //mentioned the bot on a server and not myself
         {
             client.users.cache.get('383011975057113088').send(`${message.author}:\n\n${message.content}\n\n${message.url}`);
         }
     }
     
-    if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
+    //if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
+    if (message.channel.id === '759563162063601664' && message.author.id === '204255221017214977')
+    
     {
         setPresence(client, 1);
     }
