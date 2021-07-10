@@ -4,7 +4,7 @@ var msg
 
 module.exports =
 {
-    name: 'os',
+    name: 'osvf',
     execute(client, message, args, Discord)
     {
         dc = Discord;
@@ -51,7 +51,7 @@ function errorMessage()
     const embedMessage = new dc.MessageEmbed()
         .setColor('#ff0000')
         .setTitle(`Error: “${msg.content}”`)
-        .addField('Required Syntax', `os tournament`, false)
+        .addField('Required Syntax', `osvf tournament`, false)
         .addField('tournament', '>0', true)
 
     msg.channel.send(embedMessage);

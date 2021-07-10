@@ -4,7 +4,7 @@ var msg
 
 module.exports =
 {
-    name: 'or',
+    name: 'orvf',
     execute(client, message, args, Discord)
     {
         dc = Discord;
@@ -82,7 +82,7 @@ function errorMessage()
     const embedMessage = new dc.MessageEmbed()
         .setColor('#ff0000')
         .setTitle(`Error: “${msg.content}”`)
-        .addField('Required Syntax', `or tournament round numRounds tables (tableStart) (dayFinal)`, false)
+        .addField('Required Syntax', `orvf tournament round numRounds tables (tableStart) (dayFinal)`, false)
         .addField('tournament', '>0', true)
         .addField('round', '[1, 5]', true)
         .addField('numRounds', '[round, 5]', true)
