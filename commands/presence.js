@@ -8,7 +8,6 @@ module.exports =
         if (message.guild.me.hasPermission('MANAGE_MESSAGES')) message.delete();
         
         if (!args[0]) return message.channel.send('This command needs an argument');
-        console.log(args[0]);
         if (isNaN(args[0])) args[0] = 0;
         else if (args[0] < 0 || args[0] > 4) args[0] = 0;
         

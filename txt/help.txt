@@ -11,8 +11,9 @@ q : Quarterfinals
 s : Semifinals
 f : Finals```
 [c]
-```  : Base Tournament
+```  : Base Tournament (Fast)
 ck: Cities & Knights Tournament```
+vf: Very Fast
 
 **Example:**
 `os : Semifinals for a regular Open Base Tournament`
