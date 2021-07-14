@@ -11,11 +11,11 @@ module.exports =
         if (isNaN(args[0])) args[0] = 0;
         else if (args[0] < 0 || args[0] > 4) args[0] = 0;
         
-        await setPresence(client, args[0]);
+        await setTest(client, args[0]);
     }
 }
 
-async function setPresence(client, newValue)
+async function setTest(client, newValue)
 {
     await client.channels.cache.get('862422544652828713').messages.fetch('864970292190380042').then(message => message.edit(newValue));
 }
