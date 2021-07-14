@@ -2,7 +2,7 @@ const fs = require('fs');
 
 module.exports =
 {
-    name: 'presence',
+    name: 'test',
     async execute(client, message, args, Discord)
     {
         if (message.guild.me.hasPermission('MANAGE_MESSAGES')) message.delete();
@@ -17,5 +17,5 @@ module.exports =
 
 async function setPresence(client, newValue)
 {
-    await client.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(newValue));
+    await client.channels.cache.get('862422544652828713').messages.fetch('864970292190380042').then(message => message.edit(newValue));
 }

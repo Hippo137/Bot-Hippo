@@ -1,6 +1,7 @@
 const fs = require('fs');
 var dc
 var msg
+var test = -1;
 
 module.exports =
 {
@@ -53,7 +54,8 @@ module.exports =
             
         msg.channel.send(embedMessage);
         
-        setPresence(client, 3);
+        await getTest(client);
+        if (msg.guild.id == '747212662483583069' || test > 0) setPresence(client, 3);
     }
 };
 
@@ -69,7 +71,12 @@ function errorMessage()
     msg.channel.send(embedMessage);
 }
 
-async function setPresence(client, newPresence)
+async function setPresence(client, newValue)
 {
-    await client.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(newPresence));
+    await client.channels.cache.get('862422544652828713').messages.fetch('862425269063254069').then(message => message.edit(newValue));
+}
+
+async function getTest(client)
+{
+    await client.channels.cache.get('862422544652828713').messages.fetch('864970292190380042').then(message => test = parseInt(message.content));
 }

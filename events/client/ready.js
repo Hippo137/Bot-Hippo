@@ -6,7 +6,7 @@ module.exports = async (Discord, client) =>
 {
     client.setInterval(() => updatePresence(client), 1000*interval)
     
-    client.channels.cache.get('862422544652828713').send('0');
+    //client.channels.cache.get('862422544652828713').send('0');
     await updatePresence(client);
     console.log('Bot is online');
 }
