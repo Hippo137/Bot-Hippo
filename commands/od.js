@@ -3,7 +3,7 @@ var dc
 var msg
 var test = -1;
 
-module.exports =
+async module.exports =
 {
     name: 'od',
     execute(client, message, args, Discord)
@@ -36,8 +36,12 @@ module.exports =
         
         msg.channel.send(embedMessage);
         
-        await getTest(client);
-        if (msg.guild.id == '747212662483583069' || test > 0) setPresence(client, 3);
+        if (msg.guild.id != '747212662483583069')
+        {
+            await getTest(client);
+            if (test == 0) return;
+        }
+        setPresence(client, 3);
     }
 };
 
