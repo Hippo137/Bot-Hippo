@@ -9,7 +9,7 @@ module.exports =
         
         if (!args[0]) return message.channel.send('This command needs an argument');
         if (isNaN(args[0])) args[0] = 0;
-        else if (args[0] < 0 || args[0] > 4) args[0] = 0;
+        else if (args[0] < 0 || args[0] > 1) args[0] = 0;
         
         await setPresence(client, args[0]);
     }
