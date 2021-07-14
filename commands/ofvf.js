@@ -3,10 +3,10 @@ var dc
 var msg
 var test = -1;
 
-async module.exports =
+module.exports =
 {
     name: 'ofvf',
-    execute(client, message, args, Discord)
+    async execute(client, message, args, Discord)
     {
         dc = Discord;
         msg = message;
