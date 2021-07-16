@@ -26,7 +26,7 @@ module.exports = {
                     messages.forEach(msg =>
                     {
                         msg.delete();
-                    }).catch(console.error);    //gives an error, but works anyway
+                    })//.catch(console.error);    //gives an error, but works anyway
                 })
                 .catch(console.error);
         }
