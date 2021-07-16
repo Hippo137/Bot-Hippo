@@ -10,7 +10,7 @@ module.exports =
         dc = Discord;
         msg = message;
         
-        if (msg.guild.me.hasPermission('MANAGE_MESSAGES')) msg.delete();
+        if (msg.guild != null && msg.guild.me.hasPermission('MANAGE_MESSAGES')) msg.delete();
         
         msg.channel.send(fs.readFileSync(`txt/${this.name}.txt`, 'utf8'));
     }

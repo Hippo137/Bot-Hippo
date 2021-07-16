@@ -8,8 +8,11 @@ module.exports =
     name: 'orck',
     async execute(client, message, args, Discord)
     {
+        if (message.guild == null) message.reply('This command isn’t available in DM channels.');
+        
         dc = Discord;
         msg = message;
+        
         if (!args[0] || !args[1] || !args[2] || !args[3]) return errorMessage();
         
         const tournament = parseInt(args[0]);

@@ -5,6 +5,8 @@ module.exports =
     name: 'presence',
     async execute(client, message, args, Discord)
     {
+        if (message.guild == null) message.reply('This command isn’t available in DM channels.');
+        
         if (message.guild.me.hasPermission('MANAGE_MESSAGES')) message.delete();
         
         if (!args[0]) return message.channel.send('This command needs an argument');

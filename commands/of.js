@@ -8,6 +8,8 @@ module.exports =
     name: 'of',
     async execute(client, message, args, Discord)
     {
+        if (message.guild == null) message.reply('This command isn’t available in DM channels.');
+        
         dc = Discord;
         msg = message;
         
