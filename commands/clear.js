@@ -27,7 +27,7 @@ module.exports = {
                     {
                         msg.delete();
                         console.log(msg.content);
-                    }).catch(console.error);    //gives an error, but works anyway
+                    }//).catch(console.error);    //gives an error, but works anyway
                 })
                 .catch(console.error);
         }
