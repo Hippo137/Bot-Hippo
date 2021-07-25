@@ -12,8 +12,9 @@ s : Semifinals
 f : Finals```
 [c]
 ```  : Base Tournament (Fast)
-ck: Cities & Knights Tournament
-vf: Very Fast```
+ck: Cities & Knights
+vf: Very Fast
+sh: Shuffle Board```
 
 **Example:**
 `os : Semifinals for a regular Open Base Tournament`
