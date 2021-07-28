@@ -2,7 +2,7 @@ module.exports = {
     name: 'sendmsg2',
     execute(client, message, args)
     {
-        if (message.author.id !== '383011975057113088') message.reply('You need to be a :hippopotamus: to use this command :smiling_face_with_tear:');
+        if (message.author.id !== '383011975057113088') return message.reply('You need to be a :hippopotamus: to use this command :smiling_face_with_tear:');
         
         const channelTarget = client.channels.cache.find(channel => channel.id === '750170377224978433');
         
