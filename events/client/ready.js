@@ -8,6 +8,7 @@ module.exports = async (Discord, client) =>
     
     //client.channels.cache.get('862422544652828713').send('0');
     await updatePresence(client);
+    await client.channels.cache.get('751193550443511868').messages.fetch('874028107097583676').then(message => message.react('🚫'));
     console.log('Bot is online');
 }
 
