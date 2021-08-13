@@ -2,7 +2,7 @@
 
 :game_die: **__Settings__**
 ```diff
-- Room Name: CC {tournament} C&K {finalName} {number} Table {table}
+- Room Name: CCOpen {tournament} C&K {finalName} {number} Table {table}
 - Hide Bank Cards
 - Fast Game Speed
 - Cities & Knights
