@@ -8,7 +8,7 @@ module.exports = {
         for (let i=1; i<=50; i++)
         {
             const channelTarget = message.guild.channels.cache.find(channel => channel.name == `table-`+i);
-            await channelTarget.bulkDelete(100);
+            await channelTarget.bulkDelete(100).catch(console.error);
         }
         
         return message.reply('Tables cleared.')

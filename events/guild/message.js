@@ -13,8 +13,6 @@ module.exports = async (Discord, client, message) =>
             //client.users.cache.get('383011975057113088').send(`${message.author}:\n\n${message.content}\n\n${message.url}`);
             client.users.fetch('383011975057113088').then((user) => user.send(`${message.author}:\n\n${message.content}\n\n${message.url}`));
         }
-        
-        if (message.author.id == 884517731918032907) console.log(message.mentions.has(client.user) + message.mentions.has('848653342342774785') + message.mentions.has('849809423178268704') + message.mentions.has('383011975057113088') + message.mentions.has('848612682781163622') + message.mentions.has('861750799821832223') + message.mentions.has('827244724091748363') + message.mentions.has('747216338833113149') + message.mentions.has('747217237034926081'));
     }
     
     //if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
