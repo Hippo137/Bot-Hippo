@@ -22,7 +22,7 @@ module.exports = async (Discord, client, message) =>
     }
     
     const prefix = process.env.PREFIX;
-    if (!message.content.startsWith(prefix) || message.author.id != '383011975057113088' && !message.member.roles.cache.some(role => role.name === 'Host')) return; //only I and Hosts can use commands
+    if (!message.content.startsWith(prefix) || message.author.id != '383011975057113088' && !message.member.roles.cache.some(role => role.name === 'Host') && !message.member.roles.cache.some(role => role.name === 'Admin')) return; //only I, Hosts and Admins can use commands
     
     const args = message.content.slice(prefix.length).split(/ +/); //removes the prefix and create a string array with each element separated by a space in the message
     const cmd = args.shift().toLowerCase(); //cmd is the first element in the list and is removed from the message. It is also changed to lowercase
