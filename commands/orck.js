@@ -38,7 +38,7 @@ module.exports =
         if (remainingRounds == 0) extraMessage = 'This is your last match for the qualifier.';
         else extraMessage = `In this qualifier, all of you will play ${intNames[remainingRounds]} more ${remainingRounds>1?'matches':'match'} after this match.`;
         
-        let botMessage = fs.readFileSync(`txt/${this.name}.txt`, 'utf8').replace(/{tournament}/g, tournament).replace(/{round}/g, round).replace(/{roundName}/g, roundName[round>=numRounds ? 0 : round]).replace(/{extraMessage}/g, extraMessage).replace(/{screenshots}/g, msg.guild.channels.cache.get('750490997045198880'));
+        let botMessage = fs.readFileSync(`txt/${this.name}.txt`, 'utf8').replace(/{tournament}/g, tournament).replace(/{round}/g, round).replace(/{roundName}/g, roundName[round>=numRounds ? 0 : round]).replace(/{extraMessage}/g, extraMessage).replace(/{screenshots}/g, msg.guild.channels.cache.get('894372076884992015'));
         //msg.guild.channels.cache.get('849784629061746708'));
         for (let i=tableStart; i<=tables; i++)
         {

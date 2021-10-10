@@ -4,7 +4,7 @@ module.exports = {
     {
         if (message.author.id !== '383011975057113088') return message.reply('You need to be a :hippopotamus: to use this command :smiling_face_with_tear:');
         
-        const channelTarget = client.channels.cache.find(channel => channel.id === '750170377224978433');
+        const channelTarget = client.channels.cache.find(channel => channel.id === '894372076884992014');
         
         //const channelTarget = client.channels.cache.find(channel => channel.name == 'inner-circle');
         

@@ -23,7 +23,7 @@ module.exports =
         
         if (msg.guild.me.hasPermission('MANAGE_MESSAGES')) msg.delete();
         
-        let botMessage = fs.readFileSync(`txt/${this.name}.txt`, 'utf8').replace(/{tournament}/g, tournament).replace(/{screenshots}/g, msg.guild.channels.cache.get('750490997045198880')); //msg.guild.channels.cache.get('849784629061746708'));
+        let botMessage = fs.readFileSync(`txt/${this.name}.txt`, 'utf8').replace(/{tournament}/g, tournament).replace(/{screenshots}/g, msg.guild.channels.cache.get('894372076884992015')); //msg.guild.channels.cache.get('849784629061746708'));
         
         const channelTarget = msg.guild.channels.cache.find(channel => channel.name === 'table-1');
         channelTarget.send(botMessage);

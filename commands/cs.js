@@ -28,7 +28,7 @@ module.exports =
         let extraMessage = ''
         if (loserFinal != 0) extraMessage += ' For all of you, there will be one more match after this one.'
         
-        let botMessage = fs.readFileSync(`txt/${this.name}.txt`, 'utf8').replace(/{tournament}/g, tournament).replace(/{extraMessage}/g, extraMessage).replace(/{screenshots}/g, msg.guild.channels.cache.get('750490997045198880'));
+        let botMessage = fs.readFileSync(`txt/${this.name}.txt`, 'utf8').replace(/{tournament}/g, tournament).replace(/{extraMessage}/g, extraMessage).replace(/{screenshots}/g, msg.guild.channels.cache.get('894372076884992015'));
         //msg.guild.channels.cache.get('849784629061746708'));
         for (let i=1; i<=tables; i++)
         {
