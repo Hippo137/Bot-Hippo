@@ -41,7 +41,7 @@ module.exports =
         
         msg.channel.send(embedMessage);
         
-        if (msg.guild.id != '747212662483583069')
+        if (msg.guild.id != '894372075622526986')
         {
             await getTest(client);
             if (test == 0) return;
