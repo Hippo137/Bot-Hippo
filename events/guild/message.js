@@ -16,7 +16,7 @@ module.exports = async (Discord, client, message) =>
     }
     
     //if (message.channel.id === '802909358132035625' && message.author.id === '383011975057113088')
-    if (message.channel.id === '759563162063601664' && message.author.id === '204255221017214977')
+    if (message.channel.id === '894372076884992013' && message.author.id === '204255221017214977')
     {
         setPresence(client, 1);
     }
