@@ -1,7 +1,6 @@
 {
-  "name": "discord-bot",
+  "name": "bot-hippo",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "engines": {
     "node": "13.x",
@@ -18,8 +17,17 @@
   "author": "Hippo",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.5.3",
+    "@discordjs/builders": "^0.7.0",
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.3.0-dev.1634601912.4dff279",
     "dotenv": "^10.0.0",
     "env": "0.0.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Hippo137/Bot-Hippo/issues"
+  },
+  "homepage": "https://github.com/Hippo137/Bot-Hippo#readme",
+  "keywords": [],
+  "description": ""
 }
