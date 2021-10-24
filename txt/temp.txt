@@ -1,0 +1,26 @@
+:loudspeaker: Welcome to the {intro} of today’s Open Tournament!
+
+:game_die: **__Settings__**
+```diff
+- Room Name:           {roomname}
++ Private Game:        Yes
+- Hide Bank Cards:     Yes
+- Friendly Robber:     Yes
++ Game Mode:           Base
++ Map:                 Base
++ Dice:                Random Dice
+- Game Speed:          Very Fast
+- Max Players:         2
+- Card Discard Limit:  8
+- VP to Win:           13
+```
+:arrow_right: <https://colonist.io/#CC1v1{q}T{table}>
+
+:bell: Tag your table mate using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Tournament Support to notify us. We will find a back-up player.
+
+:white_check_mark: Be sure to say when you started the match here in the chat as well!
+
+:computer: After each match, the winner posts a screenshot of the game end screen in {screenshots}.
+
+:star: You will play a total of three matches with the same opponent in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.
+{extraMessage}

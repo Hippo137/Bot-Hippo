@@ -203,11 +203,11 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
+        /*.addSubcommand(subcommand =>
         subcommand
             .setName('semifinal')
             .setDescription('Use this for the semifinals')
-        ),
+        )*/,
             
 	async execute(interaction)
     {
