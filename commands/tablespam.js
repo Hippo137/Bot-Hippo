@@ -212,7 +212,7 @@ module.exports = {
 	async execute(interaction)
     {
         await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'Inner Circle')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         const tableEnd = interaction.options.getInteger('tableend');
         const tableStart = interaction.options.getInteger('tablestart') ?? 1;
         if (tableStart > tableEnd) return await interaction.editReply(`'tablestart' must not exceed 'tableend'`).catch(console.error);
