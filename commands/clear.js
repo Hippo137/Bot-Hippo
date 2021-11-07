@@ -42,7 +42,7 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'Inner Circle')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         if (!interaction.guild.me.permissions.has('MANAGE_MESSAGES')) return await interaction.editReply('I don’t have the permission to delete messages.').catch(console.error);
         
         const number = interaction.options.getInteger('number') ?? 100;

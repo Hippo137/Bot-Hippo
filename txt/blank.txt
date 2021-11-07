@@ -14,9 +14,9 @@
 {zDiscard} Card Discard Limit:  {discard}
 {zVp} VP to Win:           {vp}
 ```
-:arrow_right: <https://colonist.io/#R{round}T{table}{random}>
+:arrow_right: <https://colonist.io/#{link}{random}>
 
-:bell: Tag your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Tournament Support to notify us. We will find a back-up player.
+:bell: Tag your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Tournament Team to notify us. We will find a back-up player.
 
 :white_check_mark: Be sure to say when you started the match here in the chat as well!
 
