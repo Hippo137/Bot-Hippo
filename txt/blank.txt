@@ -4,7 +4,7 @@
 ```diff
 - Room Name:           {roomname}
 + Private Game:        Yes
-- Hide Bank Cards:     Yes
++ Hide Bank Cards:     Yes
 {zRobber} Friendly Robber:     {robber}
 {zMode} Game Mode:           {mode}
 {zMap} Map:                 {map}

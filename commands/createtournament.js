@@ -10,7 +10,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('create')
-            .setDescription(`New=omitted settings to default, Update=ignore omitted settings, restart=reset round to 1`)
+            .setDescription('New=default if omitted, Update=ignored if omitted, restart=reset round to 1')
             .setRequired(true)
             .addChoice('New', 'New')
             .addChoice('Update', 'Update')
@@ -209,7 +209,6 @@ module.exports = {
     {
         await interaction.deferReply();
         //interaction.channel.send('0');
-        
         if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
         let messages = await interaction.client.channels.cache.get('862422544652828713').messages;
@@ -258,55 +257,55 @@ module.exports = {
             sRandom = sRandom ?? 'No';
             sTables = sTables ?? 0;
             sBrackets = sBrackets ?? 4;
-            sLoserfinals = sLoserfinals ?? 'No';
+            sLoserfinals = sLoserfinals ?? 'Yes';
         }
-        if (sType) await writeDb(messages, '905945127900573747', sType);
-        if (sMode)
+        if (sType != null) await writeDb(messages, '905945127900573747', sType);
+        if (sMode != null)
         {
             await writeDb(messages, '905945387360202823', sMode);
             await writeDb(messages, '905945487390171146', sMode === 'Base' ? '+' : '-');
         }
         else sMode = await readDb(messages, '905945387360202823');
-        if (sMap)
+        if (sMap != null)
         {
             await writeDb(messages, '905945543115669574', sMap);
             await writeDb(messages, '905945613114413076', sMap === 'Base' ? '+' : '-');
         }
         else sMap = await readDb(messages, '905945543115669574');
-        if (sPlayers)
+        if (sPlayers != null)
         {
             await writeDb(messages, '905945688976818187', `${sPlayers}`);
             await writeDb(messages, '905945741216862229', `${sPlayers === 4 ? '+' : '-'}`);
         }
-        if (sSpeed)
+        if (sSpeed != null)
         {
             await writeDb(messages, '905945792567722046', `${sSpeed}`);
-            await writeDb(messages, '905945832971444244', `${sSpeed === 'Normal' ? '+' : '-'}`);
+            await writeDb(messages, '905945832971444244', `${sSpeed === 'Fast' ? '+' : '-'}`);
         }
-        if (sDice)
+        if (sDice != null)
         {
             await writeDb(messages, '905945929490763797', `${sDice}`);
             await writeDb(messages, '905945972914397245', `${sDice === 'Random Dice' ? '+' : '-'}`);
         }
-        if (sRobber)
+        if (sRobber != null)
         {
             await writeDb(messages, '905946115566895176', `${sRobber}`);
             await writeDb(messages, '905946151008735293', `${sRobber === 'No' ? '+' : '-'}`);
         }
-        if (sRounds) await writeDb(messages, '905946342617141308', `${sRounds}`);
-        if (sRound) await writeDb(messages, '905946389748543488', `${sRound}`);
-        if (sBox) await writeDb(messages, '905983214122840125', `${sBox}`);
-        if (sDayfinal) await writeDb(messages, '906247072406175795', `${sDayfinal}`);
-        if (sPrize) await writeDb(messages, '906247110666625115', `${sPrize}`);
-        if (sDiscard)
+        if (sRounds != null) await writeDb(messages, '905946342617141308', `${sRounds}`);
+        if (sRound != null) await writeDb(messages, '905946389748543488', `${sRound}`);
+        if (sBox != null) await writeDb(messages, '905983214122840125', `${sBox}`);
+        if (sDayfinal != null) await writeDb(messages, '906247072406175795', `${sDayfinal}`);
+        if (sPrize != null) await writeDb(messages, '906247110666625115', `${sPrize}`);
+        if (sDiscard != null)
         {
             await writeDb(messages, '906250774105960448', `${sDiscard}`);
             await writeDb(messages, '906250873414492170', `${sDiscard === 7 ? '+' : '-'}`);
         }
-        if (sRandom) await writeDb(messages, '906260752300666911', `${sRandom}`);
-        if (sTables) await writeDb(messages, '906261691610845195', `${sTables}`);
-        if (sBrackets) await writeDb(messages, '906512009649061888', `${sBrackets}`);
-        if (sLoserfinals) await writeDb(messages, '906512049096503296', `${sLoserfinals}`);
+        if (sRandom != null) await writeDb(messages, '906260752300666911', `${sRandom}`);
+        if (sTables != null) await writeDb(messages, '906261691610845195', `${sTables}`);
+        if (sBrackets != null) await writeDb(messages, '906512009649061888', `${sBrackets}`);
+        if (sLoserfinals != null) await writeDb(messages, '906512049096503296', `${sLoserfinals}`);
         
         
         let zVp;

@@ -24,11 +24,11 @@ module.exports = {
             .addChoice('scissors', 'scissors')
         ),
 	async execute(interaction) {
-        await interaction.reply(`Sorry, the command is currently unavailable.`).catch(console.error);
+        //await interaction.reply(`Sorry, the command is currently unavailable.`).catch(console.error);
         
         //await interaction.deferReply();
         
-        /*let userChoice = interaction.options.getString('choice'), uChoice, opponent = interaction.options.getString('opponent');
+        let userChoice = interaction.options.getString('choice'), uChoice, opponent = interaction.options.getString('opponent');
         switch (userChoice)
         {
             case 'rock': uChoice = 0; userChoice = ':fist:'; break;
@@ -41,19 +41,20 @@ module.exports = {
             if (opponentInteraction === null)
             {
                 opponentInteraction = interaction;
-                await interaction.deferReply({ephemeral: true});
+                //await interaction.deferReply({ephemeral: true});
+                await interaction.reply({content: 'Match started.', ephemeral: true});
                 await interaction.channel.send(`${interaction.member} started a Rock Paper Scissors Match. Use /${interaction.commandName} to join.`).then(message => introMessage = message);
                 let introMessageCopy = introMessage;
                 setTimeout(async function()
                 {
                     if (introMessage == introMessageCopy)
                     {
-                        await introMessage.delete().catch(console.error)
+                        await introMessage.delete().catch(console.error);
                         //introMessage = null;
                         await interaction.editReply('Match aborted. You can delete this message.').catch(console.error);
                         //opponentInteraction = null;
                     }
-                }, 10000);//840000); //14 Minuten
+                }, 840000); //14 Minuten
                 return;
             }
             else if (opponentInteraction.member === interaction.member)
@@ -63,6 +64,7 @@ module.exports = {
             }
             else
             {
+                await interaction.deferReply();
                 oppChoice = opponentInteraction.options.getString('choice');
                 switch (oppChoice)
                 {
@@ -74,6 +76,7 @@ module.exports = {
         }
         else
         {
+            await interaction.deferReply();
             oChoice = Math.floor(Math.random()*3);
             switch (oChoice)
             {
@@ -93,10 +96,10 @@ module.exports = {
             await opponentInteraction.editReply('Match ended. You can delete this message.').catch(console.error);
             await introMessage.delete()
             introMessage = null;
-            await interaction.reply(`${oWinner} ${opponentInteraction.member} ${oppChoice} :crossed_swords: ${userChoice} ${interaction.member} ${uWinner}`).catch(console.error);
+            await interaction.editReply(`${oWinner} ${opponentInteraction.member} ${oppChoice} :crossed_swords: ${userChoice} ${interaction.member} ${uWinner}`).catch(console.error);
             opponentInteraction = null;
         }
-        else await interaction.reply(`${uWinner} :person_in_lotus_position: ${userChoice} :crossed_swords: ${oppChoice} :hippopotamus: ${oWinner}`).catch(console.error);*/
+        else await interaction.editReply(`${uWinner} :person_in_lotus_position: ${userChoice} :crossed_swords: ${oppChoice} :hippopotamus: ${oWinner}`).catch(console.error);
 		
 	},
 };

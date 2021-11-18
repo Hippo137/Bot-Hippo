@@ -55,6 +55,17 @@ module.exports = {
         subcommand
             .setName('final')
             .setDescription('Use this for the finals')
+            .addIntegerOption
+            (option =>
+                option.setName('tableend')
+                .setDescription('Number of tables in the final. Only set this with one bracket and if some players skipped a round.')
+                .setRequired(false)
+            )
+        )
+        .addSubcommand(subcommand =>
+        subcommand
+            .setName('settings')
+            .setDescription('Use this to get the current settings')
         ),
             
 	async execute(interaction)
@@ -107,7 +118,47 @@ module.exports = {
         const loserfinal = await readDb(messages, '906512049096503296')
         const brackets = await readDb(messages, '906512009649061888')
         
-        
+        if (interaction.options.getSubcommand() === 'settings')
+        {
+            let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
+                .replace(/{zType}/g, type==='Open'?'+':'-')
+                .replace(/{type}/g, type)
+                .replace(/{zTables}/g, tables==0?'+':'-')
+                .replace(/{tables}/g, tables)
+                .replace(/{zRound}/g, round==1?'+':'-')
+                .replace(/{round}/g, round)
+                .replace(/{zRounds}/g, rounds==3?'+':'-')
+                .replace(/{rounds}/g, rounds)
+                .replace(/{zDayfinal}/g, dayfinal==='No'?'+':'-')
+                .replace(/{dayfinal}/g, dayfinal)
+                .replace(/{zPrize}/g, prize==='Cash Ticket'?'+':'-')
+                .replace(/{prize}/g, prize)
+                .replace(/{zBrackets}/g, brackets==4?'+':'-')
+                .replace(/{brackets}/g, brackets)
+                .replace(/{zLoserfinal}/g, loserfinal=='Yes'?'+':'-')
+                .replace(/{loserfinal}/g, loserfinal)
+                .replace(/{zRandom}/g, random==='No'?'+':'-')
+                .replace(/{random}/g, random)
+                .replace(/{zRobber}/g, zRobber)
+                .replace(/{robber}/g, robber)
+                .replace(/{zMode}/g, zMode)
+                .replace(/{mode}/g, mode)
+                .replace(/{zMap}/g, zMap)
+                .replace(/{map}/g, map)
+                .replace(/{zDice}/g, zDice)
+                .replace(/{dice}/g, dice)
+                .replace(/{zSpeed}/g, zSpeed)
+                .replace(/{speed}/g, speed)
+                .replace(/{zPlayers}/g, zPlayers)
+                .replace(/{players}/g, players)
+                .replace(/{zDiscard}/g, zDiscard)
+                .replace(/{discard}/g, discard)
+                .replace(/{zVp}/g, zVp)
+                .replace(/{vp}/g, vp);
+            
+            
+            return await interaction.editReply(botMessage);
+        }
         
         
         
@@ -176,10 +227,10 @@ module.exports = {
             break;
             
             case 'final':
-            intro = 'Final';
+            intro = '{finalName}';
             roomname = `CC${type} {finalName} Table {table}`;
             extraMessage += 'This is your last match in the tournament.'
-            tableEnd = brackets * (loserfinal === 'Yes' ? players : 1);
+            if (!tableEnd || brackets>1) tableEnd = brackets * (loserfinal === 'Yes' ? players : 1);
             link = '{X}T{table}';
             message = 'Posted the final.';
             break;
@@ -222,21 +273,21 @@ module.exports = {
                     randomLetters += await symbols[Math.floor(Math.random()*symbols.length)];
                 }
             }
-            let table = i;
+            let table = i, botMessageTemp = botMessage;
             if (interaction.options.getSubcommand() === 'final')
             {
                 if (i > brackets)
                 {
                     table = brackets * (players-1) + i;
-                    botMessage = botMessage.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
+                    botMessageTemp = botMessage.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
                 }
                 else
                 {
-                    botMessage = botMessage.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
+                    botMessageTemp = botMessage.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
                 }
             }
-            const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+i);
-            channelTarget.send(botMessage.replace(/{table}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
+            const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
+            channelTarget.send(botMessageTemp.replace(/{table}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
         
         /*if (interaction.guild.id != '894372075622526986')

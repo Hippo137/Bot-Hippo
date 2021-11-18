@@ -1,0 +1,5 @@
+Available commands:
+
+createtournament: This command can be used to change the settings of the tournament.
+*create*
+    New: Use this to create a new tournament.
