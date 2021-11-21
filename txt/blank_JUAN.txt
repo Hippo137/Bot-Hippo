@@ -14,7 +14,7 @@
 {zDiscard} Card Discard Limit:  {discard}
 {zVp} VP to Win:           {vp}
 ```
-:arrow_right: <https://colonist.io/#{link}{random}>
+:arrow_right: <https://juan.katan.io/#{link}{random}>
 
 :bell: Tag your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Host to notify us. We will find a back-up player.
 
@@ -23,3 +23,5 @@
 :computer: {screenshotMessage} {screenshots}.
 
 :star: {extraMessage}
+
+**Due to maintenance on the Colonist.io servers, we play on Juan.Katan today. Please change your guest account name to either your Discord or Colonist name and write a message here stating it’s you!**
