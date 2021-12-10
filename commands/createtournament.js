@@ -218,6 +218,7 @@ module.exports = {
         if (create === 'Restart')
         {
             await writeDb(messages, '905946389748543488', '1');
+            await writeDb(messages, '906261691610845195', '0');
             return await interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
         }
         let sType = interaction.options.getString('type');
