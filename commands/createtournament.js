@@ -261,6 +261,7 @@ module.exports = {
             sLoserfinal = sLoserfinal ?? 'Yes';
         }
         if (sType != null) await writeDb(messages, '905945127900573747', sType);
+        else sType = await readDb(messages, '905945127900573747');
         if (sMode != null)
         {
             await writeDb(messages, '905945387360202823', sMode);
@@ -278,36 +279,49 @@ module.exports = {
             await writeDb(messages, '905945688976818187', `${sPlayers}`);
             await writeDb(messages, '905945741216862229', `${sPlayers === 4 ? '+' : '-'}`);
         }
+        else sPlayers = await readDb(messages, '905945688976818187');
         if (sSpeed != null)
         {
             await writeDb(messages, '905945792567722046', `${sSpeed}`);
             await writeDb(messages, '905945832971444244', `${sSpeed === 'Fast' ? '+' : '-'}`);
         }
+        else sSpeed = await readDb(messages, '905945792567722046');
         if (sDice != null)
         {
             await writeDb(messages, '905945929490763797', `${sDice}`);
             await writeDb(messages, '905945972914397245', `${sDice === 'Random Dice' ? '+' : '-'}`);
         }
+        else sDice = await readDb(messages, '905945929490763797');
         if (sRobber != null)
         {
             await writeDb(messages, '905946115566895176', `${sRobber}`);
             await writeDb(messages, '905946151008735293', `${sRobber === 'No' ? '+' : '-'}`);
         }
+        else sRobber = await readDb(messages, '905946115566895176');
         if (sRounds != null) await writeDb(messages, '905946342617141308', `${sRounds}`);
+        else sRounds = await readDb(messages, '905946342617141308');
         if (sRound != null) await writeDb(messages, '905946389748543488', `${sRound}`);
+        else sRound = await readDb(messages, '905946389748543488');
         if (sBox != null) await writeDb(messages, '905983214122840125', `${sBox}`);
+        else sBox = await readDb(messages, '905983214122840125');
         if (sDayfinal != null) await writeDb(messages, '906247072406175795', `${sDayfinal}`);
+        else sDayfinal = await readDb(messages, '906247072406175795');
         if (sPrize != null) await writeDb(messages, '906247110666625115', `${sPrize}`);
+        else sPrize = await readDb(messages, '906247110666625115');
         if (sDiscard != null)
         {
             await writeDb(messages, '906250774105960448', `${sDiscard}`);
             await writeDb(messages, '906250873414492170', `${sDiscard === 7 ? '+' : '-'}`);
         }
+        else sDiscard = await readDb(messages, '906250774105960448');
         if (sRandom != null) await writeDb(messages, '906260752300666911', `${sRandom}`);
+        else sRandom = await readDb(messages, '906260752300666911');
         if (sTables != null) await writeDb(messages, '906261691610845195', `${sTables}`);
+        else sTables = await readDb(messages, '906261691610845195');
         if (sBrackets != null) await writeDb(messages, '906512009649061888', `${sBrackets}`);
+        else sBrackets = await readDb(messages, '906512009649061888');
         if (sLoserfinal != null) await writeDb(messages, '906512049096503296', `${sLoserfinal}`);
-        
+        else sLoserfinal = await readDb(messages, '906512049096503296');
         
         let zVp;
         switch (sMode)
