@@ -1,21 +1,21 @@
 :game_die: **__Settings__**
 ```diff
-{zType} Type:                {type}
-{zTables} Tables:              {tables}
-{zRound} Round:               {round}
-{zRounds} Rounds:              {rounds}
-{zDayfinal} Day Final:           {dayfinal}
-{zPrize} Day Final Prize:     {prize}
-{zBrackets} Brackets:            {brackets}
-{zLoserfinal} Loser Finals:        {loserfinal}
-{zRandom} Random Letters:      {random}
+{zType} Type:                {sType}
+{zTables} Tables:              {sTables}
+{zRound} Round:               {sRound}
+{zRounds} Rounds:              {sRounds}
+{zDayfinal} Day Final:           {sDayfinal}
+{zPrize} Day Final Prize:     {sPrize}
+{zBrackets} Brackets:            {sBrackets}
+{zLoserfinal} Loser Finals:        {sLoserfinal}
+{zRandom} Random Letters:      {sRandom}
 
-{zRobber} Friendly Robber:     {robber}
-{zMode} Game Mode:           {mode}
-{zMap} Map:                 {map}
-{zDice} Dice:                {dice}
-{zSpeed} Game Speed:          {speed}
-{zPlayers} Max Players:         {players}
-{zDiscard} Card Discard Limit:  {discard}
-{zVp} VP to Win:           {vp}
+{zRobber} Friendly Robber:     {sRobber}
+{zMode} Game Mode:           {sMode}
+{zMap} Map:                 {sMap}
+{zDice} Dice:                {sDice}
+{zSpeed} Game Speed:          {sSpeed}
+{zPlayers} Max Players:         {sPlayers}
+{zDiscard} Card Discard Limit:  {sDiscard}
+{zVp} VP to Win:           {sVp}
 ```

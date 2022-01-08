@@ -90,71 +90,71 @@ module.exports = {
         }
         
         
-        const rounds = await readDb(messages, '905946342617141308');
-        const round = await readDb(messages, '905946389748543488');
-        if (interaction.options.getSubcommand() === 'qualifier' && parseInt(round) > parseInt(rounds)) return await interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
-        const type = await readDb(messages, '905945127900573747');
-        const mode = await readDb(messages, '905945387360202823');
+        const sRounds = await readDb(messages, '905946342617141308');
+        const sRound = await readDb(messages, '905946389748543488');
+        if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return await interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
+        const sType = await readDb(messages, '905945127900573747');
+        const sMode = await readDb(messages, '905945387360202823');
         const zMode = await readDb(messages, '905945487390171146');
-        const map = await readDb(messages, '905945543115669574');
+        const sMap = await readDb(messages, '905945543115669574');
         const zMap = await readDb(messages, '905945613114413076');
-        const players = await readDb(messages, '905945688976818187');
+        const sPlayers = await readDb(messages, '905945688976818187');
         const zPlayers = await readDb(messages, '905945741216862229');
-        const speed = await readDb(messages, '905945792567722046');
+        const sSpeed = await readDb(messages, '905945792567722046');
         const zSpeed = await readDb(messages, '905945832971444244');
-        const dice = await readDb(messages, '905945929490763797');
+        const sDice = await readDb(messages, '905945929490763797');
         const zDice = await readDb(messages, '905945972914397245');
-        const robber = await readDb(messages, '905946115566895176');
+        const sRobber = await readDb(messages, '905946115566895176');
         const zRobber = await readDb(messages, '905946151008735293');
-        const box = await readDb(messages, '905983214122840125');
-        const dayfinal = await readDb(messages, '906247072406175795');
-        const prize = await readDb(messages, '906247110666625115');
-        const discard = await readDb(messages, '906250774105960448');
+        const sBox = await readDb(messages, '905983214122840125');
+        const sDayfinal = await readDb(messages, '906247072406175795');
+        const sPrize = await readDb(messages, '906247110666625115');
+        const sDiscard = await readDb(messages, '906250774105960448');
         const zDiscard = await readDb(messages, '906250873414492170');
-        const random = await readDb(messages, '906260752300666911');
-        const tables = await readDb(messages, '906261691610845195');
-        const vp = await readDb(messages, '905946023166353420')
+        const sRandom = await readDb(messages, '906260752300666911');
+        const sTables = await readDb(messages, '906261691610845195');
+        const sVp = await readDb(messages, '905946023166353420')
         const zVp = await readDb(messages, '905946057194766366')
-        const loserfinal = await readDb(messages, '906512049096503296')
-        const brackets = await readDb(messages, '906512009649061888')
+        const sLoserfinal = await readDb(messages, '906512049096503296')
+        const sBrackets = await readDb(messages, '906512009649061888')
         
         if (interaction.options.getSubcommand() === 'settings')
         {
             let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-                .replace(/{zType}/g, type==='Open'?'+':'-')
-                .replace(/{type}/g, type)
-                .replace(/{zTables}/g, tables==0?'+':'-')
-                .replace(/{tables}/g, tables)
-                .replace(/{zRound}/g, round==1?'+':'-')
-                .replace(/{round}/g, round)
-                .replace(/{zRounds}/g, rounds==3?'+':'-')
-                .replace(/{rounds}/g, rounds)
-                .replace(/{zDayfinal}/g, dayfinal==='No'?'+':'-')
-                .replace(/{dayfinal}/g, dayfinal)
-                .replace(/{zPrize}/g, prize==='Cash Ticket'?'+':'-')
-                .replace(/{prize}/g, prize)
-                .replace(/{zBrackets}/g, brackets==4?'+':'-')
-                .replace(/{brackets}/g, brackets)
-                .replace(/{zLoserfinal}/g, loserfinal=='Yes'?'+':'-')
-                .replace(/{loserfinal}/g, loserfinal)
-                .replace(/{zRandom}/g, random==='No'?'+':'-')
-                .replace(/{random}/g, random)
+                .replace(/{zType}/g, sType==='Open'?'+':'-')
+                .replace(/{sType}/g, sType)
+                .replace(/{zTables}/g, sTables==0?'+':'-')
+                .replace(/{sTables}/g, sTables)
+                .replace(/{zRound}/g, sRound==1?'+':'-')
+                .replace(/{sRound}/g, sRound)
+                .replace(/{zRounds}/g, sRounds==3?'+':'-')
+                .replace(/{sRounds}/g, sRounds)
+                .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
+                .replace(/{sDayfinal}/g, sDayfinal)
+                .replace(/{zPrize}/g, sPrize==='Cash Ticket'?'+':'-')
+                .replace(/{sPrize}/g, sPrize)
+                .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
+                .replace(/{sBrackets}/g, sBrackets)
+                .replace(/{zLoserfinal}/g, sLoserfinal=='Yes'?'+':'-')
+                .replace(/{sLoserfinal}/g, sLoserfinal)
+                .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
+                .replace(/{sRandom}/g, sRandom)
                 .replace(/{zRobber}/g, zRobber)
-                .replace(/{robber}/g, robber)
+                .replace(/{sRobber}/g, sRobber)
                 .replace(/{zMode}/g, zMode)
-                .replace(/{mode}/g, mode)
+                .replace(/{sMode}/g, sMode)
                 .replace(/{zMap}/g, zMap)
-                .replace(/{map}/g, map)
+                .replace(/{sMap}/g, sMap)
                 .replace(/{zDice}/g, zDice)
-                .replace(/{dice}/g, dice)
+                .replace(/{sDice}/g, sDice)
                 .replace(/{zSpeed}/g, zSpeed)
-                .replace(/{speed}/g, speed)
+                .replace(/{sSpeed}/g, sSpeed)
                 .replace(/{zPlayers}/g, zPlayers)
-                .replace(/{players}/g, players)
+                .replace(/{sPlayers}/g, sPlayers)
                 .replace(/{zDiscard}/g, zDiscard)
-                .replace(/{discard}/g, discard)
+                .replace(/{sDiscard}/g, sDiscard)
                 .replace(/{zVp}/g, zVp)
-                .replace(/{vp}/g, vp);
+                .replace(/{sVp}/g, sVp);
             
             
             return await interaction.editReply(botMessage);
@@ -166,12 +166,12 @@ module.exports = {
         const intNames = ['zero', 'one', 'two', 'three', 'four, five, six'];
         
         let screenshotMessage = '', extraMessage = '';
-        let remainingRounds = rounds - round;
+        let remainingRounds = sRounds - sRound;
         
-        if (box > 1)
+        if (sBox > 1)
         {
             screenshotMessage = 'After each match, the winner posts a screenshot of the game end screen in';
-            extraMessage = `You will play a total of ${intNames[box]} matches with the same opponent${players>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
+            extraMessage = `You will play a total of ${intNames[sBox]} matches with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
         }
         else screenshotMessage = 'After the match, the winner posts a screenshot of the game end screen in';
         
@@ -181,58 +181,58 @@ module.exports = {
         switch (interaction.options.getSubcommand())
         {
             case 'qualifier':
-            intro = `${roundName[round>=rounds ? 0 : round]} qualifying round`;
-            roomname = `CC${type} Round ${round} Table {table}`;
+            intro = `${roundName[sRound>=sRounds ? 0 : sRound]} qualifying round`;
+            roomname = `CC${sType} Round ${sRound} Table {sTable}`;
             if (remainingRounds == 0)
             {
-                if (dayfinal === 'Yes')
+                if (sDayfinal === 'Yes')
                 {
                     extraMessage += 'There is a Day Final for the Top 4 after this match. You might be in with a good performance.'
-                    if (prize == 'Cash Ticket') extraMessage += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
+                    if (sPrize == 'Cash Ticket') extraMessage += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
                 }
                 else extraMessage += 'This is the last round in the qualifier.';
             }
             else extraMessage += `In this qualifier, everyone will play ${intNames[remainingRounds]} more ${remainingRounds>1?'rounds':'round'} after this round.`;
-            message = `Posted round ${round}.`;
-            link = 'R{round}T{table}'
+            message = `Posted Round ${sRound}.`;
+            link = 'R{sRound}T{sTable}'
             break;
             
             case 'dayfinal':
             intro = 'Dayfinal';
-            roomname = `CC${type} Dayfinal`;
-            if (prize === 'Cash Ticket') extraMessage += 'Win this match to win a free entry to a future Cash Tournament.';
+            roomname = `CC${sType} Dayfinal`;
+            if (sPrize === 'Cash Ticket') extraMessage += 'Win this match to win a free entry to a future Cash Tournament.';
             else extraMessage += 'This is your very last match in this qualifier. :smile:';
             tableEnd = 1;
             link = 'DF'
-            message = 'Posted the dayfinal.';
+            message = 'Posted the Dayfinal.';
             break;
             
             case 'quarterfinal':
             intro = 'Quarterfinal';
-            roomname = `CC${type} Quarterfinal Table {table}`;
+            roomname = `CC${sType} Quarterfinal Table {sTable}`;
             extraMessage += 'Win this match to advance to the Semifinal.'
-            if (!tableEnd) tableEnd = brackets * players * 2;
-            link = 'QT{table}'
-            message = 'Posted the quarterfinal.';
+            if (!tableEnd) tableEnd = sBrackets * sPlayers * 2;
+            link = 'QT{sTable}'
+            message = 'Posted the Quarterfinal.';
             break;
             
             case 'semifinal':
             intro = 'Semifinal';
-            roomname = `CC${type} Semifinal Table {table}`;
-            if (loserfinal === 'Yes') extraMessage += 'Everyone plays one more match after this one.';
+            roomname = `CC${type} Semifinal Table {sTable}`;
+            if (sLoserfinal === 'Yes') extraMessage += 'Everyone plays one more match after this one.';
             else extraMessage += 'Win this match to advance to the Final.';
-            if (!tableEnd) tableEnd = brackets * players;
-            link = 'ST{table}';
-            message = 'Posted the semifinal.';
+            if (!tableEnd) tableEnd = sBrackets * sPlayers;
+            link = 'ST{sTable}';
+            message = 'Posted the Semifinal.';
             break;
             
             case 'final':
             intro = '{finalName}';
             roomname = `CC${type} {finalName} Table {table}`;
             extraMessage += 'This is your last match in the tournament.'
-            if (!tableEnd || brackets>1) tableEnd = brackets * (loserfinal === 'Yes' ? players : 1);
-            link = '{X}T{table}';
-            message = 'Posted the final.';
+            if (!tableEnd || sBrackets>1) tableEnd = sBrackets * (sLoserfinal === 'Yes' ? sPlayers : 1);
+            link = '{X}T{sTable}';
+            message = 'Posted the Final.';
             break;
         }
         let botMessage = fs.readFileSync(`txt/blank.txt`, 'utf8')
@@ -240,24 +240,24 @@ module.exports = {
             .replace(/{link}/g, link)
             .replace(/{roomname}/g, roomname)
             .replace(/{zRobber}/g, zRobber)
-            .replace(/{robber}/g, robber)
+            .replace(/{sRobber}/g, sRobber)
             .replace(/{zMode}/g, zMode)
-            .replace(/{mode}/g, mode)
+            .replace(/{sMode}/g, sMode)
             .replace(/{zMap}/g, zMap)
-            .replace(/{map}/g, map)
+            .replace(/{sMap}/g, sMap)
             .replace(/{zDice}/g, zDice)
-            .replace(/{dice}/g, dice)
+            .replace(/{sDice}/g, sDice)
             .replace(/{zSpeed}/g, zSpeed)
-            .replace(/{speed}/g, speed)
+            .replace(/{sSpeed}/g, sSpeed)
             .replace(/{zPlayers}/g, zPlayers)
-            .replace(/{players}/g, players)
+            .replace(/{sPlayers}/g, sPlayers)
             .replace(/{zDiscard}/g, zDiscard)
-            .replace(/{discard}/g, discard)
+            .replace(/{sDiscard}/g, sDiscard)
             .replace(/{zVp}/g, zVp)
-            .replace(/{vp}/g, vp)
-            .replace(/{round}/g, round)
-            .replace(/{type}/g, type)
-            .replace(/{roundName}/g, roundName[round>=rounds ? 0 : round])
+            .replace(/{sVp}/g, sVp)
+            .replace(/{sRound}/g, sRound)
+            .replace(/{sType}/g, sType)
+            .replace(/{roundName}/g, roundName[sRound>=sRounds ? 0 : sRound])
             .replace(/{screenshotMessage}/g, screenshotMessage)
             .replace(/{extraMessage}/g, extraMessage)
             .replace(/{screenshots}/g, await interaction.guild.channels.cache.find(channel => channel.name === `💻screenshots`));
@@ -266,7 +266,7 @@ module.exports = {
         for (let i=tableStart; i<=tableEnd; i++)
         {
             let randomLetters = '';
-            if (random === 'Yes')
+            if (sRandom === 'Yes')
             {
                 for (let i=0; i<3; i++)
                 {
@@ -287,7 +287,7 @@ module.exports = {
                 }
             }
             const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
-            channelTarget.send(botMessageTemp.replace(/{table}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
+            channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
         
         /*if (interaction.guild.id != '894372075622526986')
@@ -296,12 +296,8 @@ module.exports = {
             if (test == 0) return;
         }*/
         //setPresence(client, 2);
-        if (interaction.options.getSubcommand() === 'qualifier') await writeDb(messages, '905946389748543488', `${parseInt(round)+1}`);
-        
+        if (interaction.options.getSubcommand() === 'qualifier') await writeDb(messages, '905946389748543488', `${parseInt(sRound)+1}`);
         await interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed in the meantime
-        
-        //const numMsg = 1+tableEnd-tableStart;
-        //await interaction.editReply(`Posted ${numMsg} message${numMsg==1?'':'s'}.`).catch(console.error); //error handling in case the message was manually removed in the meantime
 	},
 }
 

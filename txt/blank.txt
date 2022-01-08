@@ -1,18 +1,18 @@
-:loudspeaker: Welcome to the {intro} of today’s {type} Tournament!
+:loudspeaker: Welcome to the {intro} of today’s {sType} Tournament!
 
 :game_die: **__Settings__**
 ```diff
 - Room Name:           {roomname}
 + Private Game:        Yes
 + Hide Bank Cards:     Yes
-{zRobber} Friendly Robber:     {robber}
-{zMode} Game Mode:           {mode}
-{zMap} Map:                 {map}
-{zDice} Dice:                {dice}
-{zSpeed} Game Speed:          {speed}
-{zPlayers} Max Players:         {players}
-{zDiscard} Card Discard Limit:  {discard}
-{zVp} VP to Win:           {vp}
+{zRobber} Friendly Robber:     {sRobber}
+{zMode} Game Mode:           {sMode}
+{zMap} Map:                 {sMap}
+{zDice} Dice:                {sDice}
+{zSpeed} Game Speed:          {sSpeed}
+{zPlayers} Max Players:         {sPlayers}
+{zDiscard} Card Discard Limit:  {sDiscard}
+{zVp} VP to Win:           {sVp}
 ```
 :arrow_right: <https://colonist.io/#{link}{random}>
 

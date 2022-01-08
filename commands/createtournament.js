@@ -16,30 +16,31 @@ module.exports = {
             .addChoice('Update', 'Update')
             .addChoice('Restart', 'Restart')
         )
-        .addStringOption
-        (option =>
-            option.setName('type')
-            .setDescription(`type of tournament`)
-            .setRequired(false)
-            .addChoice('Open', 'Open')
-            .addChoice('Cash', 'Cash')
-        )
         .addIntegerOption
         (option =>
-            option.setName('tables')
-            .setDescription('Number of tables')
-            .setRequired(false)
-        )
-        .addIntegerOption
-        (option =>
-            option.setName('rounds')
-            .setDescription('total number of rounds – defaults to 3 if omitted')
+            option.setName('box')
+            .setDescription('Number of matches per round – defaults to 1 if omitted')
             .setRequired(false)
             .addChoice('1', 1)
             .addChoice('2', 2)
             .addChoice('3', 3)
             .addChoice('4', 4)
             .addChoice('5', 5)
+            .addChoice('6', 6)
+        )
+        .addIntegerOption
+        (option =>
+            option.setName('brackets')
+            .setDescription('Number of brackets in finals – defaults to 4 if omitted')
+            .setRequired(false)
+            .addChoice('1', 1)
+            .addChoice('2', 2)
+            .addChoice('3', 3)
+            .addChoice('4', 4)
+            .addChoice('5', 5)
+            .addChoice('6', 6)
+            .addChoice('7', 7)
+            .addChoice('8', 8)
         )
         .addStringOption
         (option =>
@@ -51,11 +52,28 @@ module.exports = {
         )
         .addStringOption
         (option =>
-            option.setName('prize')
-            .setDescription('What does winning the Day Final reward? – defaults to CASH TICKET if omitted')
+            option.setName('dice')
+            .setDescription('[setting]: dice – defaults to RANDOM DICE if omitted')
             .setRequired(false)
-            .addChoice('Cash Ticket', 'Cash Ticket')
-            .addChoice('Nothing', 'Nothing')
+            .addChoice('Random Dice', 'Random Dice')
+            .addChoice('Balanced Dice', 'Balanced Dice')
+        )
+        .addIntegerOption
+        (option =>
+            option.setName('discardlimit')
+            .setDescription('[setting]: discard limit – defaults to 7 if omitted')
+            .setRequired(false)
+            .addChoice('2', 2)
+            .addChoice('3', 3)
+            .addChoice('4', 4)
+            .addChoice('5', 5)
+            .addChoice('6', 6)
+            .addChoice('7', 7)
+            .addChoice('8', 8)
+            .addChoice('9', 9)
+            .addChoice('10', 10)
+            .addChoice('11', 11)
+            .addChoice('12', 12)
         )
         .addStringOption
         (option =>
@@ -67,13 +85,11 @@ module.exports = {
         )
         .addStringOption
         (option =>
-            option.setName('mode')
-            .setDescription('[setting]: game mode – defaults to BASE if omitted')
+            option.setName('loserfinal')
+            .setDescription('adds Loserfinals to the final round – defaults to YES if omitted')
             .setRequired(false)
-            .addChoice('Base', 'Base')
-            .addChoice('Seafarers', 'Seafarers')
-            .addChoice('Cities & Knights', 'Cities & Knights')
-            .addChoice('Seafarers + Cities & Knights', 'Seafarers + Cities & Knights')
+            .addChoice('Yes', 'Yes')
+            .addChoice('No', 'No')
         )
         .addStringOption
         (option =>
@@ -92,22 +108,13 @@ module.exports = {
         )
         .addStringOption
         (option =>
-            option.setName('dice')
-            .setDescription('[setting]: dice – defaults to RANDOM DICE if omitted')
+            option.setName('mode')
+            .setDescription('[setting]: game mode – defaults to BASE if omitted')
             .setRequired(false)
-            .addChoice('Random Dice', 'Random Dice')
-            .addChoice('Balanced Dice', 'Balanced Dice')
-        )
-        .addStringOption
-        (option =>
-            option.setName('speed')
-            .setDescription('[setting]: game speed – defaults to FAST if omitted')
-            .setRequired(false)
-            .addChoice('Very Slow', 'Very Slow')
-            .addChoice('Slow', 'Slow')
-            .addChoice('Normal', 'Normal')
-            .addChoice('Fast', 'Fast')
-            .addChoice('Very Fast', 'Very Fast')
+            .addChoice('Base', 'Base')
+            .addChoice('Seafarers', 'Seafarers')
+            .addChoice('Cities & Knights', 'Cities & Knights')
+            .addChoice('Seafarers + Cities & Knights', 'Seafarers + Cities & Knights')
         )
         .addIntegerOption
         (option =>
@@ -122,22 +129,57 @@ module.exports = {
             .addChoice('7', 7)
             .addChoice('8', 8)
         )
+        .addStringOption
+        (option =>
+            option.setName('prize')
+            .setDescription('What does winning the Day Final reward? – defaults to CASH TICKET if omitted')
+            .setRequired(false)
+            .addChoice('Cash Ticket', 'Cash Ticket')
+            .addChoice('Nothing', 'Nothing')
+        )
+        .addStringOption
+        (option =>
+            option.setName('random')
+            .setDescription('adds random letters to the game link – defaults to NO if omitted')
+            .setRequired(false)
+            .addChoice('Yes', 'Yes')
+            .addChoice('No', 'No')
+        )
         .addIntegerOption
         (option =>
-            option.setName('discardlimit')
-            .setDescription('[setting]: discard limit – defaults to 7 if omitted')
+            option.setName('rounds')
+            .setDescription('total number of rounds – defaults to 3 if omitted')
             .setRequired(false)
+            .addChoice('1', 1)
             .addChoice('2', 2)
             .addChoice('3', 3)
             .addChoice('4', 4)
             .addChoice('5', 5)
-            .addChoice('6', 6)
-            .addChoice('7', 7)
-            .addChoice('8', 8)
-            .addChoice('9', 9)
-            .addChoice('10', 10)
-            .addChoice('11', 11)
-            .addChoice('12', 12)
+        )
+        .addStringOption
+        (option =>
+            option.setName('speed')
+            .setDescription('[setting]: game speed – defaults to FAST if omitted')
+            .setRequired(false)
+            .addChoice('Very Slow', 'Very Slow')
+            .addChoice('Slow', 'Slow')
+            .addChoice('Normal', 'Normal')
+            .addChoice('Fast', 'Fast')
+            .addChoice('Very Fast', 'Very Fast')
+        )
+        .addIntegerOption
+        (option =>
+            option.setName('tables')
+            .setDescription('Number of tables')
+            .setRequired(false)
+        )
+        .addStringOption
+        (option =>
+            option.setName('type')
+            .setDescription(`type of tournament – defaults to OPEN if omitted`)
+            .setRequired(false)
+            .addChoice('Open', 'Open')
+            .addChoice('Cash', 'Cash')
         )
         .addIntegerOption
         (option =>
@@ -161,48 +203,6 @@ module.exports = {
             .addChoice('16', 16)
             .addChoice('17', 17)
             .addChoice('18', 18)
-        )
-        .addIntegerOption
-        (option =>
-            option.setName('box')
-            .setDescription('Number of matches per round – defaults to 1 if omitted')
-            .setRequired(false)
-            .addChoice('1', 1)
-            .addChoice('2', 2)
-            .addChoice('3', 3)
-            .addChoice('4', 4)
-            .addChoice('5', 5)
-            .addChoice('6', 6)
-        )
-        .addStringOption
-        (option =>
-            option.setName('random')
-            .setDescription('adds random letters to the game link – defaults to NO if omitted')
-            .setRequired(false)
-            .addChoice('Yes', 'Yes')
-            .addChoice('No', 'No')
-        )
-        .addIntegerOption
-        (option =>
-            option.setName('brackets')
-            .setDescription('Number of brackets in finals – defaults to 4 if omitted')
-            .setRequired(false)
-            .addChoice('1', 1)
-            .addChoice('2', 2)
-            .addChoice('3', 3)
-            .addChoice('4', 4)
-            .addChoice('5', 5)
-            .addChoice('6', 6)
-            .addChoice('7', 7)
-            .addChoice('8', 8)
-        )
-        .addStringOption
-        (option =>
-            option.setName('loserfinals')
-            .setDescription('adds loserfinals to the final round – defaults to NO if omitted')
-            .setRequired(false)
-            .addChoice('Yes', 'Yes')
-            .addChoice('No', 'No')
         ),
             
 	async execute(interaction)
@@ -238,7 +238,7 @@ module.exports = {
         let sRandom = interaction.options.getString('random');
         let sTables = interaction.options.getInteger('tables');
         let sBrackets = interaction.options.getInteger('brackets');
-        let sLoserfinals = interaction.options.getString('loserfinals');
+        let sLoserfinal = interaction.options.getString('loserfinal');
         if (create === 'New')
         {
             sType = sType ?? 'Open';
@@ -258,7 +258,7 @@ module.exports = {
             sRandom = sRandom ?? 'No';
             sTables = sTables ?? 0;
             sBrackets = sBrackets ?? 4;
-            sLoserfinals = sLoserfinals ?? 'Yes';
+            sLoserfinal = sLoserfinal ?? 'Yes';
         }
         if (sType != null) await writeDb(messages, '905945127900573747', sType);
         if (sMode != null)
@@ -306,7 +306,7 @@ module.exports = {
         if (sRandom != null) await writeDb(messages, '906260752300666911', `${sRandom}`);
         if (sTables != null) await writeDb(messages, '906261691610845195', `${sTables}`);
         if (sBrackets != null) await writeDb(messages, '906512009649061888', `${sBrackets}`);
-        if (sLoserfinals != null) await writeDb(messages, '906512049096503296', `${sLoserfinals}`);
+        if (sLoserfinal != null) await writeDb(messages, '906512049096503296', `${sLoserfinal}`);
         
         
         let zVp;
@@ -402,7 +402,45 @@ module.exports = {
         await writeDb(messages, '905946057194766366', `${zVp}`);
         await writeDb(messages, '906253957180051506', 'False');
         
-        await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
+        let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
+            .replace(/{zType}/g, sType==='Open'?'+':'-')
+            .replace(/{sType}/g, sType)
+            .replace(/{zTables}/g, sTables==0?'+':'-')
+            .replace(/{sTables}/g, sTables)
+            .replace(/{zRound}/g, sRound==1?'+':'-')
+            .replace(/{sRound}/g, sRound)
+            .replace(/{zRounds}/g, sRounds==3?'+':'-')
+            .replace(/{sRounds}/g, sRounds)
+            .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
+            .replace(/{sDayfinal}/g, sDayfinal)
+            .replace(/{zPrize}/g, sPrize==='Cash Ticket'?'+':'-')
+            .replace(/{sPrize}/g, sPrize)
+            .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
+            .replace(/{sBrackets}/g, sBrackets)
+            .replace(/{zLoserfinal}/g, sLoserfinal=='Yes'?'+':'-')
+            .replace(/{sLoserfinal}/g, sLoserfinal)
+            .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
+            .replace(/{sRandom}/g, sRandom)
+            .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
+            .replace(/{sRobber}/g, sRobber)
+            .replace(/{zMode}/g, sMode==='Base'?'+':'-')
+            .replace(/{sMode}/g, sMode)
+            .replace(/{zMap}/g, sMap==='Base'?'+':'-')
+            .replace(/{sMap}/g, sMap)
+            .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
+            .replace(/{sDice}/g, sDice)
+            .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')
+            .replace(/{sSpeed}/g, sSpeed)
+            .replace(/{zPlayers}/g, sPlayers===4?'+':'-')
+            .replace(/{sPlayers}/g, sPlayers)
+            .replace(/{zDiscard}/g, sDiscard===7?'+':'-')
+            .replace(/{sDiscard}/g, sDiscard)
+            .replace(/{zVp}/g, zVp)
+            .replace(/{sVp}/g, sVp);
+        
+        if (create === 'Update') botMessage += `\n\nSorry for that mess! :cry:`
+        //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
+        await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
 	},
 }
 
