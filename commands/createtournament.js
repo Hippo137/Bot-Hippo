@@ -452,7 +452,6 @@ module.exports = {
             .replace(/{zVp}/g, zVp)
             .replace(/{sVp}/g, sVp);
         
-        if (create === 'Update') botMessage += `\n\nSorry for that mess! :cry:`
         //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
         await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
 	},
