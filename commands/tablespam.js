@@ -177,12 +177,12 @@ module.exports = {
         
         
         
-        let intro, roomname, message, link;
+        let intro, /*roomname,*/ message, link;
         switch (interaction.options.getSubcommand())
         {
             case 'qualifier':
             intro = `${roundName[sRound>=sRounds ? 0 : sRound]} qualifying round`;
-            roomname = `CC${sType} Round ${sRound} Table {sTable}`;
+            //roomname = `CC${sType} Round ${sRound} Table {sTable}`;
             if (remainingRounds == 0)
             {
                 if (sDayfinal === 'Yes')
@@ -199,7 +199,7 @@ module.exports = {
             
             case 'dayfinal':
             intro = 'Dayfinal';
-            roomname = `CC${sType} Dayfinal`;
+            //roomname = `CC${sType} Dayfinal`;
             if (sPrize === 'Cash Ticket') extraMessage += 'Win this match to win a free entry to a future Cash Tournament.';
             else extraMessage += 'This is your very last match in this qualifier. :smile:';
             tableEnd = 1;
@@ -209,7 +209,7 @@ module.exports = {
             
             case 'quarterfinal':
             intro = 'Quarterfinal';
-            roomname = `CC${sType} Quarterfinal Table {sTable}`;
+            //roomname = `CC${sType} Quarterfinal Table {sTable}`;
             extraMessage += 'Win this match to advance to the Semifinal.'
             if (!tableEnd) tableEnd = sBrackets * sPlayers * 2;
             link = 'QT{sTable}'
@@ -218,7 +218,7 @@ module.exports = {
             
             case 'semifinal':
             intro = 'Semifinal';
-            roomname = `CC${type} Semifinal Table {sTable}`;
+            //roomname = `CC${type} Semifinal Table {sTable}`;
             if (sLoserfinal === 'Yes') extraMessage += 'Everyone plays one more match after this one.';
             else extraMessage += 'Win this match to advance to the Final.';
             if (!tableEnd) tableEnd = sBrackets * sPlayers;
@@ -228,7 +228,7 @@ module.exports = {
             
             case 'final':
             intro = '{finalName}';
-            roomname = `CC${type} {finalName} Table {table}`;
+            //roomname = `CC${type} {finalName} Table {table}`;
             extraMessage += 'This is your last match in the tournament.'
             if (!tableEnd || sBrackets>1) tableEnd = sBrackets * (sLoserfinal === 'Yes' ? sPlayers : 1);
             link = '{X}T{sTable}';
@@ -238,7 +238,7 @@ module.exports = {
         let botMessage = fs.readFileSync(`txt/blank.txt`, 'utf8')
             .replace(/{intro}/g, intro)
             .replace(/{link}/g, link)
-            .replace(/{roomname}/g, roomname)
+            //.replace(/{roomname}/g, roomname)
             .replace(/{zRobber}/g, zRobber)
             .replace(/{sRobber}/g, sRobber)
             .replace(/{zMode}/g, zMode)

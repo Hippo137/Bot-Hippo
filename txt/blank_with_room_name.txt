@@ -2,6 +2,7 @@
 
 :game_die: **__Settings__**
 ```diff
+- Room Name:           {roomname}
 + Private Game:        Yes
 + Hide Bank Cards:     Yes
 {zRobber} Friendly Robber:     {sRobber}
