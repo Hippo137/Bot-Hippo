@@ -20,5 +20,5 @@
 :white_check_mark: Be sure to say when you started the match here in the chat as well!
 
 :computer: {screenshotMessage} {screenshots}.
-
-:star: {extraMessage}
+{extraMessage1}
+:star: {extraMessage2}

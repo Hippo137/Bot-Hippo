@@ -203,6 +203,16 @@ module.exports = {
             .addChoice('16', 16)
             .addChoice('17', 17)
             .addChoice('18', 18)
+        )
+        .addIntegerOption
+        (option =>
+            option.setName('winner')
+            .setDescription('number of winners in a match – defaults to 1 if omitted')
+            .setRequired(false)
+            .addChoice('1', 1)
+            .addChoice('2', 2)
+            .addChoice('3', 3)
+            .addChoice('4', 4)
         ),
             
 	async execute(interaction)
@@ -217,111 +227,147 @@ module.exports = {
         
         if (create === 'Restart')
         {
-            await writeDb(messages, '905946389748543488', '1');
-            await writeDb(messages, '906261691610845195', '0');
+            await writeDb(messages, '905946389748543488', '1'); //sRound
+            await writeDb(messages, '906261691610845195', '0'); //sTables
             return await interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
         }
-        let sType = interaction.options.getString('type');
-        let sMode = interaction.options.getString('mode');
-        let sMap = interaction.options.getString('map');
-        let sPlayers = interaction.options.getInteger('players');
-        let sSpeed = interaction.options.getString('speed');
-        let sDice = interaction.options.getString('dice');
-        let sVp = interaction.options.getInteger('vp2win');
-        let sRobber = interaction.options.getString('friendlyrobber');
-        let sRounds = interaction.options.getInteger('rounds');
-        let sRound = interaction.options.getInteger('round');
         let sBox = interaction.options.getInteger('box');
-        let sDayfinal = interaction.options.getString('dayfinal');
-        let sPrize = interaction.options.getString('prize');
-        let sDiscard = interaction.options.getInteger('discard');
-        let sRandom = interaction.options.getString('random');
-        let sTables = interaction.options.getInteger('tables');
         let sBrackets = interaction.options.getInteger('brackets');
+        let sDayfinal = interaction.options.getString('dayfinal');
+        let sDice = interaction.options.getString('dice');
+        let sDiscard = interaction.options.getInteger('discard');
         let sLoserfinal = interaction.options.getString('loserfinal');
+        let sMap = interaction.options.getString('map');
+        let sMode = interaction.options.getString('mode');
+        let sPlayers = interaction.options.getInteger('players');
+        let sPrize = interaction.options.getString('prize');
+        let sRandom = interaction.options.getString('random');
+        let sRobber = interaction.options.getString('friendlyrobber');
+        let sRound = interaction.options.getInteger('round');
+        let sRounds = interaction.options.getInteger('rounds');
+        let sSpeed = interaction.options.getString('speed');
+        let sTables = interaction.options.getInteger('tables');
+        let sType = interaction.options.getString('type');
+        let sVp = interaction.options.getInteger('vp2win');
+        let sWinner = interaction.options.getInteger('winner');
+        
+        
         if (create === 'New')
         {
-            sType = sType ?? 'Open';
-            sMode = sMode ?? 'Base';
-            sMap = sMap ?? 'Base';
-            sPlayers = sPlayers ?? 4;
-            sSpeed = sSpeed ?? 'Fast';
-            sDice = sDice ?? 'Random Dice';
-            //sVp = sVp;
-            sRobber = sRobber ?? 'No';
-            sRounds = sRounds ?? 3;
-            sRound = sRound ?? 1;
             sBox = sBox ?? 1;
-            sDayfinal = sDayfinal ?? 'No';
-            sPrize = sPrize ?? 'Cash Ticket';
-            sDiscard = sDiscard ?? 7;
-            sRandom = sRandom ?? 'No';
-            sTables = sTables ?? 0;
             sBrackets = sBrackets ?? 4;
+            sDayfinal = sDayfinal ?? 'No';
+            sDice = sDice ?? 'Random Dice';
+            sDiscard = sDiscard ?? 7;
             sLoserfinal = sLoserfinal ?? 'Yes';
+            sMap = sMap ?? 'Base';
+            sMode = sMode ?? 'Base';
+            sPlayers = sPlayers ?? 4;
+            sPrize = sPrize ?? 'Cash Ticket';
+            sRandom = sRandom ?? 'No';
+            sRobber = sRobber ?? 'No';
+            sRound = sRound ?? 1;
+            sRounds = sRounds ?? 3;
+            sSpeed = sSpeed ?? 'Fast';
+            sTables = sTables ?? 0;
+            sType = sType ?? 'Open';
+            //sVp = sVp;
+            sWinner = sWinner ?? 1;
         }
-        if (sType != null) await writeDb(messages, '905945127900573747', sType);
-        else sType = await readDb(messages, '905945127900573747');
-        if (sMode != null)
-        {
-            await writeDb(messages, '905945387360202823', sMode);
-            await writeDb(messages, '905945487390171146', sMode === 'Base' ? '+' : '-');
-        }
-        else sMode = await readDb(messages, '905945387360202823');
-        if (sMap != null)
-        {
-            await writeDb(messages, '905945543115669574', sMap);
-            await writeDb(messages, '905945613114413076', sMap === 'Base' ? '+' : '-');
-        }
-        else sMap = await readDb(messages, '905945543115669574');
+        
         if (sPlayers != null)
         {
             await writeDb(messages, '905945688976818187', `${sPlayers}`);
             await writeDb(messages, '905945741216862229', `${sPlayers === 4 ? '+' : '-'}`);
         }
         else sPlayers = await readDb(messages, '905945688976818187');
-        if (sSpeed != null)
+        
+        if (sWinner != null) await writeDb(messages, '929505232155734056', `${sWinner}`);
+        else sWinner = await readDb(messages, '929505232155734056');
+        
+        if (sPlayers % sWinner != 0)
         {
-            await writeDb(messages, '905945792567722046', `${sSpeed}`);
-            await writeDb(messages, '905945832971444244', `${sSpeed === 'Fast' ? '+' : '-'}`);
+            await writeDb(messages, '906253957180051506', 'True');
+            return await interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
         }
-        else sSpeed = await readDb(messages, '905945792567722046');
+        if (sPlayers <= sWinner)
+        {
+            await writeDb(messages, '906253957180051506', 'True');
+            return await interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
+        }
+        
+        if (sBox != null) await writeDb(messages, '905983214122840125', `${sBox}`);
+        else sBox = await readDb(messages, '905983214122840125');
+        
+        if (sBrackets != null) await writeDb(messages, '906512009649061888', `${sBrackets}`);
+        else sBrackets = await readDb(messages, '906512009649061888');
+        
+        if (sDayfinal != null) await writeDb(messages, '906247072406175795', `${sDayfinal}`);
+        else sDayfinal = await readDb(messages, '906247072406175795');
+        
         if (sDice != null)
         {
             await writeDb(messages, '905945929490763797', `${sDice}`);
             await writeDb(messages, '905945972914397245', `${sDice === 'Random Dice' ? '+' : '-'}`);
         }
         else sDice = await readDb(messages, '905945929490763797');
-        if (sRobber != null)
-        {
-            await writeDb(messages, '905946115566895176', `${sRobber}`);
-            await writeDb(messages, '905946151008735293', `${sRobber === 'No' ? '+' : '-'}`);
-        }
-        else sRobber = await readDb(messages, '905946115566895176');
-        if (sRounds != null) await writeDb(messages, '905946342617141308', `${sRounds}`);
-        else sRounds = await readDb(messages, '905946342617141308');
-        if (sRound != null) await writeDb(messages, '905946389748543488', `${sRound}`);
-        else sRound = await readDb(messages, '905946389748543488');
-        if (sBox != null) await writeDb(messages, '905983214122840125', `${sBox}`);
-        else sBox = await readDb(messages, '905983214122840125');
-        if (sDayfinal != null) await writeDb(messages, '906247072406175795', `${sDayfinal}`);
-        else sDayfinal = await readDb(messages, '906247072406175795');
-        if (sPrize != null) await writeDb(messages, '906247110666625115', `${sPrize}`);
-        else sPrize = await readDb(messages, '906247110666625115');
+        
         if (sDiscard != null)
         {
             await writeDb(messages, '906250774105960448', `${sDiscard}`);
             await writeDb(messages, '906250873414492170', `${sDiscard === 7 ? '+' : '-'}`);
         }
         else sDiscard = await readDb(messages, '906250774105960448');
-        if (sRandom != null) await writeDb(messages, '906260752300666911', `${sRandom}`);
-        else sRandom = await readDb(messages, '906260752300666911');
-        if (sTables != null) await writeDb(messages, '906261691610845195', `${sTables}`);
-        else sTables = await readDb(messages, '906261691610845195');
-        if (sBrackets != null) await writeDb(messages, '906512009649061888', `${sBrackets}`);
-        else sBrackets = await readDb(messages, '906512009649061888');
+        
         if (sLoserfinal != null) await writeDb(messages, '906512049096503296', `${sLoserfinal}`);
         else sLoserfinal = await readDb(messages, '906512049096503296');
+        
+        if (sMap != null)
+        {
+            await writeDb(messages, '905945543115669574', sMap);
+            await writeDb(messages, '905945613114413076', sMap === 'Base' ? '+' : '-');
+        }
+        else sMap = await readDb(messages, '905945543115669574');
+        
+        if (sMode != null)
+        {
+            await writeDb(messages, '905945387360202823', sMode);
+            await writeDb(messages, '905945487390171146', sMode === 'Base' ? '+' : '-');
+        }
+        else sMode = await readDb(messages, '905945387360202823');
+        
+        if (sPrize != null) await writeDb(messages, '906247110666625115', `${sPrize}`);
+        else sPrize = await readDb(messages, '906247110666625115');
+        
+        if (sRandom != null) await writeDb(messages, '906260752300666911', `${sRandom}`);
+        else sRandom = await readDb(messages, '906260752300666911');
+        
+        if (sRobber != null)
+        {
+            await writeDb(messages, '905946115566895176', `${sRobber}`);
+            await writeDb(messages, '905946151008735293', `${sRobber === 'No' ? '+' : '-'}`);
+        }
+        else sRobber = await readDb(messages, '905946115566895176');
+        
+        if (sRound != null) await writeDb(messages, '905946389748543488', `${sRound}`);
+        else sRound = await readDb(messages, '905946389748543488');
+        
+        if (sRounds != null) await writeDb(messages, '905946342617141308', `${sRounds}`);
+        else sRounds = await readDb(messages, '905946342617141308');
+        
+        if (sSpeed != null)
+        {
+            await writeDb(messages, '905945792567722046', `${sSpeed}`);
+            await writeDb(messages, '905945832971444244', `${sSpeed === 'Fast' ? '+' : '-'}`);
+        }
+        else sSpeed = await readDb(messages, '905945792567722046');
+        
+        if (sTables != null) await writeDb(messages, '906261691610845195', `${sTables}`);
+        else sTables = await readDb(messages, '906261691610845195');
+        
+        if (sType != null) await writeDb(messages, '905945127900573747', sType);
+        else sType = await readDb(messages, '905945127900573747');
+        
         
         let zVp;
         switch (sMode)
@@ -433,6 +479,8 @@ module.exports = {
             .replace(/{sBrackets}/g, sBrackets)
             .replace(/{zLoserfinal}/g, sLoserfinal=='Yes'?'+':'-')
             .replace(/{sLoserfinal}/g, sLoserfinal)
+            .replace(/{zWinner}/g, sWinner===1?'+':'-')
+            .replace(/{sWinner}/g, sWinner)
             .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
             .replace(/{sRandom}/g, sRandom)
             .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
@@ -450,7 +498,9 @@ module.exports = {
             .replace(/{zDiscard}/g, sDiscard===7?'+':'-')
             .replace(/{sDiscard}/g, sDiscard)
             .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp);
+            .replace(/{sVp}/g, sVp)
+            .replace(/{zWinner}/g, sWinner===1?'+':'-')
+            .replace(/{sWinner}/g, sWinner);
         
         //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
         await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime

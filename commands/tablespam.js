@@ -90,33 +90,38 @@ module.exports = {
         }
         
         
-        const sRounds = await readDb(messages, '905946342617141308');
+        
         const sRound = await readDb(messages, '905946389748543488');
+        const sRounds = await readDb(messages, '905946342617141308');
         if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return await interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
-        const sType = await readDb(messages, '905945127900573747');
-        const sMode = await readDb(messages, '905945387360202823');
-        const zMode = await readDb(messages, '905945487390171146');
-        const sMap = await readDb(messages, '905945543115669574');
-        const zMap = await readDb(messages, '905945613114413076');
-        const sPlayers = await readDb(messages, '905945688976818187');
-        const zPlayers = await readDb(messages, '905945741216862229');
-        const sSpeed = await readDb(messages, '905945792567722046');
-        const zSpeed = await readDb(messages, '905945832971444244');
+        
+        const sBox = await readDb(messages, '905983214122840125');
+        const sBrackets = await readDb(messages, '906512009649061888')
+        const sDayfinal = await readDb(messages, '906247072406175795');
         const sDice = await readDb(messages, '905945929490763797');
         const zDice = await readDb(messages, '905945972914397245');
-        const sRobber = await readDb(messages, '905946115566895176');
-        const zRobber = await readDb(messages, '905946151008735293');
-        const sBox = await readDb(messages, '905983214122840125');
-        const sDayfinal = await readDb(messages, '906247072406175795');
-        const sPrize = await readDb(messages, '906247110666625115');
         const sDiscard = await readDb(messages, '906250774105960448');
         const zDiscard = await readDb(messages, '906250873414492170');
+        const sLoserfinal = await readDb(messages, '906512049096503296')
+        const sMap = await readDb(messages, '905945543115669574');
+        const zMap = await readDb(messages, '905945613114413076');
+        const sMode = await readDb(messages, '905945387360202823');
+        const zMode = await readDb(messages, '905945487390171146');
+        const sPlayers = await readDb(messages, '905945688976818187');
+        const zPlayers = await readDb(messages, '905945741216862229');
+        const sPrize = await readDb(messages, '906247110666625115');
         const sRandom = await readDb(messages, '906260752300666911');
+        const sRobber = await readDb(messages, '905946115566895176');
+        const zRobber = await readDb(messages, '905946151008735293');
+        const sSpeed = await readDb(messages, '905945792567722046');
+        const zSpeed = await readDb(messages, '905945832971444244');
         const sTables = await readDb(messages, '906261691610845195');
+        const sType = await readDb(messages, '905945127900573747');
         const sVp = await readDb(messages, '905946023166353420')
         const zVp = await readDb(messages, '905946057194766366')
-        const sLoserfinal = await readDb(messages, '906512049096503296')
-        const sBrackets = await readDb(messages, '906512009649061888')
+        const sWinner = await readDb(messages, '929505232155734056')
+        
+        
         
         if (interaction.options.getSubcommand() === 'settings')
         {
@@ -154,8 +159,9 @@ module.exports = {
                 .replace(/{zDiscard}/g, zDiscard)
                 .replace(/{sDiscard}/g, sDiscard)
                 .replace(/{zVp}/g, zVp)
-                .replace(/{sVp}/g, sVp);
-            
+                .replace(/{sVp}/g, sVp)
+                .replace(/{zWinner}/g, sWinner==1?'+':'-')
+                .replace(/{sWinner}/g, sWinner);
             
             return await interaction.editReply(botMessage);
         }
@@ -165,17 +171,17 @@ module.exports = {
         const roundName = ['last', 'first', 'second', 'third', 'fourth'];
         const intNames = ['zero', 'one', 'two', 'three', 'four, five, six'];
         
-        let screenshotMessage = '', extraMessage = '';
+        let screenshotMessage = '', extraMessage1 = '', extraMessage2 = '';
         let remainingRounds = sRounds - sRound;
         
         if (sBox > 1)
         {
             screenshotMessage = 'After each match, the winner posts a screenshot of the game end screen in';
-            extraMessage = `You will play a total of ${intNames[sBox]} matches with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
+            extraMessage2 = `You will play a total of ${intNames[sBox]} matches with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
         }
         else screenshotMessage = 'After the match, the winner posts a screenshot of the game end screen in';
         
-        
+        if (sWinner > 1) extraMessage1 = `\n:warning: You don’t play on your own. You have ${sWinner==2?'a teammate':sWinner+'teammates'}!\n`;
         
         let intro, /*roomname,*/ message, link;
         switch (interaction.options.getSubcommand())
@@ -187,12 +193,12 @@ module.exports = {
             {
                 if (sDayfinal === 'Yes')
                 {
-                    extraMessage += 'There is a Day Final for the Top 4 after this match. You might be in with a good performance.'
-                    if (sPrize == 'Cash Ticket') extraMessage += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
+                    extraMessage2 += 'There is a Day Final for the Top 4 after this match. You might be in with a good performance.'
+                    if (sPrize == 'Cash Ticket') extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
                 }
-                else extraMessage += 'This is the last round in the qualifier.';
+                else extraMessage2 += 'This is the last round in the qualifier.';
             }
-            else extraMessage += `In this qualifier, everyone will play ${intNames[remainingRounds]} more ${remainingRounds>1?'rounds':'round'} after this round.`;
+            else extraMessage2 += `In this qualifier, everyone will play ${intNames[remainingRounds]} more ${remainingRounds>1?'rounds':'round'} after this round.`;
             message = `Posted Round ${sRound}.`;
             link = 'R{sRound}T{sTable}'
             break;
@@ -200,8 +206,8 @@ module.exports = {
             case 'dayfinal':
             intro = 'Dayfinal';
             //roomname = `CC${sType} Dayfinal`;
-            if (sPrize === 'Cash Ticket') extraMessage += 'Win this match to win a free entry to a future Cash Tournament.';
-            else extraMessage += 'This is your very last match in this qualifier. :smile:';
+            if (sPrize === 'Cash Ticket') extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
+            else extraMessage2 += 'This is your very last match in this qualifier. :smile:';
             tableEnd = 1;
             link = 'DF'
             message = 'Posted the Dayfinal.';
@@ -210,27 +216,27 @@ module.exports = {
             case 'quarterfinal':
             intro = 'Quarterfinal';
             //roomname = `CC${sType} Quarterfinal Table {sTable}`;
-            extraMessage += 'Win this match to advance to the Semifinal.'
-            if (!tableEnd) tableEnd = sBrackets * sPlayers * 2;
-            link = 'QT{sTable}'
+            extraMessage2 += 'Win this match to advance to the Semifinal.'
+            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sWinner, 2);
+            link = 'QF{sTable}'
             message = 'Posted the Quarterfinal.';
             break;
             
             case 'semifinal':
             intro = 'Semifinal';
             //roomname = `CC${type} Semifinal Table {sTable}`;
-            if (sLoserfinal === 'Yes') extraMessage += 'Everyone plays one more match after this one.';
-            else extraMessage += 'Win this match to advance to the Final.';
-            if (!tableEnd) tableEnd = sBrackets * sPlayers;
-            link = 'ST{sTable}';
+            if (sLoserfinal === 'Yes') extraMessage2 += 'Everyone plays one more match after this one.';
+            else extraMessage2 += 'Win this match to advance to the Final.';
+            if (!tableEnd) tableEnd = sBrackets * sPlayers / sWinner;
+            link = 'SF{sTable}';
             message = 'Posted the Semifinal.';
             break;
             
             case 'final':
             intro = '{finalName}';
             //roomname = `CC${type} {finalName} Table {table}`;
-            extraMessage += 'This is your last match in the tournament.'
-            if (!tableEnd || sBrackets>1) tableEnd = sBrackets * (sLoserfinal === 'Yes' ? sPlayers : 1);
+            extraMessage2 += 'This is your last match in the tournament.'
+            if (!tableEnd /*|| sBrackets>1*/) tableEnd = sBrackets * (sLoserfinal === 'Yes' ? sPlayers / sWinner : 1);
             link = '{X}T{sTable}';
             message = 'Posted the Final.';
             break;
@@ -259,7 +265,8 @@ module.exports = {
             .replace(/{sType}/g, sType)
             .replace(/{roundName}/g, roundName[sRound>=sRounds ? 0 : sRound])
             .replace(/{screenshotMessage}/g, screenshotMessage)
-            .replace(/{extraMessage}/g, extraMessage)
+            .replace(/{extraMessage1}/g, extraMessage1)
+            .replace(/{extraMessage2}/g, extraMessage2)
             .replace(/{screenshots}/g, await interaction.guild.channels.cache.find(channel => channel.name === `💻screenshots`));
             //.replace(/{screenshots}/g, interaction.guild.channels.cache.get('894372076884992015'));
         
@@ -276,9 +283,9 @@ module.exports = {
             let table = i, botMessageTemp = botMessage;
             if (interaction.options.getSubcommand() === 'final')
             {
-                if (i > brackets)
+                if (i > sBrackets)
                 {
-                    table = brackets * (players-1) + i;
+                    table = sBrackets * (sPlayers / sWinner - 1) + i;
                     botMessageTemp = botMessage.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
                 }
                 else
@@ -286,6 +293,7 @@ module.exports = {
                     botMessageTemp = botMessage.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
                 }
             }
+            console.log(table);
             const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
             channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
