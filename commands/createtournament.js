@@ -60,7 +60,7 @@ module.exports = {
         )
         .addIntegerOption
         (option =>
-            option.setName('discardlimit')
+            option.setName('discard')
             .setDescription('[setting]: discard limit – defaults to 7 if omitted')
             .setRequired(false)
             .addChoice('2', 2)
@@ -183,7 +183,7 @@ module.exports = {
         )
         .addIntegerOption
         (option =>
-            option.setName('vp2win')
+            option.setName('vp')
             .setDescription('[setting]: VP to win the game – defaults to Colonist’s default for the selected mode+map if omitted')
             .setRequired(false)
             .addChoice('2', 2)
@@ -248,9 +248,10 @@ module.exports = {
         let sSpeed = interaction.options.getString('speed');
         let sTables = interaction.options.getInteger('tables');
         let sType = interaction.options.getString('type');
-        let sVp = interaction.options.getInteger('vp2win');
+        let sVp = interaction.options.getInteger('vp');
         let sWinner = interaction.options.getInteger('winner');
         
+        let updateVP;
         
         if (create === 'New')
         {
@@ -273,7 +274,9 @@ module.exports = {
             sType = sType ?? 'Open';
             //sVp = sVp;
             sWinner = sWinner ?? 1;
+            updateVP = true;
         }
+        else updateVP = sVp != null || sMode != null || sMap != null;
         
         if (sPlayers != null)
         {
@@ -368,99 +371,107 @@ module.exports = {
         if (sType != null) await writeDb(messages, '905945127900573747', sType);
         else sType = await readDb(messages, '905945127900573747');
         
-        
         let zVp;
-        switch (sMode)
+        if (updateVP)
         {
-            case 'Base':
-            switch (sMap)
+            switch (sMode)
             {
-                case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
-                if (!sVp) sVp = 10;
-                zVp = sVp === 10 ? '+' : '-';
+                case 'Base':
+                switch (sMap)
+                {
+                    case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
+                    if (!sVp) sVp = 10;
+                    zVp = sVp === 10 ? '+' : '-';
+                    break;
+                }
+                break;
+
+                case 'Seafarers':
+                switch (sMap)
+                {
+                    case 'Heading for New Shores':
+                    if (!sVp) sVp = 14;
+                    zVp = sVp === 14 ? '+' : '-';
+                    break;
+
+                    case 'Four Islands':
+                    if (!sVp) sVp = 13;
+                    zVp = sVp === 13 ? '+' : '-';
+                    break;
+
+                    case 'Fog Islands':
+                    if (!sVp) sVp = 12;
+                    zVp = sVp === 12 ? '+' : '-';
+                    break;
+
+                    case 'Through the Desert':
+                    if (!sVp) sVp = 14;
+                    zVp = sVp === 14 ? '+' : '-';
+                    break;
+
+                    case 'Earth':
+                    if (!sVp) sVp = 13;
+                    zVp = sVp === 13 ? '+' : '-';
+                    break;
+                }
+                break;
+
+                case 'Cities & Knights':
+                switch (sMap)
+                {
+                    case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
+                    if (!sVp) sVp = 13;
+                    zVp = sVp === 13 ? '+' : '-';
+                    break;
+                }
+                break;
+
+                case 'Seafarers + Cities & Knights':
+                switch (sMap)
+                {
+                    case 'Heading for New Shores':
+                    if (!sVp) sVp = 16;
+                    zVp = sVp === 16 ? '+' : '-';
+                    break;
+
+                    case 'Four Islands':
+                    if (!sVp) sVp = 15;
+                    zVp = sVp === 15 ? '+' : '-';
+                    break;
+
+                    case 'Fog Islands':
+                    if (!sVp) sVp = 14;
+                    zVp = sVp === 14 ? '+' : '-';
+                    break;
+
+                    case 'Through the Desert':
+                    if (!sVp) sVp = 16;
+                    zVp = sVp === 16 ? '+' : '-';
+                    break;
+
+                    case 'Earth':
+                    if (!sVp) sVp = 16;
+                    zVp = sVp === 16 ? '+' : '-';
+                    break;
+                }
                 break;
             }
-            break;
 
-            case 'Seafarers':
-            switch (sMap)
+            if (!zVp)
             {
-                case 'Heading for New Shores':
-                if (!sVp) sVp = 14;
-                zVp = sVp === 14 ? '+' : '-';
-                break;
-
-                case 'Four Islands':
-                if (!sVp) sVp = 13;
-                zVp = sVp === 13 ? '+' : '-';
-                break;
-
-                case 'Fog Islands':
-                if (!sVp) sVp = 12;
-                zVp = sVp === 12 ? '+' : '-';
-                break;
-
-                case 'Through the Desert':
-                if (!sVp) sVp = 14;
-                zVp = sVp === 14 ? '+' : '-';
-                break;
-
-                case 'Earth':
-                if (!sVp) sVp = 13;
-                zVp = sVp === 13 ? '+' : '-';
-                break;
+                await writeDb(messages, '906253957180051506', 'True');
+                return await interaction.editReply(`The map ‘${map}’ isn’t available in the game mode ‘${mode}’!`).catch(console.error);
             }
-            break;
-
-            case 'Cities & Knights':
-            switch (sMap)
-            {
-                case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
-                if (!sVp) sVp = 13;
-                zVp = sVp === 13 ? '+' : '-';
-                break;
-            }
-            break;
-
-            case 'Seafarers + Cities & Knights':
-            switch (sMap)
-            {
-                case 'Heading for New Shores':
-                if (!sVp) sVp = 16;
-                zVp = sVp === 16 ? '+' : '-';
-                break;
-
-                case 'Four Islands':
-                if (!sVp) sVp = 15;
-                zVp = sVp === 15 ? '+' : '-';
-                break;
-
-                case 'Fog Islands':
-                if (!sVp) sVp = 14;
-                zVp = sVp === 14 ? '+' : '-';
-                break;
-
-                case 'Through the Desert':
-                if (!sVp) sVp = 16;
-                zVp = sVp === 16 ? '+' : '-';
-                break;
-
-                case 'Earth':
-                if (!sVp) sVp = 16;
-                zVp = sVp === 16 ? '+' : '-';
-                break;
-            }
-            break;
+            await writeDb(messages, '905946023166353420', `${sVp}`);
+            await writeDb(messages, '905946057194766366', `${zVp}`);
+            await writeDb(messages, '906253957180051506', 'False');
         }
-        
-        if (!zVp)
+        else
         {
-            await writeDb(messages, '906253957180051506', 'True');
-            return await interaction.editReply(`The map ‘${map}’ isn’t available in the game mode ‘${mode}’!`).catch(console.error);
+            sVp = await readDb(messages, '905946023166353420');
+            zVp = await readDb(messages, '905946057194766366');
+            await writeDb(messages, '906253957180051506', 'False');
         }
-        await writeDb(messages, '905946023166353420', `${sVp}`);
-        await writeDb(messages, '905946057194766366', `${zVp}`);
-        await writeDb(messages, '906253957180051506', 'False');
         
         let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
             .replace(/{zType}/g, sType==='Open'?'+':'-')

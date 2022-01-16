@@ -31,6 +31,28 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
         subcommand
+            .setName('sixteenthfinal')
+            .setDescription('Use this for the sixteenthfinal')
+            .addIntegerOption
+            (option =>
+                option.setName('tableend')
+                .setDescription('Number of tables in the eigthfinal. Only set this if some players skip a round.')
+                .setRequired(false)
+            )
+        )
+        .addSubcommand(subcommand =>
+        subcommand
+            .setName('eighthfinal')
+            .setDescription('Use this for the eighthfinals')
+            .addIntegerOption
+            (option =>
+                option.setName('tableend')
+                .setDescription('Number of tables in the eigthfinal. Only set this if some players skip a round.')
+                .setRequired(false)
+            )
+        )
+        .addSubcommand(subcommand =>
+        subcommand
             .setName('quarterfinal')
             .setDescription('Use this for the quarterfinals')
             .addIntegerOption
@@ -213,6 +235,24 @@ module.exports = {
             message = 'Posted the Dayfinal.';
             break;
             
+            case 'sixteenthfinal':
+            intro = 'Sixteenthfinal';
+            //roomname = `CC${sType} sixteenthfinal Table {sTable}`;
+            extraMessage2 += 'Win this match to advance to the Quarterfinal.'
+            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sWinner, 4);
+            link = 'EF{sTable}'
+            message = 'Posted the Sixteenthfinal.';
+            break;
+            
+            case 'eighthfinal':
+            intro = 'Eighthfinal';
+            //roomname = `CC${sType} Eighthfinal Table {sTable}`;
+            extraMessage2 += 'Win this match to advance to the Quarterfinal.'
+            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sWinner, 3);
+            link = 'EF{sTable}'
+            message = 'Posted the Eighthfinal.';
+            break;
+            
             case 'quarterfinal':
             intro = 'Quarterfinal';
             //roomname = `CC${sType} Quarterfinal Table {sTable}`;
@@ -293,7 +333,6 @@ module.exports = {
                     botMessageTemp = botMessage.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
                 }
             }
-            console.log(table);
             const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
             channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
