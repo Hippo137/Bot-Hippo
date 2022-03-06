@@ -147,6 +147,17 @@ module.exports = {
         )
         .addIntegerOption
         (option =>
+            option.setName('round')
+            .setDescription('current round number – defaults to 1 if omitted')
+            .setRequired(false)
+            .addChoice('1', 1)
+            .addChoice('2', 2)
+            .addChoice('3', 3)
+            .addChoice('4', 4)
+            .addChoice('5', 5)
+        )
+        .addIntegerOption
+        (option =>
             option.setName('rounds')
             .setDescription('total number of rounds – defaults to 3 if omitted')
             .setRequired(false)
