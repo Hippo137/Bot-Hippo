@@ -12,7 +12,7 @@ module.exports = {
             .addIntegerOption
             (option =>
                 option.setName('number')
-                .setDescription(`number of messages to delete [0; 100] – defaults to 100 if omitted`)
+                .setDescription(`number of messages to delete [1, 99] – defaults to 1 if omitted`)
                 .setRequired(false)
             )
         )
@@ -20,10 +20,16 @@ module.exports = {
             subcommand
             .setName('tables')
             .setDescription('Delete messages in all table channels')
+            /*.addBooleanOption
+            (option =>
+                option.setName('restrictedtobot')
+                .setDescription(`Remove only bot messages? – defaults to true if omitted`)
+                .setRequired(false)
+            )*/
             .addIntegerOption
             (option =>
                 option.setName('number')
-                .setDescription(`number of messages to delete [1, 100] – defaults to 100 if omitted`)
+                .setDescription(`number of messages to delete [1, 100] – defaults to 1 if omitted`)
                 .setRequired(false)
             )
             .addIntegerOption
@@ -38,6 +44,12 @@ module.exports = {
                 .setDescription(`table channel to end [1, 50] – defaults to 50 if omitted`)
                 .setRequired(false)
             )
+            /*.addIntegerOption
+            (option =>
+                option.setName('minutes')
+                .setDescription(`Only remove messages which are younger than these amount of minutes – defaults to 5 if omitted. Use 0 to ignore the message date`)
+                .setRequired(false)
+            )*/
         ),
     async execute(interaction)
     {
@@ -45,9 +57,15 @@ module.exports = {
         if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         if (!interaction.guild.me.permissions.has('MANAGE_MESSAGES')) return await interaction.editReply('I don’t have the permission to delete messages.').catch(console.error);
         
-        const number = interaction.options.getInteger('number') ?? 100;
+        let number = interaction.options.getInteger('number') ?? 1;
+        if (number<1) number=1;
+        else if (number>=100) number=100;
+        else if (interaction.options.getSubcommand() === 'channel') number++;
         const tableStart = interaction.options.getInteger('tablestart') ?? 1;
         const tableEnd = interaction.options.getInteger('tableend') ?? 50;
+        //const restrictedToBot = interaction.options.getBoolean('restrictedtobot') ?? true;
+        //const minutes = interaction.options.getInteger('minutes') ?? 5;
+        
         
         switch (interaction.options.getSubcommand())
         {
