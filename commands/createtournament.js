@@ -184,6 +184,16 @@ module.exports = {
             .setDescription('Number of tables')
             .setRequired(false)
         )
+        .addIntegerOption
+        (option =>
+            option.setName('teamsize')
+            .setDescription('number of winners in a match – defaults to 1 if omitted')
+            .setRequired(false)
+            .addChoice('1', 1)
+            .addChoice('2', 2)
+            .addChoice('3', 3)
+            .addChoice('4', 4)
+        )
         .addStringOption
         (option =>
             option.setName('type')
@@ -214,16 +224,6 @@ module.exports = {
             .addChoice('16', 16)
             .addChoice('17', 17)
             .addChoice('18', 18)
-        )
-        .addIntegerOption
-        (option =>
-            option.setName('winner')
-            .setDescription('number of winners in a match – defaults to 1 if omitted')
-            .setRequired(false)
-            .addChoice('1', 1)
-            .addChoice('2', 2)
-            .addChoice('3', 3)
-            .addChoice('4', 4)
         ),
             
 	async execute(interaction)
@@ -258,9 +258,9 @@ module.exports = {
         let sRounds = interaction.options.getInteger('rounds');
         let sSpeed = interaction.options.getString('speed');
         let sTables = interaction.options.getInteger('tables');
+        let sTeamsize = interaction.options.getInteger('teamsize');
         let sType = interaction.options.getString('type');
         let sVp = interaction.options.getInteger('vp');
-        let sWinner = interaction.options.getInteger('winner');
         
         let updateVP;
         
@@ -282,9 +282,9 @@ module.exports = {
             sRounds = sRounds ?? 3;
             sSpeed = sSpeed ?? 'Fast';
             sTables = sTables ?? 0;
+            sTeamsize = sTeamsize ?? 1;
             sType = sType ?? 'Open';
             //sVp = sVp;
-            sWinner = sWinner ?? 1;
             updateVP = true;
         }
         else updateVP = sVp != null || sMode != null || sMap != null;
@@ -296,15 +296,15 @@ module.exports = {
         }
         else sPlayers = await readDb(messages, '905945688976818187');
         
-        if (sWinner != null) await writeDb(messages, '929505232155734056', `${sWinner}`);
-        else sWinner = await readDb(messages, '929505232155734056');
+        if (sTeamsize != null) await writeDb(messages, '929505232155734056', `${sTeamsize}`);
+        else sTeamsize = await readDb(messages, '929505232155734056');
         
-        if (sPlayers % sWinner != 0)
+        if (sPlayers % sTeamsize != 0)
         {
             await writeDb(messages, '906253957180051506', 'True');
             return await interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
         }
-        if (sPlayers <= sWinner)
+        if (sPlayers <= sTeamsize)
         {
             await writeDb(messages, '906253957180051506', 'True');
             return await interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
@@ -501,8 +501,8 @@ module.exports = {
             .replace(/{sBrackets}/g, sBrackets)
             .replace(/{zLoserfinal}/g, sLoserfinal=='Yes'?'+':'-')
             .replace(/{sLoserfinal}/g, sLoserfinal)
-            .replace(/{zWinner}/g, sWinner==1?'+':'-')
-            .replace(/{sWinner}/g, sWinner)
+            .replace(/{zWinner}/g, sTeamsize==1?'+':'-')
+            .replace(/{sTeamsize}/g, sTeamsize)
             .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
             .replace(/{sRandom}/g, sRandom)
             .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
@@ -521,8 +521,8 @@ module.exports = {
             .replace(/{sDiscard}/g, sDiscard)
             .replace(/{zVp}/g, zVp)
             .replace(/{sVp}/g, sVp)
-            .replace(/{zWinner}/g, sWinner===1?'+':'-')
-            .replace(/{sWinner}/g, sWinner);
+            .replace(/{zWinner}/g, sTeamsize===1?'+':'-')
+            .replace(/{sTeamsize}/g, sTeamsize);
         
         //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
         await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime

@@ -113,7 +113,8 @@ module.exports = {
         
         
         
-        const sRound = await readDb(messages, '905946389748543488');
+        let sRound = await readDb(messages, '905946389748543488');
+        if (tableStart > 1 && sRound > 1) sRound--;
         const sRounds = await readDb(messages, '905946342617141308');
         if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return await interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
         
@@ -215,7 +216,7 @@ module.exports = {
             {
                 if (sDayfinal === 'Yes')
                 {
-                    extraMessage2 += 'There is a Day Final for the Top 4 after this match. You might be in with a good performance.'
+                    extraMessage2 += `There is a Day Final for the Top ${sPlayers/sWinner} after this match. You might be in with a good performance.`
                     if (sPrize == 'Cash Ticket') extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
                 }
                 else extraMessage2 += 'This is the last round in the qualifier.';

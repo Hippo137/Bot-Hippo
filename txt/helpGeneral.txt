@@ -1,0 +1,22 @@
+This is a list of all available commands. To get more help on a specific command and a description of the parameters, set the optional *topic* parameter to the desired command name.
+
+__clear__
+This command is used to remove messages. It has two subcommands to either remove messages in the channel it is used in or in the table channels. This command can remove any messages which are younger than 14 days. Use it with caution and please do not wipe out an entire channel.
+
+__createtournament__
+Sets or changes the settings of the tournament. The settings are used by the *tablespam* commands afterwards.
+
+__help__
+Shows a list of all available commands or detailed information about a single command.
+
+__ping__
+Returns a “pong”. Only there to check if the bot responds at all.
+
+__rockpaperscissors__
+Play rock paper scissors against other players with this command.
+
+__role__
+Returns a list of all players with a given role. I wonder who will be the first to use it with @everyone and crash the bot.
+
+__tablespam__
+Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.

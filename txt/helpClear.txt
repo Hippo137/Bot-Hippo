@@ -1,0 +1,21 @@
+**clear**
+This command is used to remove messages. It has two subcommands to either remove messages in the channel it is used in or in the table channels. This command can remove any messages which are younger than 14 days. Use it with caution and please do not wipe out an entire channel.
+Defaults of the parameters are in () behind the name below.
+
+Subcommands: channel, tables
+
+**channel**
+Removes messages in this channel.
+*Optional*
+__number__ (1)
+This command will remove the interaction itself and the newest ‘number’ messages.
+
+**tables**
+Removes messages in table channels.
+*Optional*
+__number__ (1)
+This command will remove the newest ‘number’ messages in the tables channels specified by tablestart and tableend.
+__tablestart__ (1)
+First table channel to remove messages from.
+__tableend__ (50)
+Last table channel to remove messages from.

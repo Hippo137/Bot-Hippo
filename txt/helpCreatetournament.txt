@@ -1,0 +1,48 @@
+**createtournament**
+This command can be used to set or change the settings of the tournament. Optional parameters can be relevant for qualifiers (Q, X), finals (F, X) or both (QF, X). The X is the default value.
+The settings are used by the *tablespam* commands afterwards.
+
+*Required*
+__create__
+    New: Creates a new tournament. Sets omitted parameters back to their default.
+    Update: Updates an existing tournament. Ignores omitted parameters.
+    Restart: Restarts an existing tournament (round=1, tables=0). Ignores all settings.
+*Optional*
+__box__ (QF, 1) “Best of X”.
+    Number of matches per round played against the same opponents.
+__brackets__ (F, 4)
+    Number of brackets. (brackets=players²)
+__dayfinal__ (Q, No)
+    Adds an additional paragraph in the last round.
+__dice__ (QF, Random Dice)
+    Colonist setting: Dice.
+__discard__ (QF, 7)
+    Colonist setting: Card Discard Limit.
+__friendlyrobber__ (QF, No)
+    Colonist setting: Friendly Robber.
+__loserfinal__ (F, Yes)
+    Adds tables in the final for the losers of the semifinal.
+__map__ (QF, Base)
+    Colonist setting: Map.
+__mode__ (QF, Base)
+    Colonist setting: Game Mode.
+__players__ (QF, 4)
+    Colonist setting: Max Players.
+__prize__ (Q, Cash Ticket)
+    The prize for winning the Day Final.
+__random__ (Q, No)
+    Adds random letters to the end of every Colonist link.
+__round__ (Q, 1)
+    The current round number. Is updated by *tablespam*.
+__rounds__ (Q, 3)
+    The total number of rounds in the qualifier.
+__speed__ (QF, Fast)
+    Colonist Setting: Game Speed
+__tables__ (Q, 0)
+    The number of tables in the qualifier. You can set this with the *tablespam* command, too.
+__teamsize__ (QF, 1)
+    Number of players on each team.
+__type__ (QF, Open)
+    Defines if this is an Open or Cash Tournament.
+__vp__ (QF, Colonist default)
+    Colonist setting: VP to Win. vp is set to Colonist’s default if vp isn’t provided, but map or mode is.

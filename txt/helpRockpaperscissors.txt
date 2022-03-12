@@ -1,0 +1,8 @@
+**rockpaperscissors**
+Play rock paper scissors against other players with this command.
+
+*Required*
+__opponent__
+Set this to *bot* if you want to compete against the random bot or to *human* if you want to set up a new game against a different player or want to join an ongoing game.
+__choice__
+Your choice. If you are the first player, other players can not see your selected choice before they select theirs.

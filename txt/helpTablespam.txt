@@ -1,0 +1,26 @@
+**tablespam**
+Writes the messages to the table channels based on the settings given by *createtournament*.
+
+Subcommands: qualifier, dayfinal, sixteenthfinal, eighthfinal, quarterfinal, semifinal, final, settings
+
+**qualifier**
+Spams messages to the tables for the current qualifying round. In the end, the rounds variable is increased by one, so the command is ready for the next round.
+
+*Optional*
+__tableend__ (–)
+The command uses the tables variable which can also be set by *createtournament*. This parameter updates the tables variable.
+__tablestart__ (1)
+The first table the messages are send to. You can use this to add another table after posting the current round. If this is set to anything above 1, the rounds variable is decreased by one before posting.
+
+**dayfinal**
+Posts the dayfinal message in the first table channel.
+
+**sixteenthfinal, eighthfinal, quarterfinal, semifinal, final**
+Posts the messages for the desired final round. What is posted where depends on the following settings in *createtournament*: brackets, loserfinal (only for *final*), players, teamsize.
+
+*Optional*
+__tableend__ (–)
+The total number of tables which should be posted in. Can set this when the last bracket does not have enough players.
+
+**settings**
+Displays the current tournament settings.

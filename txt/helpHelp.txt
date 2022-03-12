@@ -1,0 +1,6 @@
+**help**
+Shows a list of all available commands or detailed information about a single command.
+||Tries to not create a black hole with this recursion :eyes:||
+*Optional*
+__topic__ (General)
+Shows detailed help to the selected command. Shows an overview over all commands if omitted.
