@@ -501,7 +501,7 @@ module.exports = {
             .replace(/{sBrackets}/g, sBrackets)
             .replace(/{zLoserfinal}/g, sLoserfinal=='Yes'?'+':'-')
             .replace(/{sLoserfinal}/g, sLoserfinal)
-            .replace(/{zWinner}/g, sTeamsize==1?'+':'-')
+            .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
             .replace(/{sTeamsize}/g, sTeamsize)
             .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
             .replace(/{sRandom}/g, sRandom)
