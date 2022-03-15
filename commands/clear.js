@@ -34,14 +34,14 @@ module.exports = {
             )
             .addIntegerOption
             (option =>
-                option.setName('tablestart')
-                .setDescription(`table channel to start [1, 50] – defaults to 1 if omitted`)
+                option.setName('tableend')
+                .setDescription(`table channel to end [1, 50] – defaults to 50 if omitted`)
                 .setRequired(false)
             )
             .addIntegerOption
             (option =>
-                option.setName('tableend')
-                .setDescription(`table channel to end [1, 50] – defaults to 50 if omitted`)
+                option.setName('tablestart')
+                .setDescription(`table channel to start [1, 50] – defaults to 1 if omitted`)
                 .setRequired(false)
             )
             /*.addIntegerOption

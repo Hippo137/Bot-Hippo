@@ -1,0 +1,12 @@
+**message**
+Writes a custom message to table channels.
+
+
+*Required*
+__content__
+The message to be sent.
+*Optional*
+__tableend__ (tables)
+Last table channel to write the message to.
+__tablestart__ (1)
+First table channel to write the message to.

@@ -8,7 +8,7 @@
 {zPrize} Day Final Prize:     {sPrize}
 {zBrackets} Brackets:            {sBrackets}
 {zLoserfinal} Loser Finals:        {sLoserfinal}
-{zWinner} Number of Winners:   {sTeamsize}
+{zWinner} Teamsize:            {sTeamsize}
 {zRandom} Random Letters:      {sRandom}
 
 {zRobber} Friendly Robber:     {sRobber}

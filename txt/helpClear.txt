@@ -15,7 +15,7 @@ Removes messages in table channels.
 *Optional*
 __number__ (1)
 This command will remove the newest ‘number’ messages in the tables channels specified by tablestart and tableend.
-__tablestart__ (1)
-First table channel to remove messages from.
 __tableend__ (50)
 Last table channel to remove messages from.
+__tablestart__ (1)
+First table channel to remove messages from.
