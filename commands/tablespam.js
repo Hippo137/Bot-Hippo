@@ -142,7 +142,7 @@ module.exports = {
         const sType = await readDb(messages, '905945127900573747');
         const sVp = await readDb(messages, '905946023166353420')
         const zVp = await readDb(messages, '905946057194766366')
-        const sWinner = await readDb(messages, '929505232155734056')
+        const sTeamsize = await readDb(messages, '929505232155734056')
         
         
         
@@ -183,8 +183,8 @@ module.exports = {
                 .replace(/{sDiscard}/g, sDiscard)
                 .replace(/{zVp}/g, zVp)
                 .replace(/{sVp}/g, sVp)
-                .replace(/{zWinner}/g, sWinner==1?'+':'-')
-                .replace(/{sWinner}/g, sWinner);
+                .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
+                .replace(/{sTeamsize}/g, sTeamsize);
             
             return await interaction.editReply(botMessage);
         }
@@ -199,12 +199,12 @@ module.exports = {
         
         if (sBox > 1)
         {
-            screenshotMessage = 'After each match, the winner posts a screenshot of the game end screen in';
+            screenshotMessage = 'After each match, the Teamsize posts a screenshot of the game end screen in';
             extraMessage2 = `You will play a total of ${intNames[sBox]} matches with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
         }
-        else screenshotMessage = 'After the match, the winner posts a screenshot of the game end screen in';
+        else screenshotMessage = 'After the match, the Teamsize posts a screenshot of the game end screen in';
         
-        if (sWinner > 1) extraMessage1 = `\n:warning: You don’t play on your own. You have ${sWinner==2?'a teammate':sWinner+'teammates'}!\n`;
+        if (sTeamsize > 1) extraMessage1 = `\n:warning: You don’t play on your own. You have ${sTeamsize==2?'a teammate':sTeamsize+'teammates'}!\n`;
         
         let intro, /*roomname,*/ message, link;
         switch (interaction.options.getSubcommand())
@@ -216,7 +216,7 @@ module.exports = {
             {
                 if (sDayfinal === 'Yes')
                 {
-                    extraMessage2 += `There is a Day Final for the Top ${sPlayers/sWinner} after this match. You might be in with a good performance.`
+                    extraMessage2 += `There is a Day Final for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
                     if (sPrize == 'Cash Ticket') extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
                 }
                 else extraMessage2 += 'This is the last round in the qualifier.';
@@ -240,7 +240,7 @@ module.exports = {
             intro = 'Sixteenthfinal';
             //roomname = `CC${sType} sixteenthfinal Table {sTable}`;
             extraMessage2 += 'Win this match to advance to the Quarterfinal.'
-            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sWinner, 4);
+            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sTeamsize, 4);
             link = 'EF{sTable}'
             message = 'Posted the Sixteenthfinal.';
             break;
@@ -249,7 +249,7 @@ module.exports = {
             intro = 'Eighthfinal';
             //roomname = `CC${sType} Eighthfinal Table {sTable}`;
             extraMessage2 += 'Win this match to advance to the Quarterfinal.'
-            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sWinner, 3);
+            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sTeamsize, 3);
             link = 'EF{sTable}'
             message = 'Posted the Eighthfinal.';
             break;
@@ -258,7 +258,7 @@ module.exports = {
             intro = 'Quarterfinal';
             //roomname = `CC${sType} Quarterfinal Table {sTable}`;
             extraMessage2 += 'Win this match to advance to the Semifinal.'
-            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sWinner, 2);
+            if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sTeamsize, 2);
             link = 'QF{sTable}'
             message = 'Posted the Quarterfinal.';
             break;
@@ -268,7 +268,7 @@ module.exports = {
             //roomname = `CC${type} Semifinal Table {sTable}`;
             if (sLoserfinal === 'Yes') extraMessage2 += 'Everyone plays one more match after this one.';
             else extraMessage2 += 'Win this match to advance to the Final.';
-            if (!tableEnd) tableEnd = sBrackets * sPlayers / sWinner;
+            if (!tableEnd) tableEnd = sBrackets * sPlayers / sTeamsize;
             link = 'SF{sTable}';
             message = 'Posted the Semifinal.';
             break;
@@ -277,7 +277,7 @@ module.exports = {
             intro = '{finalName}';
             //roomname = `CC${type} {finalName} Table {table}`;
             extraMessage2 += 'This is your last match in the tournament.'
-            if (!tableEnd /*|| sBrackets>1*/) tableEnd = sBrackets * (sLoserfinal === 'Yes' ? sPlayers / sWinner : 1);
+            if (!tableEnd /*|| sBrackets>1*/) tableEnd = sBrackets * (sLoserfinal === 'Yes' ? sPlayers / sTeamsize : 1);
             link = '{X}T{sTable}';
             message = 'Posted the Final.';
             break;
@@ -326,7 +326,7 @@ module.exports = {
             {
                 if (i > sBrackets)
                 {
-                    table = sBrackets * (sPlayers / sWinner - 1) + i;
+                    table = sBrackets * (sPlayers / sTeamsize - 1) + i;
                     botMessageTemp = botMessage.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
                 }
                 else
