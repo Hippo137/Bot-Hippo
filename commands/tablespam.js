@@ -199,10 +199,10 @@ module.exports = {
         
         if (sBox > 1)
         {
-            screenshotMessage = 'After each match, the Teamsize posts a screenshot of the game end screen in';
+            screenshotMessage = 'After each match, the winner posts a screenshot of the game end screen in';
             extraMessage2 = `You will play a total of ${intNames[sBox]} matches with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
         }
-        else screenshotMessage = 'After the match, the Teamsize posts a screenshot of the game end screen in';
+        else screenshotMessage = 'After the match, the winner posts a screenshot of the game end screen in';
         
         if (sTeamsize > 1) extraMessage1 = `\n:warning: You don’t play on your own. You have ${sTeamsize==2?'a teammate':sTeamsize+'teammates'}!\n`;
         
