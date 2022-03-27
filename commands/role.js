@@ -22,6 +22,6 @@ module.exports = {
 
         await interaction.guild.members.fetch();
         await interaction.guild.fetch().then(g => g.roles.fetch().then(r => r.find(role => role.id === roleToSearch.id).members.forEach(member => messageToWrite += `\n${member.user.tag}`)))
-        await interaction.editReply(`${messageToWrite}`);
+        await interaction.editReply(`\`${messageToWrite}\``);
     }
 };
