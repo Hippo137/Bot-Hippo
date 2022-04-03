@@ -46,6 +46,9 @@ module.exports = {
             channelTarget.send(content);
         }
         await interaction.editReply(`Wrote the following message to the table channels ${tableStart} to ${tableEnd}:\n\n${content}`).catch(console.error); //error handling in case the message was manually removed in the meantime
+        
+        const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
+        botLogChannel.send(`${interaction.member} used command ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
     }
 }
 
