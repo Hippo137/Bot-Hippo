@@ -1,5 +1,8 @@
 This is a list of all available commands. To get more help on a specific command and a description of the parameters, set the optional *topic* parameter to the desired command name.
 
+__backuprefresh__
+Removes the Back Up Hero role for everyone.
+
 __clear__
 This command is used to remove messages. It has two subcommands to either remove messages in the channel it is used in or in the table channels. This command can remove any messages which are younger than 14 days. Use it with caution and please do not wipe out an entire channel.
 

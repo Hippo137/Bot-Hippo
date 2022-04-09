@@ -11,6 +11,7 @@ module.exports = {
             option.setName('topic')
             .setDescription('Choose what you need help with. Omitting this gives a general overview over the available commands.')
             .setRequired(false)
+            .addChoice('backuprefresh', 'Backuprefresh')
             .addChoice('clear', 'Clear')
             .addChoice('createrole', 'Createrole')
             .addChoice('createtournament', 'Createtournament')
