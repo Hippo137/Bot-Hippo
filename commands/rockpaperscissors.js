@@ -102,6 +102,6 @@ module.exports = {
         else await interaction.editReply(`${uWinner} :person_in_lotus_position: ${userChoice} :crossed_swords: ${oppChoice} :hippopotamus: ${oWinner}`).catch(console.error);
 		
         const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-        botLogChannel.send(`${interaction.member} used command ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+        botLogChannel.send(`${interaction.member} used ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
 	},
 };
