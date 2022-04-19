@@ -29,7 +29,13 @@ module.exports = {
         
         await interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
         
-        const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-        botLogChannel.send(`${interaction.member} used ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+        log(interaction);
     }
+}
+
+async function log(interaction)
+{
+    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
+    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}
+    https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
 }

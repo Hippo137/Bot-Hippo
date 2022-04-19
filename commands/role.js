@@ -21,10 +21,17 @@ module.exports = {
         let messageToWrite = `Members with the role: ${roleToSearch.name}\n`;
 
         await interaction.guild.members.fetch();
-        await interaction.guild.fetch().then(g => g.roles.fetch().then(r => r.find(role => role.id === roleToSearch.id).members.forEach(member => messageToWrite += `\n${member.user.tag}`)))
+        //await interaction.guild.fetch().then(g => g.roles.fetch().then(r => r.find(role => role.id === roleToSearch.id).members.forEach(member => messageToWrite += `\n${member.user.tag}`)))
+        await roleToSearch.members.forEach(member => messageToWrite += `\n${member.user.tag}`);
         await interaction.editReply(`\`${messageToWrite}\``);
         
-        const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-        botLogChannel.send(`${interaction.member} used ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+        log(interaction);
     }
-};
+}
+
+async function log(interaction)
+{
+    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
+    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}
+    https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+}

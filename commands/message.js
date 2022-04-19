@@ -47,8 +47,7 @@ module.exports = {
         }
         await interaction.editReply(`Wrote the following message to the table channels ${tableStart} to ${tableEnd}:\n\n${content}`).catch(console.error); //error handling in case the message was manually removed in the meantime
         
-        const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-        botLogChannel.send(`${interaction.member} used ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+        log(interaction);
     }
 }
 
@@ -60,4 +59,11 @@ async function writeDb(messages, id, newValue)
 async function readDb(messages, id)
 {
     return await messages.fetch(id).then(message => message.content);
+}
+
+async function log(interaction)
+{
+    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
+    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}
+    https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
 }

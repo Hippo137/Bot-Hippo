@@ -186,6 +186,8 @@ module.exports = {
                 .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
                 .replace(/{sTeamsize}/g, sTeamsize);
             
+            log(interaction);
+            
             return await interaction.editReply(botMessage);
         }
         
@@ -347,9 +349,8 @@ module.exports = {
         if (interaction.options.getSubcommand() === 'qualifier') await writeDb(messages, '905946389748543488', `${parseInt(sRound)+1}`);
         await interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed in the meantime
         
-        const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-        botLogChannel.send(`${interaction.member} used ${interaction.commandName}: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
-	},
+        log(interaction);
+	}
 }
 
 async function writeDb(messages, id, newValue)
@@ -360,4 +361,11 @@ async function writeDb(messages, id, newValue)
 async function readDb(messages, id)
 {
     return await messages.fetch(id).then(message => message.content);
+}
+
+async function log(interaction)
+{
+    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
+    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}
+    https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
 }
