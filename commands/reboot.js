@@ -10,14 +10,14 @@ module.exports = {
         
         await interaction.editReply(`Rebooting...`).catch(console.error); //error handling in case the message was manually removed in the meantime
         
-        log(interaction);
-        
+        await log(interaction);
         interaction.client.destroy();
+        
 	}
 }
 
 async function log(interaction)
 {
     const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+    await botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
 }
