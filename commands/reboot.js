@@ -2,18 +2,17 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with Pong!'),
+		.setName('reboot')
+		.setDescription('Logs out the bot'),
 	async execute(interaction) {
 		await interaction.deferReply();
-        let message = 'Pong!'
-        let random = Math.floor(Math.random()*1000);
-        if (random == 0) message = 'POOOOOOONNNGGGGGG!!!!!';
-        else if (random < 10) message = 'PONG!';
-        else if (random < 20) message = 'Ping?';
-        await interaction.editReply(message).catch(console.error);
+        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        
+        await interaction.editReply(`Rebooting...`).catch(console.error); //error handling in case the message was manually removed in the meantime
         
         log(interaction);
+        
+        interaction.client.destroy();
 	}
 }
 

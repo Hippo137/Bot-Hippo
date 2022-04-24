@@ -1,2 +1,2 @@
 **backuprefresh**
-Removes the Back Up Hero role for everyone.
+Removes the Back Up Hero role for everyone who has the role.

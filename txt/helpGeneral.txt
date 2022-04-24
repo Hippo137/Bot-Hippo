@@ -21,11 +21,14 @@ Writes a custom message to table channels.
 __ping__
 Returns a “pong”. Only there to check if the bot responds at all.
 
+__reboot__
+Reboots the bot.
+
 __rockpaperscissors__
 Play rock paper scissors against other players with this command.
 
 __role__
-Returns a list of all players with a given role. I wonder who will be the first to use it with @everyone and crash the bot.
+Returns a list of all players with a given role.
 
 __tablespam__
 Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.

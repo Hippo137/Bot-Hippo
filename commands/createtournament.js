@@ -10,7 +10,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('create')
-            .setDescription('New=default if omitted, Update=ignored if omitted, restart=reset round to 1')
+            .setDescription('New=default if omitted, Update=ignored if omitted, restart=only resets round to 1 and tables to 0')
             .setRequired(true)
             .addChoice('New', 'New')
             .addChoice('Update', 'Update')
@@ -232,321 +232,339 @@ module.exports = {
         //interaction.channel.send('0');
         if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
-        let messages = await interaction.client.channels.cache.get('862422544652828713').messages;
-        
-        const create = interaction.options.getString('create');
-        
-        if (create === 'Restart')
+        //let messages = await interaction.client.channels.cache.get('862422544652828713').messages;
+        let dbContent, dbMessage;
+        await interaction.client.channels.cache.get('862422544652828713').messages.fetch('966432536236539945').then(async dbMsg =>
         {
-            await writeDb(messages, '905946389748543488', '1'); //sRound
-            await writeDb(messages, '906261691610845195', '0'); //sTables
+            dbMessage = dbMsg;
+            dbContent = dbMessage.content;
             
-            log(interaction);
-            
-            return await interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
-        }
-        let sBox = interaction.options.getInteger('box');
-        let sBrackets = interaction.options.getInteger('brackets');
-        let sDayfinal = interaction.options.getString('dayfinal');
-        let sDice = interaction.options.getString('dice');
-        let sDiscard = interaction.options.getInteger('discard');
-        let sLoserfinal = interaction.options.getString('loserfinal');
-        let sMap = interaction.options.getString('map');
-        let sMode = interaction.options.getString('mode');
-        let sPlayers = interaction.options.getInteger('players');
-        let sPrize = interaction.options.getString('prize');
-        let sRandom = interaction.options.getString('random');
-        let sRobber = interaction.options.getString('friendlyrobber');
-        let sRound = interaction.options.getInteger('round');
-        let sRounds = interaction.options.getInteger('rounds');
-        let sSpeed = interaction.options.getString('speed');
-        let sTables = interaction.options.getInteger('tables');
-        let sTeamsize = interaction.options.getInteger('teamsize');
-        let sType = interaction.options.getString('type');
-        let sVp = interaction.options.getInteger('vp');
-        
-        let updateVP;
-        
-        if (create === 'New')
-        {
-            sBox = sBox ?? 1;
-            sBrackets = sBrackets ?? 4;
-            sDayfinal = sDayfinal ?? 'No';
-            sDice = sDice ?? 'Random Dice';
-            sDiscard = sDiscard ?? 7;
-            sLoserfinal = sLoserfinal ?? 'Yes';
-            sMap = sMap ?? 'Base';
-            sMode = sMode ?? 'Base';
-            sPlayers = sPlayers ?? 4;
-            sPrize = sPrize ?? 'Cash Ticket';
-            sRandom = sRandom ?? 'No';
-            sRobber = sRobber ?? 'No';
-            sRound = sRound ?? 1;
-            sRounds = sRounds ?? 3;
-            sSpeed = sSpeed ?? 'Fast';
-            sTables = sTables ?? 0;
-            sTeamsize = sTeamsize ?? 1;
-            sType = sType ?? 'Open';
-            //sVp = sVp;
-            updateVP = true;
-        }
-        else updateVP = sVp != null || sMode != null || sMap != null;
-        
-        if (sPlayers != null)
-        {
-            await writeDb(messages, '905945688976818187', `${sPlayers}`);
-            await writeDb(messages, '905945741216862229', `${sPlayers === 4 ? '+' : '-'}`);
-        }
-        else sPlayers = await readDb(messages, '905945688976818187');
-        
-        if (sTeamsize != null) await writeDb(messages, '929505232155734056', `${sTeamsize}`);
-        else sTeamsize = await readDb(messages, '929505232155734056');
-        
-        if (sPlayers % sTeamsize != 0)
-        {
-            await writeDb(messages, '906253957180051506', 'True');
-            return await interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
-        }
-        if (sPlayers <= sTeamsize)
-        {
-            await writeDb(messages, '906253957180051506', 'True');
-            return await interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
-        }
-        
-        if (sBox != null) await writeDb(messages, '905983214122840125', `${sBox}`);
-        else sBox = await readDb(messages, '905983214122840125');
-        
-        if (sBrackets != null) await writeDb(messages, '906512009649061888', `${sBrackets}`);
-        else sBrackets = await readDb(messages, '906512009649061888');
-        
-        if (sDayfinal != null) await writeDb(messages, '906247072406175795', `${sDayfinal}`);
-        else sDayfinal = await readDb(messages, '906247072406175795');
-        
-        if (sDice != null)
-        {
-            await writeDb(messages, '905945929490763797', `${sDice}`);
-            await writeDb(messages, '905945972914397245', `${sDice === 'Random Dice' ? '+' : '-'}`);
-        }
-        else sDice = await readDb(messages, '905945929490763797');
-        
-        if (sDiscard != null)
-        {
-            await writeDb(messages, '906250774105960448', `${sDiscard}`);
-            await writeDb(messages, '906250873414492170', `${sDiscard === 7 ? '+' : '-'}`);
-        }
-        else sDiscard = await readDb(messages, '906250774105960448');
-        
-        if (sLoserfinal != null) await writeDb(messages, '906512049096503296', `${sLoserfinal}`);
-        else sLoserfinal = await readDb(messages, '906512049096503296');
-        
-        if (sMap != null)
-        {
-            await writeDb(messages, '905945543115669574', sMap);
-            await writeDb(messages, '905945613114413076', sMap === 'Base' ? '+' : '-');
-        }
-        else sMap = await readDb(messages, '905945543115669574');
-        
-        if (sMode != null)
-        {
-            await writeDb(messages, '905945387360202823', sMode);
-            await writeDb(messages, '905945487390171146', sMode === 'Base' ? '+' : '-');
-        }
-        else sMode = await readDb(messages, '905945387360202823');
-        
-        if (sPrize != null) await writeDb(messages, '906247110666625115', `${sPrize}`);
-        else sPrize = await readDb(messages, '906247110666625115');
-        
-        if (sRandom != null) await writeDb(messages, '906260752300666911', `${sRandom}`);
-        else sRandom = await readDb(messages, '906260752300666911');
-        
-        if (sRobber != null)
-        {
-            await writeDb(messages, '905946115566895176', `${sRobber}`);
-            await writeDb(messages, '905946151008735293', `${sRobber === 'No' ? '+' : '-'}`);
-        }
-        else sRobber = await readDb(messages, '905946115566895176');
-        
-        if (sRound != null) await writeDb(messages, '905946389748543488', `${sRound}`);
-        else sRound = await readDb(messages, '905946389748543488');
-        
-        if (sRounds != null) await writeDb(messages, '905946342617141308', `${sRounds}`);
-        else sRounds = await readDb(messages, '905946342617141308');
-        
-        if (sSpeed != null)
-        {
-            await writeDb(messages, '905945792567722046', `${sSpeed}`);
-            await writeDb(messages, '905945832971444244', `${sSpeed === 'Fast' ? '+' : '-'}`);
-        }
-        else sSpeed = await readDb(messages, '905945792567722046');
-        
-        if (sTables != null) await writeDb(messages, '906261691610845195', `${sTables}`);
-        else sTables = await readDb(messages, '906261691610845195');
-        
-        if (sType != null) await writeDb(messages, '905945127900573747', sType);
-        else sType = await readDb(messages, '905945127900573747');
-        
-        let zVp;
-        if (updateVP)
-        {
-            switch (sMode)
+            const create = interaction.options.getString('create');
+
+            if (create === 'Restart')
             {
-                case 'Base':
-                switch (sMap)
-                {
-                    case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
-                    if (!sVp) sVp = 10;
-                    zVp = sVp === 10 ? '+' : '-';
-                    break;
-                }
-                break;
+                dbContent = writeDb(dbContent, 'sRound', '1'); //sRound
+                dbContent = writeDb(dbContent, 'sTables', '0'); //sTables
 
-                case 'Seafarers':
-                switch (sMap)
-                {
-                    case 'Heading for New Shores':
-                    if (!sVp) sVp = 14;
-                    zVp = sVp === 14 ? '+' : '-';
-                    break;
+                //log(interaction);
+                return await interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
+            }
+            let sBox = interaction.options.getInteger('box');
+            let sBrackets = interaction.options.getInteger('brackets');
+            let sDayfinal = interaction.options.getString('dayfinal');
+            let sDice = interaction.options.getString('dice');
+            let sDiscard = interaction.options.getInteger('discard');
+            let sLoserfinals = interaction.options.getString('loserfinal');
+            let sMap = interaction.options.getString('map');
+            let sMode = interaction.options.getString('mode');
+            let sPlayers = interaction.options.getInteger('players');
+            let sPrize = interaction.options.getString('prize');
+            let sRandom = interaction.options.getString('random');
+            let sRobber = interaction.options.getString('friendlyrobber');
+            let sRound = interaction.options.getInteger('round');
+            let sRounds = interaction.options.getInteger('rounds');
+            let sSpeed = interaction.options.getString('speed');
+            let sTables = interaction.options.getInteger('tables');
+            let sTeamsize = interaction.options.getInteger('teamsize');
+            let sType = interaction.options.getString('type');
+            let sVp = interaction.options.getInteger('vp');
 
-                    case 'Four Islands':
-                    if (!sVp) sVp = 13;
-                    zVp = sVp === 13 ? '+' : '-';
-                    break;
+            let updateVP;
 
-                    case 'Fog Islands':
-                    if (!sVp) sVp = 12;
-                    zVp = sVp === 12 ? '+' : '-';
-                    break;
+            if (create === 'New')
+            {
+                sBox = sBox ?? 1;
+                sBrackets = sBrackets ?? 4;
+                sDayfinal = sDayfinal ?? 'No';
+                sDice = sDice ?? 'Random Dice';
+                sDiscard = sDiscard ?? 7;
+                sLoserfinals = sLoserfinals ?? 'No';
+                sMap = sMap ?? 'Base';
+                sMode = sMode ?? 'Base';
+                sPlayers = sPlayers ?? 4;
+                sPrize = sPrize ?? 'Cash Ticket';
+                sRandom = sRandom ?? 'No';
+                sRobber = sRobber ?? 'No';
+                sRound = sRound ?? 1;
+                sRounds = sRounds ?? 3;
+                sSpeed = sSpeed ?? 'Fast';
+                sTables = sTables ?? 0;
+                sTeamsize = sTeamsize ?? 1;
+                sType = sType ?? 'Open';
+                //sVp = sVp;
+                updateVP = true;
+            }
+            else updateVP = sVp != null || sMode != null || sMap != null;
 
-                    case 'Through the Desert':
-                    if (!sVp) sVp = 14;
-                    zVp = sVp === 14 ? '+' : '-';
-                    break;
+            if (sPlayers != null)
+            {
+                dbContent = writeDb(dbContent, 'sPlayers', `${sPlayers}`);
+                dbContent = writeDb(dbContent, 'zPlayers', `${sPlayers === 4 ? '+' : '-'}`);
+            }
+            else sPlayers = readDb(dbContent, 'sPlayers');
 
-                    case 'Earth':
-                    if (!sVp) sVp = 13;
-                    zVp = sVp === 13 ? '+' : '-';
-                    break;
-                }
-                break;
+            if (sTeamsize != null) dbContent = writeDb(dbContent, 'sTeamsize', `${sTeamsize}`);
+            else sTeamsize = readDb(dbContent, 'sTeamsize');
 
-                case 'Cities & Knights':
-                switch (sMap)
-                {
-                    case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
-                    if (!sVp) sVp = 13;
-                    zVp = sVp === 13 ? '+' : '-';
-                    break;
-                }
-                break;
-
-                case 'Seafarers + Cities & Knights':
-                switch (sMap)
-                {
-                    case 'Heading for New Shores':
-                    if (!sVp) sVp = 16;
-                    zVp = sVp === 16 ? '+' : '-';
-                    break;
-
-                    case 'Four Islands':
-                    if (!sVp) sVp = 15;
-                    zVp = sVp === 15 ? '+' : '-';
-                    break;
-
-                    case 'Fog Islands':
-                    if (!sVp) sVp = 14;
-                    zVp = sVp === 14 ? '+' : '-';
-                    break;
-
-                    case 'Through the Desert':
-                    if (!sVp) sVp = 16;
-                    zVp = sVp === 16 ? '+' : '-';
-                    break;
-
-                    case 'Earth':
-                    if (!sVp) sVp = 16;
-                    zVp = sVp === 16 ? '+' : '-';
-                    break;
-                }
-                break;
+            if (sPlayers % sTeamsize != 0)
+            {
+                dbContent = writeDb(dbContent, 'corrupted', 'True');
+                return await interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
+            }
+            if (sPlayers <= sTeamsize)
+            {
+                dbContent = writeDb(dbContent, 'corrupted', 'True');
+                return await interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
             }
 
-            if (!zVp)
+            if (sBox != null) dbContent = writeDb(dbContent, 'sBox', `${sBox}`);
+            else sBox = readDb(dbContent, 'sBox');
+
+            if (sBrackets != null) dbContent = writeDb(dbContent, 'sBrackets', `${sBrackets}`);
+            else sBrackets = readDb(dbContent, 'sBrackets');
+
+            if (sDayfinal != null) dbContent = writeDb(dbContent, 'sDayfinal', `${sDayfinal}`);
+            else sDayfinal = readDb(dbContent, 'sDayfinal');
+
+            if (sDice != null)
             {
-                await writeDb(messages, '906253957180051506', 'True');
-                return await interaction.editReply(`The map ‘${map}’ isn’t available in the game mode ‘${mode}’!`).catch(console.error);
+                dbContent = writeDb(dbContent, 'sDice', `${sDice}`);
+                dbContent = writeDb(dbContent, 'zDice', `${sDice === 'Random Dice' ? '+' : '-'}`);
             }
-            await writeDb(messages, '905946023166353420', `${sVp}`);
-            await writeDb(messages, '905946057194766366', `${zVp}`);
-            await writeDb(messages, '906253957180051506', 'False');
-        }
-        else
-        {
-            sVp = await readDb(messages, '905946023166353420');
-            zVp = await readDb(messages, '905946057194766366');
-            await writeDb(messages, '906253957180051506', 'False');
-        }
-        
-        let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-            .replace(/{zType}/g, sType==='Open'?'+':'-')
-            .replace(/{sType}/g, sType)
-            .replace(/{zTables}/g, sTables==0?'+':'-')
-            .replace(/{sTables}/g, sTables)
-            .replace(/{zRound}/g, sRound==1?'+':'-')
-            .replace(/{sRound}/g, sRound)
-            .replace(/{zRounds}/g, sRounds==3?'+':'-')
-            .replace(/{sRounds}/g, sRounds)
-            .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
-            .replace(/{sDayfinal}/g, sDayfinal)
-            .replace(/{zPrize}/g, sPrize==='Cash Ticket'?'+':'-')
-            .replace(/{sPrize}/g, sPrize)
-            .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
-            .replace(/{sBrackets}/g, sBrackets)
-            .replace(/{zLoserfinal}/g, sLoserfinal=='Yes'?'+':'-')
-            .replace(/{sLoserfinal}/g, sLoserfinal)
-            .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
-            .replace(/{sTeamsize}/g, sTeamsize)
-            .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
-            .replace(/{sRandom}/g, sRandom)
-            .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
-            .replace(/{sRobber}/g, sRobber)
-            .replace(/{zMode}/g, sMode==='Base'?'+':'-')
-            .replace(/{sMode}/g, sMode)
-            .replace(/{zMap}/g, sMap==='Base'?'+':'-')
-            .replace(/{sMap}/g, sMap)
-            .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
-            .replace(/{sDice}/g, sDice)
-            .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')
-            .replace(/{sSpeed}/g, sSpeed)
-            .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
-            .replace(/{sPlayers}/g, sPlayers)
-            .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
-            .replace(/{sDiscard}/g, sDiscard)
-            .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp)
-            .replace(/{zWinner}/g, sTeamsize===1?'+':'-')
-            .replace(/{sTeamsize}/g, sTeamsize);
-        
-        //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
-        await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
-        
+            else sDice = readDb(dbContent, 'sDice');
+
+            if (sDiscard != null)
+            {
+                dbContent = writeDb(dbContent, 'sDiscard', `${sDiscard}`);
+                dbContent = writeDb(dbContent, 'zDiscard', `${sDiscard === 7 ? '+' : '-'}`);
+            }
+            else sDiscard = readDb(dbContent, 'sDiscard');
+
+            if (sLoserfinals != null) dbContent = writeDb(dbContent, 'sLoserfinals', `${sLoserfinals}`);
+            else sLoserfinals = readDb(dbContent, 'sLoserfinals');
+
+            if (sMap != null)
+            {
+                dbContent = writeDb(dbContent, 'sMap', sMap);
+                dbContent = writeDb(dbContent, 'zMap', sMap === 'Base' ? '+' : '-');
+            }
+            else sMap = readDb(dbContent, 'sMap');
+
+            if (sMode != null)
+            {
+                dbContent = writeDb(dbContent, 'sMode', sMode);
+                dbContent = writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
+            }
+            else sMode = readDb(dbContent, 'sMode');
+
+            if (sPrize != null) dbContent = writeDb(dbContent, 'sPrize', `${sPrize}`);
+            else sPrize = readDb(dbContent, 'sPrize');
+
+            if (sRandom != null) dbContent = writeDb(dbContent, 'sRandom', `${sRandom}`);
+            else sRandom = readDb(dbContent, 'sRandom');
+
+            if (sRobber != null)
+            {
+                dbContent = writeDb(dbContent, 'sRobber', `${sRobber}`);
+                dbContent = writeDb(dbContent, 'zRobber', `${sRobber === 'No' ? '+' : '-'}`);
+            }
+            else sRobber = readDb(dbContent, 'sRobber');
+
+            if (sRound != null) dbContent = writeDb(dbContent, 'sRound', `${sRound}`);
+            else sRound = readDb(dbContent, 'sRound');
+
+            if (sRounds != null) dbContent = writeDb(dbContent, 'sRounds', `${sRounds}`);
+            else sRounds = readDb(dbContent, 'sRounds');
+
+            if (sSpeed != null)
+            {
+                dbContent = writeDb(dbContent, 'sSpeed', `${sSpeed}`);
+                dbContent = writeDb(dbContent, 'zSpeed', `${sSpeed === 'Fast' ? '+' : '-'}`);
+            }
+            else sSpeed = readDb(dbContent, 'sSpeed');
+
+            if (sTables != null) dbContent = writeDb(dbContent, 'sTables', `${sTables}`);
+            else sTables = readDb(dbContent, 'sTables');
+
+            if (sType != null) dbContent = writeDb(dbContent, 'sType', sType);
+            else sType = readDb(dbContent, 'sType');
+
+            let zVp;
+            if (updateVP)
+            {
+                switch (sMode)
+                {
+                    case 'Base':
+                    switch (sMap)
+                    {
+                        case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
+                        if (!sVp) sVp = 10;
+                        zVp = sVp === 10 ? '+' : '-';
+                        break;
+                    }
+                    break;
+
+                    case 'Seafarers':
+                    switch (sMap)
+                    {
+                        case 'Heading for New Shores':
+                        if (!sVp) sVp = 14;
+                        zVp = sVp === 14 ? '+' : '-';
+                        break;
+
+                        case 'Four Islands':
+                        if (!sVp) sVp = 13;
+                        zVp = sVp === 13 ? '+' : '-';
+                        break;
+
+                        case 'Fog Islands':
+                        if (!sVp) sVp = 12;
+                        zVp = sVp === 12 ? '+' : '-';
+                        break;
+
+                        case 'Through the Desert':
+                        if (!sVp) sVp = 14;
+                        zVp = sVp === 14 ? '+' : '-';
+                        break;
+
+                        case 'Earth':
+                        if (!sVp) sVp = 13;
+                        zVp = sVp === 13 ? '+' : '-';
+                        break;
+                    }
+                    break;
+
+                    case 'Cities & Knights':
+                    switch (sMap)
+                    {
+                        case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
+                        if (!sVp) sVp = 13;
+                        zVp = sVp === 13 ? '+' : '-';
+                        break;
+                    }
+                    break;
+
+                    case 'Seafarers + Cities & Knights':
+                    switch (sMap)
+                    {
+                        case 'Heading for New Shores':
+                        if (!sVp) sVp = 16;
+                        zVp = sVp === 16 ? '+' : '-';
+                        break;
+
+                        case 'Four Islands':
+                        if (!sVp) sVp = 15;
+                        zVp = sVp === 15 ? '+' : '-';
+                        break;
+
+                        case 'Fog Islands':
+                        if (!sVp) sVp = 14;
+                        zVp = sVp === 14 ? '+' : '-';
+                        break;
+
+                        case 'Through the Desert':
+                        if (!sVp) sVp = 16;
+                        zVp = sVp === 16 ? '+' : '-';
+                        break;
+
+                        case 'Earth':
+                        if (!sVp) sVp = 16;
+                        zVp = sVp === 16 ? '+' : '-';
+                        break;
+                    }
+                    break;
+                }
+
+                if (!zVp)
+                {
+                    dbContent = writeDb(dbContent, 'corrupted', 'True');
+                    return await interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
+                }
+                dbContent = writeDb(dbContent, 'sVp', `${sVp}`);
+                dbContent = writeDb(dbContent, 'zVp', `${zVp}`);
+                dbContent = writeDb(dbContent, 'corrupted', 'False');
+            }
+            else
+            {
+                sVp = readDb(dbContent, 'sVp');
+                zVp = readDb(dbContent, 'zVp');
+                if (readDb(dbContent, 'corrupted') == 'True') return await interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
+            }
+
+            let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
+                .replace(/{zType}/g, sType==='Open'?'+':'-')
+                .replace(/{sType}/g, sType)
+                .replace(/{zTables}/g, sTables==0?'+':'-')
+                .replace(/{sTables}/g, sTables)
+                .replace(/{zRound}/g, sRound==1?'+':'-')
+                .replace(/{sRound}/g, sRound)
+                .replace(/{zRounds}/g, sRounds==3?'+':'-')
+                .replace(/{sRounds}/g, sRounds)
+                .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
+                .replace(/{sDayfinal}/g, sDayfinal)
+                .replace(/{zPrize}/g, sPrize==='Cash Ticket'?'+':'-')
+                .replace(/{sPrize}/g, sPrize)
+                .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
+                .replace(/{sBrackets}/g, sBrackets)
+                .replace(/{zLoserfinals}/g, sLoserfinals=='No'?'+':'-')
+                .replace(/{sLoserfinals}/g, sLoserfinals)
+                .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
+                .replace(/{sTeamsize}/g, sTeamsize)
+                .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
+                .replace(/{sRandom}/g, sRandom)
+                .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
+                .replace(/{sRobber}/g, sRobber)
+                .replace(/{zMode}/g, sMode==='Base'?'+':'-')
+                .replace(/{sMode}/g, sMode)
+                .replace(/{zMap}/g, sMap==='Base'?'+':'-')
+                .replace(/{sMap}/g, sMap)
+                .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
+                .replace(/{sDice}/g, sDice)
+                .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')
+                .replace(/{sSpeed}/g, sSpeed)
+                .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
+                .replace(/{sPlayers}/g, sPlayers)
+                .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
+                .replace(/{sDiscard}/g, sDiscard)
+                .replace(/{zVp}/g, zVp)
+                .replace(/{sVp}/g, sVp)
+                .replace(/{zWinner}/g, sTeamsize===1?'+':'-')
+                .replace(/{sTeamsize}/g, sTeamsize)
+                .replace(/{zBox}/g, sBox==1?'+':'-')
+                .replace(/{sBox}/g, sBox);
+
+            //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
+            await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
+        });
+        dbMessage.edit(dbContent).catch(console.error);
         log(interaction);
 	}
 }
 
-async function writeDb(messages, id, newValue)
+function readDb(message, type)
 {
-    await messages.fetch(id).then(message => message.edit(newValue));
+    let title = `\n${type}:`;
+    let index = message.indexOf(title);
+    if (index == -1) return console.log(`Type ${type} not found in the database`);
+    index += title.length + 1;
+    let endIndex = message.indexOf(`\n`, index);
+    if (endIndex == -1) return message.substring(index, message.length);
+    else return message.substring(index, endIndex);
 }
 
-async function readDb(messages, id)
+function writeDb(message, type, newValue)
 {
-    return await messages.fetch(id).then(message => message.content);
+    let title = `\n${type}:`;
+    let index = message.indexOf(title);
+    if (index == -1) return console.log(`Type ${type} not found in the database`);
+    index += title.length + 1;
+    let endIndex = message.indexOf(`\n`, index);
+    if (endIndex == -1) return `${message.substring(0, index)}${newValue}`;
+    else return `${message.substring(0, index)}${newValue}${message.substring(endIndex, message.length)}`;
 }
 
 async function log(interaction)
 {
     const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}
-    https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
 }

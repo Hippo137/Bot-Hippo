@@ -1,0 +1,2 @@
+**reboot**
+Logs out the bot. If it wasn’t only running locally, it will turn back online a few moments later.

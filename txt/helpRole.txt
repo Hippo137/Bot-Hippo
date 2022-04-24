@@ -1,0 +1,2 @@
+**role**
+Returns a list of all players with a given role. I wonder who will be the first to use it with @everyone and crash the bot.
