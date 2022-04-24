@@ -11,7 +11,7 @@ module.exports = {
         await interaction.editReply(`Rebooting...`).catch(console.error); //error handling in case the message was manually removed in the meantime
         
         await log(interaction);
-        interaction.client.destroy();
+        //interaction.client.destroy();
         
 	}
 }
