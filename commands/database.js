@@ -6,6 +6,7 @@ module.exports = {
 		.setDescription('test'),
 	async execute(interaction) {
 		await interaction.deferReply();
+        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
         dbGet(interaction, 'sType');
         dbSet(interaction, 'sType', 'Cash');
@@ -56,7 +57,7 @@ async function log(interaction)
 
 async function dbGet(interaction, type)
 {
-    let message = await interaction.client.channels.cache.get('862422544652828713').messages.fetch('966432536236539945').then(msg => msg.content);
+    let message = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(msg => msg.content);
     
     let title = `\n${type}:`;
     let index = message.indexOf(title);
@@ -71,7 +72,7 @@ async function dbGet(interaction, type)
 
 async function dbSet(interaction, type, newValue)
 {
-    await interaction.client.channels.cache.get('862422544652828713').messages.fetch('966432536236539945').then(msg =>
+    await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(msg =>
     {
         let message = msg.content;
         let title = `\n${type}:`;
@@ -86,5 +87,5 @@ async function dbSet(interaction, type, newValue)
         msg.edit(message);
     });
 }
-    //await m.fetch('966432536236539945').then(msg => msg.edit(message));
+    //await m.fetch(process.env.DATABASE).then(msg => msg.edit(message));
     //console.log(`${type}: ${message}`);

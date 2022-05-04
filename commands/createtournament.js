@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -234,7 +235,7 @@ module.exports = {
         
         //let messages = await interaction.client.channels.cache.get('862422544652828713').messages;
         let dbContent, dbMessage;
-        await interaction.client.channels.cache.get('862422544652828713').messages.fetch('966432536236539945').then(async dbMsg =>
+        await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>
         {
             dbMessage = dbMsg;
             dbContent = dbMessage.content;
