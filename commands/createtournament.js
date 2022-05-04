@@ -385,7 +385,7 @@ module.exports = {
 
             if (sTables != null) dbContent = writeDb(dbContent, 'sTables', `${sTables}`);
             else sTables = readDb(dbContent, 'sTables');
-
+            
             if (sType != null) dbContent = writeDb(dbContent, 'sType', sType);
             else sType = readDb(dbContent, 'sType');
 

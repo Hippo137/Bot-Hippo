@@ -7,11 +7,44 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply();
         
-        //dbGet(interaction, 'sTeamsize');
-        //dbSet(interaction, 'sBrackets', 2);
-        dbSet(interaction, 'sRound', 1);
+        dbGet(interaction, 'sType');
+        dbSet(interaction, 'sType', 'Cash');
+        //dbSet(interaction, 'sRound', 1);
         
         interaction.editReply('Done');
+        
+        
+        interaction.editReply(`Database
+
+
+sType: Cash
+sMode: Base
+zMode: +
+sMap: Base
+zMap: +
+sPlayers: 4
+zPlayers: +
+sSpeed: Normal
+zSpeed: -
+sDice: Random Dice
+zDice: +
+sVp: 10
+zVp: +
+sRobber: No
+zRobber: +
+sRounds: 3
+sRound: 4
+sBox: 1
+sDayfinal: No
+sPrize: Cash Ticket
+sDiscard: 7
+zDiscard: +
+corrupted: False
+sRandom: No
+sTables: 10
+sBrackets: 1
+sLoserfinals: Yes
+sTeamsize: 1`);
 	}
 }
 
