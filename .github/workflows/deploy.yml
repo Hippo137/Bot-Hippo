@@ -19,7 +19,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "."
-        target: "/your/website/directory"
+        target: "/app/Bot-Hippo"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
