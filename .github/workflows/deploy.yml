@@ -1,6 +1,8 @@
 name: Deploy
 
-on: [push]
+on:
+  push:
+    branches: main
 
 jobs:
   build:
@@ -28,4 +30,4 @@ jobs:
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
-        script: sudo /bin/systemctl restart Hippo-Bot.service
+        script: sudo /bin/systemctl restart hippobot.service
