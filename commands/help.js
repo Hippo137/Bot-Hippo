@@ -31,7 +31,7 @@ module.exports = {
         
         await interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
         
-        //log(interaction);
+        log(interaction);
     }
 }
 
