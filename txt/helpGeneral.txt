@@ -15,6 +15,9 @@ Sets or changes the settings of the tournament. The settings are used by the *ta
 __help__
 Shows a list of all available commands or detailed information about a single command.
 
+__facts__
+Returns a random fact.
+
 __message__
 Writes a custom message to table channels.
 
