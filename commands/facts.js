@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-let repeats = new Array(10) //10 consecutive facts must be different from each other
+let repeats = new Array(15) //15 consecutive facts must be different from each other
 
 module.exports = {
 	data: new SlashCommandBuilder()
