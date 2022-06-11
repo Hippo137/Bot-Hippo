@@ -2,8 +2,12 @@ On average, Mercury is the closest planet to the Earth.
 In our solar system, the Earth has the highest density.
 The sun contains over 99.8% of the mass of the solar system.
 Jupiter weigths almost two and half times as much as all other planets in the solar system combined.
+Saturn has the most obvious rings, but other planets in our solar system have rings, too.
+There are no seasons on Venus.
+Mercury and Venus are the only planets in our solar system without moons.
 The biggest known mountain in the solar system is on Mars.
-Pluto was discovered in 1930 and the ninth planet in our solar system. In 2006, the term “planet” was formally defined and Pluto was no longer considered a planet. Since then, it’s a dwarf planet.
+Uranus is the only planet in our solar system which is named after a Greek god.
+Neptune is the only planet in our solar system which was discovered after a mathematical prediction instead of a systematic search.
 The International Space Station weights around 450 tons, circles around the Earth with an altitude of around 400 km with a speed of 28000 km/h.
 The Hundred Years’ War lasted 116 years.
 Each year, there are four months with 30 days.
@@ -27,3 +31,5 @@ There are five platonic solids.
 Chimborazo’s summit is the point on the Earth’s surface farthest away from the center. It’s a mountain located in Ecuador.
 Iceland is the biggest volcanic island on Earth.
 Yuri Gagarin was the first human in space.
+In German, “umfahren” is the opposite of “umfahren”.
+The launch code for US nuclear weapons was 00000000 for two decades.

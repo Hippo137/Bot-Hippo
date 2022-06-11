@@ -87,7 +87,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('loserfinal')
-            .setDescription('adds Loserfinals to the final round – defaults to YES if omitted')
+            .setDescription('adds Loserfinals to the final round – defaults to NO in BASE and YES in CASH if omitted')
             .setRequired(false)
             .addChoice('Yes', 'Yes')
             .addChoice('No', 'No')
@@ -160,7 +160,7 @@ module.exports = {
         .addIntegerOption
         (option =>
             option.setName('rounds')
-            .setDescription('total number of rounds – defaults to 3 if omitted')
+            .setDescription('total number of rounds in the qualifier – defaults to 3 in BASE/SF and 2 in CK/CKSF if omitted')
             .setRequired(false)
             .addChoice('1', 1)
             .addChoice('2', 2)
@@ -182,7 +182,7 @@ module.exports = {
         .addIntegerOption
         (option =>
             option.setName('tables')
-            .setDescription('Number of tables')
+            .setDescription('Number of tables – defaults to 0 if omitted')
             .setRequired(false)
         )
         .addIntegerOption
@@ -279,7 +279,7 @@ module.exports = {
                 sDayfinal = sDayfinal ?? 'No';
                 sDice = sDice ?? 'Random Dice';
                 sDiscard = sDiscard ?? 7;
-                sLoserfinals = sLoserfinals ?? 'No';
+                //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
                 sMap = sMap ?? 'Base';
                 sMode = sMode ?? 'Base';
                 sPlayers = sPlayers ?? 4;
@@ -287,12 +287,16 @@ module.exports = {
                 sRandom = sRandom ?? 'No';
                 sRobber = sRobber ?? 'No';
                 sRound = sRound ?? 1;
-                sRounds = sRounds ?? 3;
+                //sRounds = sRounds ?? 3; //at the bottom because it depends on the sMode
                 sSpeed = sSpeed ?? 'Fast';
                 sTables = sTables ?? 0;
                 sTeamsize = sTeamsize ?? 1;
                 sType = sType ?? 'Open';
                 //sVp = sVp;
+                
+                sLoserfinals = sLoserfinals ?? sType === 'Cash' ? 'Yes' : 'No';
+                sRounds = sRounds ?? (sMode === 'Cities & Knights' || sMode === 'Seafarers + Cities & Knights' ? 2 : 3);
+                
                 updateVP = true;
             }
             else updateVP = sVp != null || sMode != null || sMap != null;
@@ -499,7 +503,7 @@ module.exports = {
                 .replace(/{sTables}/g, sTables)
                 .replace(/{zRound}/g, sRound==1?'+':'-')
                 .replace(/{sRound}/g, sRound)
-                .replace(/{zRounds}/g, sRounds==3?'+':'-')
+                .replace(/{zRounds}/g, (sRounds==3)!=(sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights')?'+':'-')
                 .replace(/{sRounds}/g, sRounds)
                 .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
                 .replace(/{sDayfinal}/g, sDayfinal)
@@ -507,7 +511,7 @@ module.exports = {
                 .replace(/{sPrize}/g, sPrize)
                 .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
                 .replace(/{sBrackets}/g, sBrackets)
-                .replace(/{zLoserfinals}/g, sLoserfinals=='No'?'+':'-')
+                .replace(/{zLoserfinals}/g, (sLoserfinals==='No')!=(sType==='Cash')?'+':'-')
                 .replace(/{sLoserfinals}/g, sLoserfinals)
                 .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
                 .replace(/{sTeamsize}/g, sTeamsize)

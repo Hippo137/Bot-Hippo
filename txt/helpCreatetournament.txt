@@ -1,6 +1,6 @@
 **createtournament**
 This command can be used to set or change the settings of the tournament. Optional parameters can be relevant for qualifiers (Q, X), finals (F, X) or both (QF, X). The X is the default value.
-The settings are used by the *tablespam* commands afterwards.
+The settings are used by the *tablespam* commands.
 
 *Required*
 __create__
@@ -11,7 +11,7 @@ __create__
 __box__ (QF, 1) “Best of X”.
     Number of matches per round played against the same opponents.
 __brackets__ (F, 4)
-    Number of brackets. (brackets=players²)
+    Number of brackets.
 __dayfinal__ (Q, No)
     Adds an additional paragraph in the last round.
 __dice__ (QF, Random Dice)
@@ -20,7 +20,7 @@ __discard__ (QF, 7)
     Colonist setting: Card Discard Limit.
 __friendlyrobber__ (QF, No)
     Colonist setting: Friendly Robber.
-__loserfinal__ (F, Yes)
+__loserfinal__ (F, No for Open, Yes for Cash)
     Adds tables in the final for the losers of the semifinal.
 __map__ (QF, Base)
     Colonist setting: Map.
@@ -34,7 +34,7 @@ __random__ (Q, No)
     Adds random letters to the end of every Colonist link.
 __round__ (Q, 1)
     The current round number. Is updated by *tablespam*.
-__rounds__ (Q, 3)
+__rounds__ (Q, 3 for Base/SF, 2 for CK/CKSF)
     The total number of rounds in the qualifier.
 __speed__ (QF, Fast)
     Colonist Setting: Game Speed
