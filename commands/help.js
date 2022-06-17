@@ -9,25 +9,26 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('topic')
-            .setDescription('Choose what you need help with. Omitting this gives a general overview over the available commands.')
+            .setDescription('Command to get help for. Omitting this gives a general overview over all commands. * = CC-Team only')
             .setRequired(false)
-            .addChoice('backuprefresh', 'Backuprefresh')
-            .addChoice('clear', 'Clear')
-            .addChoice('createrole', 'Createrole')
-            .addChoice('createtournament', 'Createtournament')
+            .addChoice('backuprefresh*', 'Backuprefresh')
+            .addChoice('clear*', 'Clear')
+            .addChoice('createtournament*', 'Createtournament')
             .addChoice('facts', 'Facts')
             .addChoice('help', 'Help')
             .addChoice('ping', 'Ping')
-            .addChoice('reboot', 'Reboot')
+            .addChoice('reboot*', 'Reboot')
             .addChoice('rockpaperscissors', 'Rockpaperscissors')
-            .addChoice('role', 'Role')
-            .addChoice('tablespam', 'Tablespam')
+            .addChoice('role*', 'Role')
+            .addChoice('roleadd*', 'Roleadd')
+            .addChoice('rolecolor*', 'Rolecolor')
+            .addChoice('tablespam*', 'Tablespam')
         ),
             
 	async execute(interaction)
     {
         await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command. Other than rockpaperscissors (RPS), you can’t do anything with this bot. And the RPS command is pretty straightforward I guess.').catch(console.error);
+        //if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command. Other than rockpaperscissors (RPS), you can’t do anything with this bot. And the RPS command is pretty straightforward I guess.').catch(console.error);
         
         await interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
         

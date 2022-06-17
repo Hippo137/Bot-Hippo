@@ -1,2 +1,2 @@
-**Facts**
+**facts**
 Returns a random fact. More facts can be added any time. Stay tuned.

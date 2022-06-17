@@ -1,1 +1,0 @@
-Adds a new Discord role to the correct position. Otherwise, you need to move it from the bottom all the way to the top manually. The position of the new role is one below the role “Hippo’s Bot”.

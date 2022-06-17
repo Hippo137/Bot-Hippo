@@ -1,0 +1,6 @@
+**roleadd**
+Adds a new Discord role with a random color to the correct position. Otherwise, you need to move it from the bottom all the way to the top manually. The position of the new role is one below the role “Back Up Hero”.
+
+*Optional*
+__name__ (new role)
+    Specifies the name of the new role.

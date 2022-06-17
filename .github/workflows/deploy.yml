@@ -33,4 +33,5 @@ jobs:
         script: |
             sudo /bin/systemctl restart hippobot.service
             cd /app/Bot-Hippo
-            echo "@Hippo, add any other commands you need here"
+            node deploy-commands-w9.js
+            node deploy-commands-cc.js

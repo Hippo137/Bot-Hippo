@@ -14,7 +14,7 @@ Each year, there are four months with 30 days.
 The closest living relatives of Hippos are Whales.
 Hippopotamus means River Horse.
 For each human on Earth, there are around one million ants.
-Male ants only exist for reproduction in the nuptial flight. Ant queens keep the sperms in their body for their entire life and use them to inseminate their eggs.
+Male ants only exist for reproduction in the nuptial flight. Ant queens keep the sperms in their body for their entire life and use them to inseminate their eggs one by one.
 The fastest ants run at around 1 m/s.
 A Jellyfish consists of more than 98% water.
 10 humans are killed by sharks every year. 100 million sharks are killed by humans every year. Humans often cut off the fins of living sharks and throw them back into the water.
@@ -33,3 +33,9 @@ Iceland is the biggest volcanic island on Earth.
 Yuri Gagarin was the first human in space.
 In German, “umfahren” is the opposite of “umfahren”.
 The launch code for US nuclear weapons was 00000000 for two decades.
+Hippo Bot saw the light of day in May 2021.
+Parthenogenesis is a form of asexual reproduction. Some plants and female animals of a big variety of species are able to reproduce this way. Some species only have females.
+The species of the genus Magicicada are cicadas who have life cycles of 13 or 17 years. Those prime numbers aren’t random. Predators have shorter life cycles and can’t eat all the masses of cicadas which suddenly appear once every so many years.
+In Texas Hold ’em, Ace+Ace is the best starting hand while 7+2 from different suites is the worst. There are effectively 169 different possible starting hands.
+CFOP is the most common method to solve a Rubik’s Cube. CFOP stands for the four main steps to solve the cube using the method: Cross – F2L (First two layers) – OLL (Orientation of the Last Layer) – PLL (Permutation of the Last Layer).
+2 is the lowest prime number and the only one which is even.

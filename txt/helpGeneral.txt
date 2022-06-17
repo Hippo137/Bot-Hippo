@@ -6,9 +6,6 @@ Removes the Back Up Hero role for everyone.
 __clear__
 This command is used to remove messages. It has two subcommands to either remove messages in the channel it is used in or in the table channels. This command can remove any messages which are younger than 14 days. Use it with caution and please do not wipe out an entire channel.
 
-__createrole__
-Adds a new Discord role to the correct position.
-
 __createtournament__
 Sets or changes the settings of the tournament. The settings are used by the *tablespam* commands afterwards.
 
@@ -30,8 +27,20 @@ Reboots the bot.
 __rockpaperscissors__
 Play rock paper scissors against other players with this command.
 
-__role__
+__roleadd__
+Adds a new Discord role.
+
+__rolecolor__
+Randomizes the color of a role.
+
+__rolelist__
 Returns a list of all players with a given role.
+
+__roletransfer__
+Removes a role. Every member who had that role gets a different role.
+
+__rolecolor__
+Randomizes the color of a role.
 
 __tablespam__
 Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.

@@ -2,12 +2,18 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('role')
-        .setDescription('Receive a list of members of a given role ')
+        .setName('roletransfer')
+        .setDescription('Give all members with a role a different role and remove the original role')
         .addRoleOption
         (option =>
-            option.setName('role')
-            .setDescription('Select a role')
+            option.setName('rolefrom')
+            .setDescription('Select a role which should be removed.')
+            .setRequired(true)
+        )
+        .addRoleOption
+        (option =>
+            option.setName('roleto')
+            .setDescription('Select a role which should be given.')
             .setRequired(true)
         ),
 
@@ -16,14 +22,14 @@ module.exports = {
         await interaction.deferReply();
         if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
-        const roleToSearch = interaction.options.getRole('role');
+        const roleFrom = interaction.options.getRole('rolefrom');
+        const roleTo = interaction.options.getRole('roleto');
         
-        let messageToWrite = `Members with the role: ${roleToSearch.name}\n`;
-
         await interaction.guild.members.fetch();
-        //await interaction.guild.fetch().then(g => g.roles.fetch().then(r => r.find(role => role.id === roleToSearch.id).members.forEach(member => messageToWrite += `\n${member.user.tag}`)))
-        await roleToSearch.members.forEach(member => messageToWrite += `\n${member.user.tag}`);
-        await interaction.editReply(`\`${messageToWrite}\``);
+        
+        await roleFrom.members.forEach(member => member.roles.add(roleTo));
+        await roleFrom.delete().catch(console.error);
+        await interaction.editReply(`Successfully transfered role ‘${roleFrom.name}’ to ‘${roleTo.name}’`);
         
         log(interaction);
     }

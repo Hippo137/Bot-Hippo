@@ -1,0 +1,8 @@
+**roletransfer**
+Removes a role. Every member who had that role gets a different role.
+
+*Required*
+__rolefrom__
+Choose a role. This role will be removed. Every member receives the role which is provided in ‘roleto’.
+__roleto__
+Choose a role. Every member who had the role ‘rolefrom’ receives this role.
