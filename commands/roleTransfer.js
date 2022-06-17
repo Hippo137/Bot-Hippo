@@ -22,12 +22,15 @@ module.exports = {
         await interaction.deferReply();
         if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
+        
         const roleFrom = interaction.options.getRole('rolefrom');
         const roleTo = interaction.options.getRole('roleto');
         
         await interaction.guild.members.fetch();
         
-        await roleFrom.members.forEach(member => member.roles.add(roleTo));
+        const roleMembers = roleFrom.members; //saved in case the role is deleted before the members are transferred...
+        
+        await roleMembers.forEach(member => member.roles.add(roleTo));
         await roleFrom.delete().catch(console.error);
         await interaction.editReply(`Successfully transfered role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`);
         
