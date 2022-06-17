@@ -18,7 +18,7 @@ module.exports = {
         
         interaction.options.getRole('role').edit({color: 'RANDOM'});
         
-        await interaction.editReply('Successfully randomizes the color of the role').catch(console.error); //error handling in case the message was manually removed in the meantime
+        await interaction.editReply('Successfully randomized the color of the role.').catch(console.error); //error handling in case the message was manually removed in the meantime
         
         log(interaction);
     }

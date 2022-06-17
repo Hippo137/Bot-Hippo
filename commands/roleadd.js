@@ -36,7 +36,7 @@ module.exports = {
             }
         }).then(async () =>
         {
-            if (f) await interaction.editReply('Successfully created a new role').catch(console.error); //error handling in case the message was manually removed in the meantime
+            if (f) await interaction.editReply('Successfully created a new role.').catch(console.error); //error handling in case the message was manually removed in the meantime
             log(interaction); //log it no matter if it worked or not
         });
     }

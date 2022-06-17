@@ -19,9 +19,10 @@ module.exports = {
             .addChoice('ping', 'Ping')
             .addChoice('reboot*', 'Reboot')
             .addChoice('rockpaperscissors', 'Rockpaperscissors')
-            .addChoice('role*', 'Role')
             .addChoice('roleadd*', 'Roleadd')
             .addChoice('rolecolor*', 'Rolecolor')
+            .addChoice('rolelist*', 'Rolelist')
+            .addChoice('roletransfer*', 'Roletransfer')
             .addChoice('tablespam*', 'Tablespam')
         ),
             

@@ -39,3 +39,7 @@ The species of the genus Magicicada are cicadas who have life cycles of 13 or 17
 In Texas Hold ’em, Ace+Ace is the best starting hand while 7+2 from different suites is the worst. There are effectively 169 different possible starting hands.
 CFOP is the most common method to solve a Rubik’s Cube. CFOP stands for the four main steps to solve the cube using the method: Cross – F2L (First two layers) – OLL (Orientation of the Last Layer) – PLL (Permutation of the Last Layer).
 2 is the lowest prime number and the only one which is even.
+The name Google is based on the number “Googol” – 10^100.
+Google went online in 1997.
+Google was founded by Sergey Brin and Larry Page.
+Amazon was founded 1994.

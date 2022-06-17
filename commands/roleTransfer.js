@@ -29,7 +29,7 @@ module.exports = {
         
         await roleFrom.members.forEach(member => member.roles.add(roleTo));
         await roleFrom.delete().catch(console.error);
-        await interaction.editReply(`Successfully transfered role ‘${roleFrom.name}’ to ‘${roleTo.name}’`);
+        await interaction.editReply(`Successfully transfered role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`);
         
         log(interaction);
     }
