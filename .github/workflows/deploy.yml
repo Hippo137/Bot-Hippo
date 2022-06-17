@@ -32,4 +32,5 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
         script: |
             sudo /bin/systemctl restart hippobot.service
+            cd /app/Bot-Hippo
             echo "@Hippo, add any other commands you need here"
