@@ -25,14 +25,13 @@ module.exports = {
         
         const roleFrom = interaction.options.getRole('rolefrom');
         const roleTo = interaction.options.getRole('roleto');
+        let roleMembers; //saved in case the role is deleted before the members are transferred...
         
-        await interaction.guild.members.fetch();
+        await interaction.guild.members.fetch().then(() => roleMembers = roleFrom.members);
         
-        const roleMembers = roleFrom.members; //saved in case the role is deleted before the members are transferred...
-        
-        await roleMembers.forEach(member => member.roles.add(roleTo));
-        await roleFrom.delete().catch(console.error);
-        await interaction.editReply(`Successfully transfered role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`);
+        roleMembers.forEach(member => member.roles.add(roleTo).catch(console.error));
+        roleFrom.delete();
+        await interaction.editReply(`Successfully transferred role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`).catch(console.error);
         
         log(interaction);
     }
