@@ -46,7 +46,7 @@ module.exports = {
             
             if (messageToWrite.length > 0) await interaction.channel.send(`\`${messageToWrite}\``);
 
-            //log(interaction);
+            log(interaction);
         });
     }
 }
