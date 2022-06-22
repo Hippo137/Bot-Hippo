@@ -36,10 +36,13 @@ module.exports = {
         
         for (let i=tableStart; i<=tableEnd; i++)
         {
-            let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i)
-            channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: show=='Yes'?true:false });
-            channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i)
-            channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: show=='Yes'?true:false });
+            let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i);
+            if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+            
+            channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i);
+            if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
         }
         await interaction.editReply(`Tables updated to be ${show=='Yes'?'shown':'hidden'}.`).catch(console.error); //error handling in case the message was removed either by the command itself (used in table channel) or manually removed in the meantime
         

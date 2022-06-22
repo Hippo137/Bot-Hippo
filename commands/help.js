@@ -23,7 +23,8 @@ module.exports = {
             .addChoice('rolecolor*', 'Rolecolor')
             .addChoice('rolelist*', 'Rolelist')
             .addChoice('roletransfer*', 'Roletransfer')
-            .addChoice('tablehide*', 'TableHide')
+            .addChoice('tablehide*', 'Tablehide')
+            .addChoice('tablemessage*', 'Tablemessage')
             .addChoice('tablespam*', 'Tablespam')
         ),
             

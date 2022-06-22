@@ -17,9 +17,6 @@ Shows a list of all available commands or detailed information about a single co
 __facts__
 Returns a random fact.
 
-__message*__
-Writes a custom message to table channels.
-
 __ping__
 Returns a “pong”. Only there to check if the bot responds at all.
 
@@ -46,6 +43,9 @@ Randomizes the color of a role.
 
 __tablehide*__
 Hides or show table channels to everyone.
+
+__tablemessage*__
+Writes a custom message to table channels.
 
 __tablespam*__
 Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.
