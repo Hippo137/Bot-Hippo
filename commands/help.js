@@ -9,7 +9,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('topic')
-            .setDescription('Command to get help for. Omitting this gives a general overview over all commands. * = CC-Team only')
+            .setDescription('Command to get help for. Omitting this gives a general overview over all commands. * = CC Team only')
             .setRequired(false)
             .addChoice('backuprefresh*', 'Backuprefresh')
             .addChoice('clear*', 'Clear')
@@ -23,6 +23,7 @@ module.exports = {
             .addChoice('rolecolor*', 'Rolecolor')
             .addChoice('rolelist*', 'Rolelist')
             .addChoice('roletransfer*', 'Roletransfer')
+            .addChoice('tablehide*', 'TableHide')
             .addChoice('tablespam*', 'Tablespam')
         ),
             

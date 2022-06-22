@@ -13,8 +13,7 @@ for (const file of commandFiles) {
 client.once('ready', async () => {
 	console.log(`Logged in as ${client.user.tag}`);
     
-    const botLogChannel = await client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`Logged in as ${client.user.tag}`).catch(console.error);
+    const botLogChannel = await client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
 });
 
 client.on('interactionCreate', async interaction => {

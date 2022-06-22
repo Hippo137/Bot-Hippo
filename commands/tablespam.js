@@ -340,8 +340,12 @@ module.exports = {
                         botMessageTemp = botMessage.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
                     }
                 }
-                const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
+                let channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
+                channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: true });
                 channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
+                
+                channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
+                channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: true });
             }
 
             /*if (interaction.guild.id != '894372075622526986')

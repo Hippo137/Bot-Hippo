@@ -1,0 +1,12 @@
+**tablehide**
+Hides or show table channels (both text and voice) to everyone.
+Defaults of the parameters are in () behind the name below.
+
+*Optional*
+
+__show__ (No)
+If Yes, gives the permission to view the table channels. Otherwise denies it.
+__tableend__ (50)
+Last table channel to edit.
+__tablestart__ (1)
+First table channel to edit.
