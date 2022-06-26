@@ -38,10 +38,11 @@ Parthenogenesis is a form of asexual reproduction. Some plants and female animal
 The species of the genus Magicicada are cicadas who have life cycles of 13 or 17 years. Those prime numbers aren’t random. Predators have shorter life cycles and can’t eat all the masses of cicadas which suddenly appear once every so many years.
 In Texas Hold ’em, Ace+Ace is the best starting hand while 7+2 from different suites is the worst. There are effectively 169 different possible starting hands.
 The Rubik’s Cube has 43252003274489856000 different permutations you can reach by turning the faces. Each permutation is only a maximum of 20 turns away from the solved state. The 20 is also called “God’s number”.
-CFOP is the most common method to solve a Rubik’s Cube. CFOP stands for the four main steps to solve the cube using the method: Cross – F2L (First two layers) – OLL (Orientation of the Last Layer) – PLL (Permutation of the Last Layer).
+CFOP is the most common method to solve a Rubik’s Cube. CFOP stands for the four main steps to solve the cube using the method: Cross – F2L (First two Layers) – OLL (Orientation of the Last Layer) – PLL (Permutation of the Last Layer).
 2 is the lowest prime number and the only one which is even.
 The name Google is based on the number “Googol” – 10^100.
 Google went online 1997 and was developed by Sergey Brin and Larry Page.
 Amazon was founded 1994 by Jeff Bezos.
 The Settlers of Catan was originally released in 1995.
 The founders of Puma and adidas were brothers.
+Pac-Man was first released in Japan as “Puck Man” in 1980. The game features the four ghosts named Blinky, Pinky, Inky and Clyde. Each one has an individual strategy to catch Pac-Man.

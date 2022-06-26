@@ -11,7 +11,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('create')
-            .setDescription('New=default if omitted, Update=ignored if omitted, restart=only resets round to 1 and tables to 0')
+            .setDescription('New=default if omitted, Update=ignored if omitted, Restart=only resets round to 1 and tables to 0')
             .setRequired(true)
             .addChoice('New', 'New')
             .addChoice('Update', 'Update')
