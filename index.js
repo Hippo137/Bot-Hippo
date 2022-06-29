@@ -13,6 +13,8 @@ for (const file of commandFiles) {
 client.once('ready', async () => {
 	console.log(`Logged in as ${client.user.tag}`);
     
+    client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
+    
     const botLogChannel = await client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
 });
 
