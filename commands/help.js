@@ -16,6 +16,7 @@ module.exports = {
             .addChoice('createtournament*', 'Createtournament')
             .addChoice('facts', 'Facts')
             .addChoice('help', 'Help')
+            .addChoice('ntnt', 'Ntnt')
             .addChoice('ping', 'Ping')
             .addChoice('reboot*', 'Reboot')
             .addChoice('rockpaperscissors', 'Rockpaperscissors')
