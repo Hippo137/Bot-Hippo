@@ -4,7 +4,7 @@ const fs = require('fs');
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS]});
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
+const path = require('path');
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
@@ -15,8 +15,32 @@ client.once('ready', async () => {
     
     client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
     
-    const botLogChannel = await client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
-});
+    //await client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
+    
+    try
+    {
+    // change the path to your file
+    await fs.unlink(path.join(__dirname, './commands/role.js'), () => {});
+    } catch (error) {
+      console.log(error);
+    }
+    
+    try
+    {
+    // change the path to your file
+    await fs.unlink(path.join(__dirname, './commands/database.js'), () => {});
+    } catch (error) {
+      console.log(error);
+    }
+    
+    try
+    {
+    // change the path to your file
+    await fs.unlink(path.join(__dirname, './commands/createrole.js'), () => {});
+    } catch (error) {
+      console.log(error);
+    }
+    });
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
