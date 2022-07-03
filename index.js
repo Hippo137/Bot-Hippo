@@ -24,22 +24,7 @@ client.once('ready', async () => {
     } catch (error) {
       console.log(error);
     }
-    
-    try
-    {
-    // change the path to your file
-    await fs.unlink(path.join(__dirname, './commands/database.js'), () => {});
-    } catch (error) {
-      console.log(error);
-    }
-    
-    try
-    {
-    // change the path to your file
-    await fs.unlink(path.join(__dirname, './commands/createrole.js'), () => {});
-    } catch (error) {
-      console.log(error);
-    }*/
+    */
     });
 
 client.on('interactionCreate', async interaction => {

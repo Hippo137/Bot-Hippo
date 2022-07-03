@@ -15,7 +15,7 @@
 ```
 :arrow_right: <https://colonist.io/#{link}{random}>
 
-:bell: Mention your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, tag @Host to notify us. We will find a back-up player.
+:bell: Mention your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, mention @Host to notify us. We will find a back-up player.
 
 :white_check_mark: Be sure to say when you started the match here in the chat as well!
 
