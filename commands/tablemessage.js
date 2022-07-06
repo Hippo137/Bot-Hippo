@@ -44,8 +44,11 @@ module.exports = {
             for (let i=tableStart; i<=tableEnd; i++)
             {
                 const channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table-`+i);
-                channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
-                channelTarget.send(content);
+                if (channelTarget)
+                {
+                    channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+                    channelTarget.send(content);
+                }
             }
             await interaction.editReply(`Wrote the following message to the table channels ${tableStart} to ${tableEnd}:\n\n${content}`).catch(console.error); //error handling in case the message was manually removed in the meantime
             
