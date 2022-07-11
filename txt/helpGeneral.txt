@@ -38,9 +38,6 @@ Returns a list of all players with a given role.
 __roletransfer*__
 Removes a role. Every member who had that role gets a different role.
 
-__rolecolor*__
-Randomizes the color of a role.
-
 __tablehide*__
 Hides or show table channels to everyone.
 

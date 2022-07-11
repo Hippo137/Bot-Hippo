@@ -346,9 +346,9 @@ module.exports = {
                     channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
                     channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
                 }
+                channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
                 if (channelTarget)
                 {
-                    channelTarget = await interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
                     channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
                 }
             }
