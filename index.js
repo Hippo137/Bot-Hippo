@@ -25,6 +25,41 @@ client.once('ready', async () => {
       console.log(error);
     }
     */
+    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    dbMsg.edit(`Database
+
+
+corrupted: False
+sBox: 1
+sBrackets: 3
+sDayfinal: No
+sDice: Random Dice
+zDice: +
+sDiscard: 7
+zDiscard: +
+sLoserfinals: No
+sMap: Base
+zMap: +
+sMode: Base
+zMode: +
+sPlayers: 4
+zPlayers: +
+sPrize: Cash Ticket
+sSpeed: Fast
+zSpeed: +
+sTables: 9
+sTeamsize: 1
+sType: Open
+sRandom: No
+sRobber: No
+zRobber: +
+sRound: 4
+sRounds: 3
+sVp: 10
+zVp: +
+`).catch(console.error)})
+
+
     });
 
 client.on('interactionCreate', async interaction => {
