@@ -46,3 +46,9 @@ Amazon was founded 1994 by Jeff Bezos.
 The Settlers of Catan was originally released in 1995.
 The founders of Puma and adidas were brothers.
 Pac-Man was first released in Japan as “Puck Man” in 1980. The game features the four ghosts named Blinky, Pinky, Inky and Clyde. Each one has an individual strategy to catch Pac-Man.
+A day has 86400 seconds.
+The rotation cycle of leap years is 400 years.
+Aibohphobia is the (unofficial) fear of palindromes. It’s a palindrome itself.
+Hippopotomonstrosesquippedaliophobia is the (unofficial) fear of long words.
+There are 15 red balls in a game of Snooker.
+In a single player game of Settlers of Catan, you could theoretically build up to 18 roads without taking longest road.
