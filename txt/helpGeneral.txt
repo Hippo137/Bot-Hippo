@@ -32,6 +32,9 @@ Adds a new Discord role.
 __rolecolor*__
 Randomizes the color of a role.
 
+__rolecount*__
+Gets the number of roles in the guild.
+
 __rolelist*__
 Returns a list of all players with a given role.
 

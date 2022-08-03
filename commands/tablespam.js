@@ -6,7 +6,7 @@ const symbols = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tablespam')
-        .setDescription('Automate the table messages for tournaments')
+        .setDescription('Sends the table messages for tournaments')
         //.setDefaultPermission(false)
         .addSubcommand(subcommand =>
             subcommand

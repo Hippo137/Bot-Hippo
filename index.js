@@ -17,14 +17,14 @@ client.once('ready', async () => {
     
     await client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
-    /*try
+    try
     {
     // change the path to your file
-    await fs.unlink(path.join(__dirname, './commands/role.js'), () => {});
+    await fs.unlink(path.join(__dirname, './commands/roleTransfer.js'), () => {});
     } catch (error) {
       console.log(error);
     }
-    */
+    
     /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 

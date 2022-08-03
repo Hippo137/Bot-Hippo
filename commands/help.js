@@ -22,6 +22,7 @@ module.exports = {
             .addChoice('rockpaperscissors', 'Rockpaperscissors')
             .addChoice('roleadd*', 'Roleadd')
             .addChoice('rolecolor*', 'Rolecolor')
+            .addChoice('rolecount', 'Rolecount')
             .addChoice('rolelist*', 'Rolelist')
             .addChoice('roletransfer*', 'Roletransfer')
             .addChoice('tablehide*', 'Tablehide')
@@ -32,7 +33,6 @@ module.exports = {
 	async execute(interaction)
     {
         await interaction.deferReply();
-        //if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command. Other than rockpaperscissors (RPS), you can’t do anything with this bot. And the RPS command is pretty straightforward I guess.').catch(console.error);
         
         await interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
         
