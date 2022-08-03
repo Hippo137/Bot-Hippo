@@ -14,7 +14,7 @@ module.exports = {
         {
             const count = interaction.guild.roles.cache.size;
             await interaction.editReply(`There ${count==1?'is 1 role':`are ${count} roles`} in this guild.`).catch(console.error); //error handling in case the message was manually removed in the meantime
-            //log(interaction);
+            log(interaction);
         });
         
         
