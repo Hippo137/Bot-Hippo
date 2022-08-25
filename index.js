@@ -20,7 +20,15 @@ client.once('ready', async () => {
     try
     {
     // change the path to your file
-    await fs.unlink(path.join(__dirname, './commands/roleTransfer.js'), () => {});
+    await fs.unlink(path.join(__dirname, './commands/message.js'), () => {});
+    } catch (error) {
+      console.log(error);
+    }
+    
+    try
+    {
+    // change the path to your file
+    await fs.unlink(path.join(__dirname, './commands/rolecount.js'), () => {});
     } catch (error) {
       console.log(error);
     }

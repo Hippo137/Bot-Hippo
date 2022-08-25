@@ -98,14 +98,25 @@ module.exports = {
             .setDescription('[setting]: map – defaults to BASE if omitted')
             .setRequired(false)
             .addChoice('Base', 'Base')
+            .addChoice('Base 5-6 Player', 'Base 5-6 Player')
+            .addChoice('Base 7-8 Player', 'Base 7-8 Player')
             .addChoice('Base Random', 'Base Random')
-            .addChoice('Shuffle Board', 'Shuffle Board')
             .addChoice('Black Forest', 'Black Forest')
+            .addChoice('Diamond', 'Diamond')
             .addChoice('Earth', 'Earth')
             .addChoice('Heading for New Shores', 'Heading for New Shores')
-            .addChoice('Four Islands', 'Four Islands')
             .addChoice('Fog Islands', 'Fog Islands')
+            .addChoice('Four Islands', 'Four Islands')
+            .addChoice('Gear', 'Gear')
+            .addChoice('Gold Rush', 'Gold Rush')
+            .addChoice('Lakes', 'Lakes')
+            .addChoice('Pond', 'Pond')
+            .addChoice('UK & Ireland', 'UK & Ireland')
+            .addChoice('USA', 'USA')
+            .addChoice('Shuffle Board', 'Shuffle Board')
             .addChoice('Through the Desert', 'Through the Desert')
+            .addChoice('Twirl', 'Twirl')
+            .addChoice('Volcano', 'Volcano')
         )
         .addStringOption
         (option =>
@@ -402,7 +413,11 @@ module.exports = {
                     case 'Base':
                     switch (sMap)
                     {
-                        case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
+                        case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert':
+                        //do nothing
+                        break;
+                        
+                        default:
                         if (!sVp) sVp = 10;
                         zVp = sVp === 10 ? '+' : '-';
                         break;
@@ -433,8 +448,13 @@ module.exports = {
                         break;
 
                         case 'Earth':
-                        if (!sVp) sVp = 13;
-                        zVp = sVp === 13 ? '+' : '-';
+                        if (!sVp) sVp = 14;
+                        zVp = sVp === 14 ? '+' : '-';
+                        break;
+                        
+                        case 'UK & Ireland':    //not sure, check when it’s free
+                        if (!sVp) sVp = 14;
+                        zVp = sVp === 14 ? '+' : '-';
                         break;
                     }
                     break;
@@ -442,7 +462,11 @@ module.exports = {
                     case 'Cities & Knights':
                     switch (sMap)
                     {
-                        case 'Base': case 'Base Random': case 'Shuffle Board': case 'Black Forest': case 'Earth':
+                        case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert':
+                        //do nothing
+                        break;
+                        
+                        default:
                         if (!sVp) sVp = 13;
                         zVp = sVp === 13 ? '+' : '-';
                         break;
@@ -473,6 +497,11 @@ module.exports = {
                         break;
 
                         case 'Earth':
+                        if (!sVp) sVp = 16;
+                        zVp = sVp === 16 ? '+' : '-';
+                        break;
+                        
+                        case 'UK & Ireland':    //not sure, check when it’s free
                         if (!sVp) sVp = 16;
                         zVp = sVp === 16 ? '+' : '-';
                         break;
