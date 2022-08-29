@@ -288,7 +288,7 @@ module.exports = {
                 message = 'Posted the Final.';
                 break;
             }
-            let botMessage = fs.readFileSync(`txt/blank.txt`, 'utf8')
+            let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
                 .replace(/{intro}/g, intro)
                 .replace(/{link}/g, link)
                 //.replace(/{roomname}/g, roomname)

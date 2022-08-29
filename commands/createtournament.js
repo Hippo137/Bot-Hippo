@@ -213,6 +213,7 @@ module.exports = {
             .setRequired(false)
             .addChoice('Open', 'Open')
             .addChoice('Cash', 'Cash')
+            .addChoice('Special', 'Special')
         )
         .addIntegerOption
         (option =>
