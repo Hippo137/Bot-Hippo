@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const g = require('../general.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,22 +11,26 @@ module.exports = {
             .setDescription('Select a role')
             .setRequired(true)
         ),
-
+    
     async execute(interaction)
     {
         await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
-        interaction.options.getRole('role').edit({color: 'RANDOM'});
-        
-        await interaction.editReply('Successfully randomized the color of the role.').catch(console.error); //error handling in case the message was manually removed in the meantime
-        
-        log(interaction);
-    }
+        g.log(interaction, command(interaction));
+	}
 }
-
-async function log(interaction)
+    
+function command(interaction)
 {
-    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+    if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
+    {
+        interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        return false;
+    }
+    
+    interaction.options.getRole('role').edit({color: 'RANDOM'});
+
+    interaction.editReply('Successfully randomized the color of the role.').catch(console.error); //error handling in case the message was manually removed in the meantime
+
+    return true;
 }

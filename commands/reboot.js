@@ -1,23 +1,30 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const g = require('../general.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('reboot')
 		.setDescription('Logs out the bot'),
-	async execute(interaction) {
-		await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
+    async execute(interaction)
+    {
+        await interaction.deferReply();
         
-        await interaction.editReply(`Rebooting...`).catch(console.error); //error handling in case the message was manually removed in the meantime
+        const success = await command(interaction);
+        await g.log(interaction, success);
         
-        await log(interaction);
-        interaction.client.destroy();
-        
+        if (success) interaction.client.destroy();
 	}
 }
-
-async function log(interaction)
-{
-    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    await botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+    
+function command(interaction)
+{        
+    if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
+    {
+        interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        return false;
+    }
+    interaction.editReply(`Rebooting...`).catch(console.error); //error handling in case the message was manually removed in the meantime
+    
+    return true;
 }

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const g = require('../general.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -29,19 +30,18 @@ module.exports = {
             .addChoice('tablemessage*', 'Tablemessage')
             .addChoice('tablespam*', 'Tablespam')
         ),
-            
-	async execute(interaction)
+        
+    async execute(interaction)
     {
         await interaction.deferReply();
         
-        await interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
-        
-        log(interaction);
-    }
+        g.log(interaction, command(interaction));
+	}
 }
-
-async function log(interaction)
+    
+function command(interaction)
 {
-    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+	interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
+    
+    return true;
 }

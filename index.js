@@ -10,12 +10,12 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-client.once('ready', async () => {
+client.once('ready', () => {
 	console.log(`Logged in as ${client.user.tag}`);
     
     client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
     
-    await client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
+    //client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
     /*try
     {

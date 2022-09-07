@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const g = require('../general.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,25 +21,33 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
-        
-        const roleFrom = interaction.options.getRole('rolefrom');
-        const roleTo = interaction.options.getRole('roleto');
-        let roleMembers; //saved in case the role is deleted before the members are transferred...
-        
-        await interaction.guild.members.fetch().then(() => roleMembers = roleFrom.members);
-        
-        roleMembers.forEach(member => member.roles.add(roleTo).catch(console.error));
-        roleFrom.delete();
-        await interaction.editReply(`Successfully transferred role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`).catch(console.error);
-        
-        log(interaction);
-    }
+        g.log(interaction, command(interaction));
+	}
 }
 
-async function log(interaction)
+async function command(interaction, dbMessage)
 {
-    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+    if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
+    {
+        interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        return false;
+    }
+    
+    await interaction.guild.members.fetch();
+    
+    const roleFrom = interaction.options.getRole('rolefrom');
+    const roleTo = interaction.options.getRole('roleto');
+    if (roleFrom == roleTo)
+    {
+        interaction.editReply('‘rolefrom’ must not equal ‘roleto’.').catch(console.error);
+        return false;
+    }
+    let roleMembers = roleFrom.members; //saved in case the role is deleted before the members are transferred...
+
+    roleMembers.forEach(member => member.roles.add(roleTo).catch(console.error));
+    roleFrom.delete();
+    interaction.editReply(`Successfully transferred role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`).catch(console.error);
+
+    return true;
 }

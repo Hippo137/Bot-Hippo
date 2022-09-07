@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const g = require('../general.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,38 +26,43 @@ module.exports = {
             .setDescription('First table channel which should be hidden – defaults to 1 if omitted')
             .setRequired(false)
         ),
+    
     async execute(interaction)
     {
         await interaction.deferReply();
-        if (!interaction.member.roles.cache.find(role => role.name === 'CC Team')) return await interaction.editReply('You are not allowed to use this command.').catch(console.error);
         
-        const show = interaction.options.getString('show') ?? 'No';
-        const tableStart = interaction.options.getInteger('tablestart') ?? 1;
-        const tableEnd = interaction.options.getInteger('tableend') ?? 50;
-        
-        for (let i=tableStart; i<=tableEnd; i++)
-        {
-            let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i);
-            if (channelTarget)
-            {
-                if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
-                else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
-            }
-            channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i);
-            if (channelTarget)
-            {
-                if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
-                else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
-            }
-        }
-        await interaction.editReply(`Tables updated to be ${show=='Yes'?'shown':'hidden'}.`).catch(console.error); //error handling in case the message was removed either by the command itself (used in table channel) or manually removed in the meantime
-        
-        log(interaction);
-    }
+        g.log(interaction, command(interaction));
+	}
 }
 
-async function log(interaction)
+function command(interaction, dbMessage)
 {
-    const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
-    botLogChannel.send(`${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}#${interaction.user.discriminator}, id=${interaction.user.id}\nhttps://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
+    if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
+    {
+        interaction.editReply('You are not allowed to use this command.').catch(console.error);
+        return false;
+    }
+    
+    const show = interaction.options.getString('show') ?? 'No';
+    const tableStart = interaction.options.getInteger('tablestart') ?? 1;
+    const tableEnd = interaction.options.getInteger('tableend') ?? 50;
+
+    for (let i=tableStart; i<=tableEnd; i++)
+    {
+        let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i);
+        if (channelTarget)
+        {
+            if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+        }
+        channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i);
+        if (channelTarget)
+        {
+            if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+        }
+    }
+    interaction.editReply(`Tables updated to be ${show=='Yes'?'shown':'hidden'}.`).catch(console.error); //error handling in case the message was removed either by the command itself (used in table channel) or manually removed in the meantime
+    
+    return true;
 }
