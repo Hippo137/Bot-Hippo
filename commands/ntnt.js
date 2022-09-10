@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,8 +10,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
     
@@ -19,5 +21,5 @@ function command(interaction)
     let message = 'NTNT means “No Trades No Talk” and is a Catan variant.\nCheck out more information about it in this small document: <http://tiny.cc/NTNT>'
     interaction.editReply(message).catch(console.error);
 
-    return true;
+    success = true;
 }

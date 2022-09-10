@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,8 +22,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
 
@@ -30,8 +32,7 @@ async function command(interaction, dbMessage)
 {
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
-        interaction.editReply('You are not allowed to use this command.').catch(console.error);
-        return false;
+        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
     await interaction.guild.members.fetch();
@@ -40,8 +41,7 @@ async function command(interaction, dbMessage)
     const roleTo = interaction.options.getRole('roleto');
     if (roleFrom == roleTo)
     {
-        interaction.editReply('‘rolefrom’ must not equal ‘roleto’.').catch(console.error);
-        return false;
+        return interaction.editReply('‘rolefrom’ must not equal ‘roleto’.').catch(console.error);
     }
     let roleMembers = roleFrom.members; //saved in case the role is deleted before the members are transferred...
 
@@ -49,5 +49,5 @@ async function command(interaction, dbMessage)
     roleFrom.delete();
     interaction.editReply(`Successfully transferred role ‘${roleFrom.name}’ to ‘${roleTo.name}’.`).catch(console.error);
 
-    return true;
+    success = true;
 }

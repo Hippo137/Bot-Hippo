@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,8 +16,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
 
@@ -24,8 +26,7 @@ async function command(interaction, dbMessage)
 {
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
-        interaction.editReply('You are not allowed to use this command.').catch(console.error);
-        return false;
+        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
     await interaction.guild.members.fetch();
@@ -50,5 +51,5 @@ async function command(interaction, dbMessage)
 
     if (messageToWrite.length > 0) interaction.channel.send(`\`${messageToWrite}\``);
     
-    return true;
+    success = true;
 }

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,8 +10,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
     
@@ -23,5 +25,5 @@ function command(interaction)
     else if (random < 20) message = 'Ping?';
     interaction.editReply(message).catch(console.error);
 
-    return true;
+    success = true;
 }

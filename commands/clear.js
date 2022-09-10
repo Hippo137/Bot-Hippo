@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -55,8 +56,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
     
@@ -64,14 +66,12 @@ function command(interaction)
 {
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
-        interaction.editReply('You are not allowed to use this command.').catch(console.error);
-        return false;
+        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
     if (!interaction.guild.me.permissions.has('MANAGE_MESSAGES'))
     {
-        interaction.editReply('I don’t have the permission to delete messages.').catch(console.error);
-        return false;
+        return interaction.editReply('I don’t have the permission to delete messages.').catch(console.error);
     }
     
     let number = interaction.options.getInteger('number') ?? 1;
@@ -99,5 +99,5 @@ function command(interaction)
         break;
     }
 
-    return true;
+    success = true;
 }

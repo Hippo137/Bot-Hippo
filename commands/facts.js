@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 let repeats = new Array(20) //20 consecutive facts must be different from each other
 
@@ -12,8 +13,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
     
@@ -30,5 +32,5 @@ function command(interaction)
     repeats.push(r);
     interaction.editReply(facts[r]).catch(console.error);
     
-    return true;
+    success = true;
 }

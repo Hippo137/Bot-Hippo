@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -29,8 +30,9 @@ module.exports = {
 	async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
 
@@ -38,8 +40,7 @@ async function command(interaction)
 {
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
-        interaction.editReply('You are not allowed to use this command.').catch(console.error);
-        return false;
+        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
     const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
@@ -52,13 +53,11 @@ async function command(interaction)
     const tableStart = interaction.options.getInteger('tablestart') ?? 1;
     if (tableEnd === 0)
     {
-        interaction.editReply(`Set either ‘tables’ or ‘tableEnd’ to something higher than 0.`).catch(console.error);
-        return false;
+        return interaction.editReply(`Set either ‘tables’ or ‘tableEnd’ to something higher than 0.`).catch(console.error);
     }
     if (tableStart > tableEnd)
     {
-        interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables’`).catch(console.error);
-        return false;
+        return interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables’`).catch(console.error);
     }
 
     for (let i=tableStart; i<=tableEnd; i++)
@@ -72,5 +71,5 @@ async function command(interaction)
     }
     interaction.editReply(`Wrote the following message to the table channels ${tableStart} to ${tableEnd}:\n\n${content}`).catch(console.error); //error handling in case the message was manually removed in the meantime
     
-    return true;
+    success = true;
 }

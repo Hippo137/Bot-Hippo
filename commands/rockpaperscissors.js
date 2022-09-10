@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 let opponentInteraction = null;
 let introMessage = null;
@@ -20,9 +21,10 @@ module.exports = {
     
     async execute(interaction)
     {
-        await interaction.deferReply({ephemeral: true});
-        
-        g.log(interaction, command(interaction));
+        await interaction.deferReply();
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
     
@@ -53,12 +55,11 @@ function command(interaction)
                 //opponentInteraction = null;
             }
         }, 840000); //14 Minuten
-        return false;
+        return;
     }
     else if (opponentInteraction.member === interaction.member)
     {
-        interaction.editReply('You can’t play against yourself. Nice try.');
-        return false;
+        return interaction.editReply('You can’t play against yourself. Nice try.');
     }
     else
     {
@@ -83,5 +84,5 @@ function command(interaction)
     interaction.channel.send(`${oWinner} ${opponentInteraction.member} ${oppChoice} :crossed_swords: ${userChoice} ${interaction.member} ${uWinner}`).catch(console.error);
     opponentInteraction = null;
 
-    return true;
+    success = true;
 }

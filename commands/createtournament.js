@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -251,8 +252,7 @@ async function command(interaction)
 {
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
-        interaction.editReply('You are not allowed to use this command.').catch(console.error);
-        return false;
+        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
     const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
@@ -266,8 +266,8 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'sTables', '0'); //sTables
 
         //log(interaction);
-        interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
-        return true;
+        success = true;
+        return interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
     }
     let sBox = interaction.options.getInteger('box');
     let sBrackets = interaction.options.getInteger('brackets');
@@ -333,14 +333,12 @@ async function command(interaction)
     if (sPlayers % sTeamsize != 0)
     {
         dbContent = g.writeDb(dbContent, 'corrupted', 'True');
-        interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
-        return false;
+        return interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
     }
     if (sPlayers <= sTeamsize)
     {
         dbContent = g.writeDb(dbContent, 'corrupted', 'True');
-        interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
-        return false;
+        return interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
     }
 
     if (sBox != null) dbContent = g.writeDb(dbContent, 'sBox', `${sBox}`);
@@ -522,8 +520,7 @@ async function command(interaction)
         if (!zVp)
         {
             dbContent = g.writeDb(dbContent, 'corrupted', 'True');
-            interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
-            return false;
+            return interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
         }
         dbContent = g.writeDb(dbContent, 'sVp', `${sVp}`);
         dbContent = g.writeDb(dbContent, 'zVp', `${zVp}`);
@@ -535,8 +532,7 @@ async function command(interaction)
         zVp = g.readDb(dbContent, 'zVp');
         if (g.readDb(dbContent, 'corrupted') == 'True')
         {
-            interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
-            return false;
+            return interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
         }
     }
 
@@ -585,5 +581,6 @@ async function command(interaction)
     //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
     interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
     dbMessage.edit(dbContent).catch(console.error);
-    return true;
+    
+    success = true;
 }

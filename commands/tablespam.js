@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
+let success = false;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -94,8 +95,9 @@ module.exports = {
 	async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
 
@@ -103,8 +105,7 @@ async function command(interaction)
 {
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
-        interaction.editReply('You are not allowed to use this command.').catch(console.error);
-        return false;
+        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
     const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
@@ -112,8 +113,7 @@ async function command(interaction)
     
     if (g.readDb(dbContent, 'corrupted') !== 'False')
     {
-        interaction.editReply('The tournament settings are corrupted. Please create a new tournament or fix the corruption.').catch(console.error);
-        return false;
+        return interaction.editReply('The tournament settings are corrupted. Please create a new tournament or fix the corruption.').catch(console.error);
     }
 
     const tableStart = interaction.options.getInteger('tablestart') ?? 1;
@@ -127,13 +127,11 @@ async function command(interaction)
 
         if (tableEnd === 0)
         {
-            interaction.editReply(`Set either ‘tables’ or ‘tableEnd’ to something higher than 0.`).catch(console.error);
-            return false;
+            return interaction.editReply(`Set either ‘tables’ or ‘tableEnd’ to something higher than 0.`).catch(console.error);
         }
         if (tableStart > tableEnd)
         {
-            interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables’`).catch(console.error);
-            return false;
+            return interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables’`).catch(console.error);
         }
     }
 
@@ -142,8 +140,7 @@ async function command(interaction)
     const sRounds = g.readDb(dbContent, 'sRounds');
     if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds))
     {
-        interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
-        return false;
+        return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
     }
     //if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
 
@@ -216,8 +213,8 @@ async function command(interaction)
             .replace(/{sBox}/g, sBox);
 
         //settings don’t change anything, so no need to update the database
+        success = true;
         interaction.editReply(botMessage);
-        return false;
     }
 
 
@@ -389,5 +386,5 @@ async function command(interaction)
     interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed in the meantime
     //console.log(dbContent);
     dbMessage.edit(dbContent).catch(console.error);
-    return true;
+    success = true;
 }
