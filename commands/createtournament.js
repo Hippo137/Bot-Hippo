@@ -243,8 +243,9 @@ module.exports = {
     async execute(interaction)
     {
         await interaction.deferReply();
-        
-        g.log(interaction, command(interaction));
+        success = false;
+        await command(interaction);
+        g.log(interaction, success);
 	}
 }
 
@@ -267,6 +268,7 @@ async function command(interaction)
 
         //log(interaction);
         success = true;
+        dbMessage.edit(dbContent).catch(console.error);
         return interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
     }
     let sBox = interaction.options.getInteger('box');
