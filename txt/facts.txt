@@ -33,7 +33,7 @@ Iceland is the biggest volcanic island on Earth.
 Yuri Gagarin was the first human in space.
 In German, “umfahren” is the opposite of “umfahren”.
 The launch code for US nuclear weapons was 00000000 for two decades.
-Hippo Bot saw the light of day in May 2021.
+I saw the light of day in May 2021.
 Parthenogenesis is a form of asexual reproduction. Some plants and female animals of a big variety of species are able to reproduce this way. Some species only have females.
 The species of the genus Magicicada are cicadas who have life cycles of 13 or 17 years. Those prime numbers aren’t random. Predators have shorter life cycles and can’t eat all the masses of cicadas which suddenly appear once every so many years.
 In Texas Hold ’em, Ace+Ace is the best starting hand while 7+2 from different suites is the worst. There are effectively 169 different possible starting hands.
@@ -55,3 +55,6 @@ In a single player game of Settlers of Catan, you could theoretically build up t
 The “grind” is the cruel massacre in the Faroe Islands in which thousands of dolphins and other whales are killed by natives every year.
 An Ocean Sunfish can produce up to 300 millions eggs at a time.
 Orcas replace their skin once a day.
+Every year, ships kill thousands of whales by running them over.
+Sound emissions greatly hurt the marine ecosystem. Animals like whales need to use sounds for orientation and communication including the search for mating partners in the wide ocean while tens of thousands of ships pullute the ocean with noise from their ear-battering ship propellers and sonars.
+Representatives of the genera Alpheus and Synalpheus in the family Alpheidae are shrimp and the loudest known animals on earth. The snapping of their specialized claw creates sounds over 220 Decibel and temperatures over 5000 Kelvin which can kill or paralyze nearby creatures such as fish.
