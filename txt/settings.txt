@@ -11,6 +11,7 @@
 {zTeamsize} Teamsize:            {sTeamsize}
 {zRandom} Random Letters:      {sRandom}
 {zBox} Best Of:             {sBox}
+{zNtnt} NTNT:                {sNtnt}
 
 {zRobber} Friendly Robber:     {sRobber}
 {zMode} Game Mode:           {sMode}

@@ -129,6 +129,14 @@ module.exports = {
             .addChoice('Cities & Knights', 'Cities & Knights')
             .addChoice('Seafarers + Cities & Knights', 'Seafarers + Cities & Knights')
         )
+        .addStringOption
+        (option =>
+            option.setName('ntnt')
+            .setDescription('No Talk No Trade – defaults to NO if omitted')
+            .setRequired(false)
+            .addChoice('Yes', 'Yes')
+            .addChoice('No', 'No')
+        )
         .addIntegerOption
         (option =>
             option.setName('players')
@@ -279,6 +287,7 @@ async function command(interaction)
     let sLoserfinals = interaction.options.getString('loserfinal');
     let sMap = interaction.options.getString('map');
     let sMode = interaction.options.getString('mode');
+    let sNtnt = interaction.options.getString('ntnt');
     let sPlayers = interaction.options.getInteger('players');
     let sPrize = interaction.options.getString('prize');
     let sRandom = interaction.options.getString('random');
@@ -303,6 +312,7 @@ async function command(interaction)
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
         sMode = sMode ?? 'Base';
+        sNtnt = sNtnt ?? 'No';
         sPlayers = sPlayers ?? 4;
         sPrize = sPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
@@ -349,12 +359,12 @@ async function command(interaction)
     if (sBrackets != null) dbContent = g.writeDb(dbContent, 'sBrackets', `${sBrackets}`);
     else sBrackets = g.readDb(dbContent, 'sBrackets');
 
-    if (sDayfinal != null) dbContent = g.writeDb(dbContent, 'sDayfinal', `${sDayfinal}`);
+    if (sDayfinal != null) dbContent = g.writeDb(dbContent, 'sDayfinal', sDayfinal);
     else sDayfinal = g.readDb(dbContent, 'sDayfinal');
 
     if (sDice != null)
     {
-        dbContent = g.writeDb(dbContent, 'sDice', `${sDice}`);
+        dbContent = g.writeDb(dbContent, 'sDice', sDice);
         dbContent = g.writeDb(dbContent, 'zDice', `${sDice === 'Random Dice' ? '+' : '-'}`);
     }
     else sDice = g.readDb(dbContent, 'sDice');
@@ -366,7 +376,7 @@ async function command(interaction)
     }
     else sDiscard = g.readDb(dbContent, 'sDiscard');
 
-    if (sLoserfinals != null) dbContent = g.writeDb(dbContent, 'sLoserfinals', `${sLoserfinals}`);
+    if (sLoserfinals != null) dbContent = g.writeDb(dbContent, 'sLoserfinals', sLoserfinals);
     else sLoserfinals = g.readDb(dbContent, 'sLoserfinals');
 
     if (sMap != null)
@@ -382,16 +392,23 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
     }
     else sMode = g.readDb(dbContent, 'sMode');
+    
+    if (sNtnt != null)
+    {
+        dbContent = g.writeDb(dbContent, 'sNtnt', sNtnt);
+        dbContent = g.writeDb(dbContent, 'zNtnt', sNtnt === 'No' ? '+' : '-');
+    }
+    else sNtnt = g.readDb(dbContent, 'sNtnt');
 
-    if (sPrize != null) dbContent = g.writeDb(dbContent, 'sPrize', `${sPrize}`);
+    if (sPrize != null) dbContent = g.writeDb(dbContent, 'sPrize', sPrize);
     else sPrize = g.readDb(dbContent, 'sPrize');
 
-    if (sRandom != null) dbContent = g.writeDb(dbContent, 'sRandom', `${sRandom}`);
+    if (sRandom != null) dbContent = g.writeDb(dbContent, 'sRandom', sRandom);
     else sRandom = g.readDb(dbContent, 'sRandom');
 
     if (sRobber != null)
     {
-        dbContent = g.writeDb(dbContent, 'sRobber', `${sRobber}`);
+        dbContent = g.writeDb(dbContent, 'sRobber', sRobber);
         dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === 'No' ? '+' : '-'}`);
     }
     else sRobber = g.readDb(dbContent, 'sRobber');
@@ -408,13 +425,13 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === 'Fast' ? '+' : '-'}`);
     }
     else sSpeed = g.readDb(dbContent, 'sSpeed');
-
+    
     if (sTables != null) dbContent = g.writeDb(dbContent, 'sTables', `${sTables}`);
     else sTables = g.readDb(dbContent, 'sTables');
-
+    
     if (sType != null) dbContent = g.writeDb(dbContent, 'sType', sType);
     else sType = g.readDb(dbContent, 'sType');
-
+    
     let zVp;
     if (updateVP)
     {
@@ -565,6 +582,8 @@ async function command(interaction)
         .replace(/{sMode}/g, sMode)
         .replace(/{zMap}/g, sMap==='Base'?'+':'-')
         .replace(/{sMap}/g, sMap)
+        .replace(/{zNtnt}/g, sNtnt==='No'?'+':'-')
+        .replace(/{sNtnt}/g, sNtnt)
         .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
         .replace(/{sDice}/g, sDice)
         .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')

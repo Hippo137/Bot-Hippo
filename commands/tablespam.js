@@ -156,6 +156,7 @@ async function command(interaction)
     const zMap = g.readDb(dbContent, 'zMap');
     const sMode = g.readDb(dbContent, 'sMode');
     const zMode = g.readDb(dbContent, 'zMode');
+    const sNtnt = g.readDb(dbContent, 'sNtnt');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
     const sPrize = g.readDb(dbContent, 'sPrize');
@@ -197,6 +198,8 @@ async function command(interaction)
             .replace(/{sMode}/g, sMode)
             .replace(/{zMap}/g, zMap)
             .replace(/{sMap}/g, sMap)
+            .replace(/{zNtnt}/g, zNtnt)
+            .replace(/{sNtnt}/g, sNtnt)
             .replace(/{zDice}/g, zDice)
             .replace(/{sDice}/g, sDice)
             .replace(/{zSpeed}/g, zSpeed)
@@ -214,7 +217,7 @@ async function command(interaction)
 
         //settings don’t change anything, so no need to update the database
         success = true;
-        interaction.editReply(botMessage);
+        return interaction.editReply(botMessage);
     }
 
 
@@ -260,7 +263,7 @@ async function command(interaction)
         if (sPrize === 'Cash Ticket') extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
         else extraMessage2 += 'This is your very last match in this qualifier. :smile:';
         tableEnd = 1;
-        link = 'DF'
+        link = 'DF';
         message = 'Posted the Dayfinal.';
         break;
 
@@ -269,7 +272,7 @@ async function command(interaction)
         //roomname = `CC${sType} sixteenthfinal Table {sTable}`;
         extraMessage2 += 'Win this match to advance to the Quarterfinal.'
         if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sTeamsize, 4);
-        link = 'EF{sTable}'
+        link = 'EF{sTable}';
         message = 'Posted the Sixteenthfinal.';
         break;
 
@@ -278,7 +281,7 @@ async function command(interaction)
         //roomname = `CC${sType} Eighthfinal Table {sTable}`;
         extraMessage2 += 'Win this match to advance to the Quarterfinal.'
         if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sTeamsize, 3);
-        link = 'EF{sTable}'
+        link = 'EF{sTable}';
         message = 'Posted the Eighthfinal.';
         break;
 
@@ -287,7 +290,7 @@ async function command(interaction)
         //roomname = `CC${sType} Quarterfinal Table {sTable}`;
         extraMessage2 += 'Win this match to advance to the Semifinal.'
         if (!tableEnd) tableEnd = sBrackets * Math.pow(sPlayers / sTeamsize, 2);
-        link = 'QF{sTable}'
+        link = 'QF{sTable}';
         message = 'Posted the Quarterfinal.';
         break;
 
@@ -309,6 +312,10 @@ async function command(interaction)
         link = '{X}T{sTable}';
         message = 'Posted the Final.';
         break;
+    }
+    if (sNtnt === 'Yes')
+    {
+        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule NTNT. No messages, no talking, no trades until the game officially ended. No exceptions!';
     }
     let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
         .replace(/{intro}/g, intro)
@@ -368,10 +375,13 @@ async function command(interaction)
             channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
-        channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
-        if (channelTarget)
+        if (sNtnt === 'No')
         {
-            channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
+            if (channelTarget)
+            {
+                channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            }
         }
     }
 
