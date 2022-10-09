@@ -157,6 +157,7 @@ async function command(interaction)
     const sMode = g.readDb(dbContent, 'sMode');
     const zMode = g.readDb(dbContent, 'zMode');
     const sNtnt = g.readDb(dbContent, 'sNtnt');
+    const zNtnt = g.readDb(dbContent, 'zNtnt');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
     const sPrize = g.readDb(dbContent, 'sPrize');
@@ -217,7 +218,7 @@ async function command(interaction)
 
         //settings don’t change anything, so no need to update the database
         success = true;
-        return interaction.editReply(botMessage);
+        return interaction.editReply(botMessage).catch(console.error);;
     }
 
 
