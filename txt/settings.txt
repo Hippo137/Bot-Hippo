@@ -1,24 +1,25 @@
 :game_die: **__Settings__**
 ```diff
-{zType} Type:                {sType}
-{zTables} Tables:              {sTables}
-{zRound} Round:               {sRound}
-{zRounds} Rounds:              {sRounds}
-{zDayfinal} Day Final:           {sDayfinal}
-{zPrize} Day Final Prize:     {sPrize}
-{zBrackets} Brackets:            {sBrackets}
-{zLoserfinals} Loser Finals:        {sLoserfinals}
-{zTeamsize} Teamsize:            {sTeamsize}
-{zRandom} Random Letters:      {sRandom}
-{zBox} Best Of:             {sBox}
-{zNtnt} NTNT:                {sNtnt}
+{zType} Type:                  {sType}
+{zTables} Tables:                {sTables}
+{zRound} Round:                 {sRound}
+{zRounds} Rounds:                {sRounds}
+{zDayfinal} Dayfinal:              {sDayfinal}
+{zDayfinalPrize} Dayfinal Prize:        {sDayfinalPrize}
+{zDayfinalPrizeCustom} Dayfinal Prize Custom: {sDayfinalPrizeCustom}
+{zBrackets} Brackets:              {sBrackets}
+{zLoserfinals} Loser Finals:          {sLoserfinals}
+{zTeamsize} Teamsize:              {sTeamsize}
+{zRandom} Random Letters:        {sRandom}
+{zBox} Best Of:               {sBox}
+{zSpecial} Special Rules:         {sSpecial}
 
-{zRobber} Friendly Robber:     {sRobber}
-{zMode} Game Mode:           {sMode}
-{zMap} Map:                 {sMap}
-{zDice} Dice:                {sDice}
-{zSpeed} Game Speed:          {sSpeed}
-{zPlayers} Max Players:         {sPlayers}
-{zDiscard} Card Discard Limit:  {sDiscard}
-{zVp} VP to Win:           {sVp}
+{zRobber} Friendly Robber:       {sRobber}
+{zMode} Game Mode:             {sMode}
+{zMap} Map:                   {sMap}
+{zDice} Dice:                  {sDice}
+{zSpeed} Game Speed:            {sSpeed}
+{zPlayers} Max Players:           {sPlayers}
+{zDiscard} Card Discard Limit:    {sDiscard}
+{zVp} VP to Win:             {sVp}
 ```

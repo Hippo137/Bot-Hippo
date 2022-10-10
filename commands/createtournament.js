@@ -54,6 +54,21 @@ module.exports = {
         )
         .addStringOption
         (option =>
+            option.setName('dayfinalprize')
+            .setDescription('What does winning the Day Final reward? – defaults to CASH TICKET if omitted')
+            .setRequired(false)
+            .addChoice('Cash Ticket', 'Cash Ticket')
+            .addChoice('Custom (use ‘dayfinalprizecustom’)', 'Custom')
+            .addChoice('Nothing', 'Nothing')
+        )
+        .addStringOption
+        (option =>
+            option.setName('dayfinalprizecustom')
+            .setDescription('Custom Prize for winning the Day Final – only matters if ‘dayfinalprize’=CUSTOM')
+            .setRequired(false)
+        )
+        .addStringOption
+        (option =>
             option.setName('dice')
             .setDescription('[setting]: dice – defaults to RANDOM DICE if omitted')
             .setRequired(false)
@@ -129,14 +144,6 @@ module.exports = {
             .addChoice('Cities & Knights', 'Cities & Knights')
             .addChoice('Seafarers + Cities & Knights', 'Seafarers + Cities & Knights')
         )
-        .addStringOption
-        (option =>
-            option.setName('ntnt')
-            .setDescription('No Talk No Trade – defaults to NO if omitted')
-            .setRequired(false)
-            .addChoice('Yes', 'Yes')
-            .addChoice('No', 'No')
-        )
         .addIntegerOption
         (option =>
             option.setName('players')
@@ -149,14 +156,6 @@ module.exports = {
             .addChoice('6', 6)
             .addChoice('7', 7)
             .addChoice('8', 8)
-        )
-        .addStringOption
-        (option =>
-            option.setName('prize')
-            .setDescription('What does winning the Day Final reward? – defaults to CASH TICKET if omitted')
-            .setRequired(false)
-            .addChoice('Cash Ticket', 'Cash Ticket')
-            .addChoice('Nothing', 'Nothing')
         )
         .addStringOption
         (option =>
@@ -187,6 +186,15 @@ module.exports = {
             .addChoice('3', 3)
             .addChoice('4', 4)
             .addChoice('5', 5)
+        )
+        .addStringOption
+        (option =>
+            option.setName('special')
+            .setDescription('Any special rules – defaults to NONE if omitted')
+            .setRequired(false)
+            .addChoice('NTNT', 'Ntnt')
+            .addChoice('First Settlement on Coast', 'CoastFirst')
+            .addChoice('None', 'None')
         )
         .addStringOption
         (option =>
@@ -282,14 +290,15 @@ async function command(interaction)
     let sBox = interaction.options.getInteger('box');
     let sBrackets = interaction.options.getInteger('brackets');
     let sDayfinal = interaction.options.getString('dayfinal');
+    let sDayfinalPrize = interaction.options.getString('dayfinalprize');
+    let sDayfinalPrizeCustom = interaction.options.getString('dayfinalprizecustom');
     let sDice = interaction.options.getString('dice');
     let sDiscard = interaction.options.getInteger('discard');
     let sLoserfinals = interaction.options.getString('loserfinal');
     let sMap = interaction.options.getString('map');
     let sMode = interaction.options.getString('mode');
-    let sNtnt = interaction.options.getString('ntnt');
+    let sSpecial = interaction.options.getString('special');
     let sPlayers = interaction.options.getInteger('players');
-    let sPrize = interaction.options.getString('prize');
     let sRandom = interaction.options.getString('random');
     let sRobber = interaction.options.getString('friendlyrobber');
     let sRound = interaction.options.getInteger('round');
@@ -306,19 +315,20 @@ async function command(interaction)
     {
         sBox = sBox ?? 1;
         sBrackets = sBrackets ?? 4;
+        sDayfinalPrizeCustom = sDayfinalPrizeCustom ?? 'None';
         sDayfinal = sDayfinal ?? 'No';
         sDice = sDice ?? 'Random Dice';
         sDiscard = sDiscard ?? 7;
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
         sMode = sMode ?? 'Base';
-        sNtnt = sNtnt ?? 'No';
         sPlayers = sPlayers ?? 4;
-        sPrize = sPrize ?? 'Cash Ticket';
+        sDayfinalPrize = sDayfinalPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
         sRobber = sRobber ?? 'No';
         sRound = sRound ?? 1;
         //sRounds = sRounds ?? 3; //at the bottom because it depends on the sMode
+        sSpecial = sSpecial ?? 'None';
         sSpeed = sSpeed ?? 'Fast';
         sTables = sTables ?? 0;
         sTeamsize = sTeamsize ?? 1;
@@ -358,6 +368,9 @@ async function command(interaction)
 
     if (sBrackets != null) dbContent = g.writeDb(dbContent, 'sBrackets', `${sBrackets}`);
     else sBrackets = g.readDb(dbContent, 'sBrackets');
+    
+    if (sDayfinalPrizeCustom != null) dbContent = g.writeDb(dbContent, 'sDayfinalPrizeCustom', `${sDayfinalPrizeCustom}`);
+    else dbContent = g.readDb(dbContent, 'sDayfinalPrizeCustom');
 
     if (sDayfinal != null) dbContent = g.writeDb(dbContent, 'sDayfinal', sDayfinal);
     else sDayfinal = g.readDb(dbContent, 'sDayfinal');
@@ -392,16 +405,9 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
     }
     else sMode = g.readDb(dbContent, 'sMode');
-    
-    if (sNtnt != null)
-    {
-        dbContent = g.writeDb(dbContent, 'sNtnt', sNtnt);
-        dbContent = g.writeDb(dbContent, 'zNtnt', sNtnt === 'No' ? '+' : '-');
-    }
-    else sNtnt = g.readDb(dbContent, 'sNtnt');
 
-    if (sPrize != null) dbContent = g.writeDb(dbContent, 'sPrize', sPrize);
-    else sPrize = g.readDb(dbContent, 'sPrize');
+    if (sDayfinalPrize != null) dbContent = g.writeDb(dbContent, 'sDayfinalPrize', sDayfinalPrize);
+    else sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
 
     if (sRandom != null) dbContent = g.writeDb(dbContent, 'sRandom', sRandom);
     else sRandom = g.readDb(dbContent, 'sRandom');
@@ -418,7 +424,14 @@ async function command(interaction)
 
     if (sRounds != null) dbContent = g.writeDb(dbContent, 'sRounds', `${sRounds}`);
     else sRounds = g.readDb(dbContent, 'sRounds');
-
+    
+    if (sSpecial != null)
+    {
+        dbContent = g.writeDb(dbContent, 'sSpecial', sSpecial);
+        dbContent = g.writeDb(dbContent, 'zSpecial', sSpecial === 'None' ? '+' : '-');
+    }
+    else sSpecial = g.readDb(dbContent, 'sSpecial');
+    
     if (sSpeed != null)
     {
         dbContent = g.writeDb(dbContent, 'sSpeed', `${sSpeed}`);
@@ -556,48 +569,49 @@ async function command(interaction)
     }
 
     let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-        .replace(/{zType}/g, sType==='Open'?'+':'-')
-        .replace(/{sType}/g, sType)
-        .replace(/{zTables}/g, sTables==0?'+':'-')
-        .replace(/{sTables}/g, sTables)
-        .replace(/{zRound}/g, sRound==1?'+':'-')
-        .replace(/{sRound}/g, sRound)
-        .replace(/{zRounds}/g, (sRounds==3)!=(sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights')?'+':'-')
-        .replace(/{sRounds}/g, sRounds)
-        .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
-        .replace(/{sDayfinal}/g, sDayfinal)
-        .replace(/{zPrize}/g, sPrize==='Cash Ticket'?'+':'-')
-        .replace(/{sPrize}/g, sPrize)
+        .replace(/{zBox}/g, sBox==1?'+':'-')
+        .replace(/{sBox}/g, sBox)
         .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
         .replace(/{sBrackets}/g, sBrackets)
+        .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
+        .replace(/{sDayfinal}/g, sDayfinal)
+        .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
+        .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
+        .replace(/{zDayfinalPrizeCustom}/g, sDayfinalPrizeCustom==='None'?'+':'-')
+        .replace(/{sDayfinalPrizeCustom}/g, sDayfinalPrizeCustom)
+        .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
+        .replace(/{sDice}/g, sDice)
+        .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
+        .replace(/{sDiscard}/g, sDiscard)
         .replace(/{zLoserfinals}/g, (sLoserfinals==='No')!=(sType==='Cash')?'+':'-')
         .replace(/{sLoserfinals}/g, sLoserfinals)
-        .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
-        .replace(/{sTeamsize}/g, sTeamsize)
+        .replace(/{zMap}/g, sMap==='Base'?'+':'-')
+        .replace(/{sMap}/g, sMap)
+        .replace(/{zMode}/g, sMode==='Base'?'+':'-')
+        .replace(/{sMode}/g, sMode)
+        .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
+        .replace(/{sPlayers}/g, sPlayers)
         .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
         .replace(/{sRandom}/g, sRandom)
         .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
         .replace(/{sRobber}/g, sRobber)
-        .replace(/{zMode}/g, sMode==='Base'?'+':'-')
-        .replace(/{sMode}/g, sMode)
-        .replace(/{zMap}/g, sMap==='Base'?'+':'-')
-        .replace(/{sMap}/g, sMap)
-        .replace(/{zNtnt}/g, sNtnt==='No'?'+':'-')
-        .replace(/{sNtnt}/g, sNtnt)
-        .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
-        .replace(/{sDice}/g, sDice)
+        .replace(/{zRound}/g, sRound==1?'+':'-')
+        .replace(/{sRound}/g, sRound)
+        .replace(/{zRounds}/g, (sRounds==3)!=(sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights')?'+':'-')
+        .replace(/{sRounds}/g, sRounds)
+        .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
+        .replace(/{sSpecial}/g, sSpecial)
         .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')
         .replace(/{sSpeed}/g, sSpeed)
-        .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
-        .replace(/{sPlayers}/g, sPlayers)
-        .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
-        .replace(/{sDiscard}/g, sDiscard)
-        .replace(/{zVp}/g, zVp)
-        .replace(/{sVp}/g, sVp)
-        .replace(/{zWinner}/g, sTeamsize===1?'+':'-')
+        .replace(/{zTables}/g, sTables==0?'+':'-')
+        .replace(/{sTables}/g, sTables)
+        .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
         .replace(/{sTeamsize}/g, sTeamsize)
-        .replace(/{zBox}/g, sBox==1?'+':'-')
-        .replace(/{sBox}/g, sBox);
+        .replace(/{zType}/g, sType==='Open'?'+':'-')
+        .replace(/{sType}/g, sType)
+        .replace(/{zVp}/g, zVp)
+        .replace(/{sVp}/g, sVp);
+        
 
     //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
     interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime

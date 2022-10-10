@@ -146,6 +146,7 @@ async function command(interaction)
 
     const sBox = g.readDb(dbContent, 'sBox');
     const sBrackets = g.readDb(dbContent, 'sBrackets');
+    const sDayfinalPrizeCustom = g.readDb(dbContent, 'sDayfinalPrizeCustom');
     const sDayfinal = g.readDb(dbContent, 'sDayfinal');
     const sDice = g.readDb(dbContent, 'sDice');
     const zDice = g.readDb(dbContent, 'zDice');
@@ -156,11 +157,11 @@ async function command(interaction)
     const zMap = g.readDb(dbContent, 'zMap');
     const sMode = g.readDb(dbContent, 'sMode');
     const zMode = g.readDb(dbContent, 'zMode');
-    const sNtnt = g.readDb(dbContent, 'sNtnt');
-    const zNtnt = g.readDb(dbContent, 'zNtnt');
+    const sSpecial = g.readDb(dbContent, 'sSpecial');
+    const zSpecial = g.readDb(dbContent, 'zSpecial');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
-    const sPrize = g.readDb(dbContent, 'sPrize');
+    const sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
     const sRandom = g.readDb(dbContent, 'sRandom');
     const sRobber = g.readDb(dbContent, 'sRobber');
     const zRobber = g.readDb(dbContent, 'zRobber');
@@ -175,50 +176,52 @@ async function command(interaction)
     if (interaction.options.getSubcommand() === 'settings')
     {
         let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-            .replace(/{zType}/g, sType==='Open'?'+':'-')
-            .replace(/{sType}/g, sType)
-            .replace(/{zTables}/g, sTables==0?'+':'-')
-            .replace(/{sTables}/g, sTables)
+            .replace(/{zBox}/g, sBox==1?'+':'-')
+            .replace(/{sBox}/g, sBox)
+            .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
+            .replace(/{sBrackets}/g, sBrackets)
+            .replace(/{zCustomPrize}/g, sDayfinalPrizeCustom==='None'?'+':'-')
+            .replace(/{sDayfinalPrizeCustom}/g, sDayfinalPrizeCustom)
+            .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
+            .replace(/{sDayfinal}/g, sDayfinal)
+            .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
+            .replace(/{sDice}/g, sDice)
+            .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
+            .replace(/{sDiscard}/g, sDiscard)
+            .replace(/{zLoserfinals}/g, (sLoserfinals==='No')!=(sType==='Cash')?'+':'-')
+            .replace(/{sLoserfinals}/g, sLoserfinals)
+            .replace(/{zMap}/g, sMap==='Base'?'+':'-')
+            .replace(/{sMap}/g, sMap)
+            .replace(/{zMode}/g, sMode==='Base'?'+':'-')
+            .replace(/{sMode}/g, sMode)
+            .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
+            .replace(/{sPlayers}/g, sPlayers)
+            .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
+            .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
+            .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
+            .replace(/{sRandom}/g, sRandom)
+            .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
+            .replace(/{sRobber}/g, sRobber)
             .replace(/{zRound}/g, sRound==1?'+':'-')
             .replace(/{sRound}/g, sRound)
             .replace(/{zRounds}/g, (sRounds==3)!=(sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights')?'+':'-')
             .replace(/{sRounds}/g, sRounds)
-            .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
-            .replace(/{sDayfinal}/g, sDayfinal)
-            .replace(/{zPrize}/g, sPrize==='Cash Ticket'?'+':'-')
-            .replace(/{sPrize}/g, sPrize)
-            .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
-            .replace(/{sBrackets}/g, sBrackets)
-            .replace(/{zLoserfinals}/g, (sLoserfinals==='No')!=(sType==='Cash')?'+':'-')
-            .replace(/{sLoserfinals}/g, sLoserfinals)
-            .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
-            .replace(/{sRandom}/g, sRandom)
-            .replace(/{zRobber}/g, zRobber)
-            .replace(/{sRobber}/g, sRobber)
-            .replace(/{zMode}/g, zMode)
-            .replace(/{sMode}/g, sMode)
-            .replace(/{zMap}/g, zMap)
-            .replace(/{sMap}/g, sMap)
-            .replace(/{zNtnt}/g, zNtnt)
-            .replace(/{sNtnt}/g, sNtnt)
-            .replace(/{zDice}/g, zDice)
-            .replace(/{sDice}/g, sDice)
-            .replace(/{zSpeed}/g, zSpeed)
+            .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
+            .replace(/{sSpecial}/g, sSpecial)
+            .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')
             .replace(/{sSpeed}/g, sSpeed)
-            .replace(/{zPlayers}/g, zPlayers)
-            .replace(/{sPlayers}/g, sPlayers)
-            .replace(/{zDiscard}/g, zDiscard)
-            .replace(/{sDiscard}/g, sDiscard)
-            .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp)
+            .replace(/{zTables}/g, sTables==0?'+':'-')
+            .replace(/{sTables}/g, sTables)
             .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
             .replace(/{sTeamsize}/g, sTeamsize)
-            .replace(/{zBox}/g, sBox==1?'+':'-')
-            .replace(/{sBox}/g, sBox);
+            .replace(/{zType}/g, sType==='Open'?'+':'-')
+            .replace(/{sType}/g, sType)
+            .replace(/{zVp}/g, zVp)
+            .replace(/{sVp}/g, sVp);
 
         //settings don’t change anything, so no need to update the database
         success = true;
-        return interaction.editReply(botMessage).catch(console.error);;
+        return interaction.editReply(botMessage).catch(console.error);
     }
 
 
@@ -231,10 +234,10 @@ async function command(interaction)
 
     if (sBox > 1)
     {
-        screenshotMessage = 'After each match, the winner posts a screenshot of the game end screen in';
-        extraMessage2 = `You will play a total of ${intNames[sBox]} matches with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a match ends to create a new lobby.\n`;
+        screenshotMessage = 'After each game, the winner posts a screenshot of the game end screen in';
+        extraMessage2 = `You will play a total of ${intNames[sBox]} games with the same opponent${sPlayers>2?'s':''} in this round. Use the ‘Rematch’ button after a game ends to create a new lobby.\n`;
     }
-    else screenshotMessage = 'After the match, the winner posts a screenshot of the game end screen in';
+    else screenshotMessage = 'After the game, the winner posts a screenshot of the game end screen in';
 
     if (sTeamsize > 1) extraMessage1 = `\n:warning: You don’t play on your own. You have ${sTeamsize==2?'a teammate':`${intNames[sTeamsize-1]} teammates`}!\n`;
 
@@ -249,7 +252,8 @@ async function command(interaction)
             if (sDayfinal === 'Yes')
             {
                 extraMessage2 += `There is a Dayfinal for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
-                if (sPrize == 'Cash Ticket') extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
+                if (sDayfinalPrize == 'Cash Ticket') extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
+                else if (sDayfinalPrize === 'Custom' && sDayfinalPrizeCustom != 'None') extraMessage2 += ` Don’t miss your chance to win ${sDayfinalPrizeCustom}`;
             }
             else extraMessage2 += 'This is the last round in the qualifier.';
         }
@@ -261,8 +265,9 @@ async function command(interaction)
         case 'dayfinal':
         intro = 'Dayfinal';
         //roomname = `CC${sType} Dayfinal`;
-        if (sPrize === 'Cash Ticket') extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
-        else extraMessage2 += 'This is your very last match in this qualifier. :smile:';
+        if (sDayfinalPrize === 'Cash Ticket') extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
+        else if (sDayfinalPrize === 'Custom' && sDayfinalPrizeCustom != 'None') extraMessage2 += `Win this match to win ${sDayfinalPrizeCustom}`;
+        else extraMessage2 += 'This is your very last match in this qualifier. :slight_smile:';
         tableEnd = 1;
         link = 'DF';
         message = 'Posted the Dayfinal.';
@@ -314,9 +319,15 @@ async function command(interaction)
         message = 'Posted the Final.';
         break;
     }
-    if (sNtnt === 'Yes')
+    switch (sSpecial)
     {
-        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule NTNT. No messages, no talking, no trades until the game officially ended. No exceptions!';
+        case 'Ntnt':
+        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘NTNT’. No messages, no talking, no trades until the game officially ended. No exceptions!';
+        break;
+        
+        case 'CoastFirst':
+        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘First Settlement on Coast’. The first settlement you place must be placed on at least one water tile. No exceptions!';
+        break;
     }
     let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
         .replace(/{intro}/g, intro)
@@ -376,7 +387,7 @@ async function command(interaction)
             channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
-        if (sNtnt === 'No')
+        if (sSpecial === 'No')
         {
             channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
             if (channelTarget)
