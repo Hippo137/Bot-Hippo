@@ -33,16 +33,16 @@ client.once('ready', () => {
       console.log(error);
     }*/
     
-    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
 
 corrupted: False
 sBox: 1
 sBrackets: 4
-sDayfinal: Yes
-sDayfinalPrize: Custom
-sDayfinalPrizeCustom: a guaranteed spot in one final. 🏆
+sDayfinal: No
+sDayfinalPrize: Cash Ticket
+sDayfinalPrizeCustom: None
 sDice: Random Dice
 zDice: +
 sDiscard: 7
@@ -52,8 +52,8 @@ sMap: Base
 zMap: +
 sMode: Base
 zMode: +
-sSpecial: CoastFirst
-zSpecial: -
+sSpecial: No
+zSpecial: +
 sPlayers: 4
 zPlayers: +
 sSpeed: Fast
@@ -64,11 +64,11 @@ sType: Open
 sRandom: No
 sRobber: No
 zRobber: +
-sRound: 2
+sRound: 1
 sRounds: 3
 sVp: 10
-zVp: + 
-`).catch(console.error)})
+zVp: +
+`).catch(console.error)})*/
 
 
     });

@@ -387,7 +387,7 @@ async function command(interaction)
             channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
         }
-        if (sSpecial === 'No')
+        if (sSpecial !== 'Ntnt')
         {
             channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
             if (channelTarget)
