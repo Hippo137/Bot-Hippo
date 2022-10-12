@@ -326,7 +326,7 @@ async function command(interaction)
         break;
         
         case 'CoastFirst':
-        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘First Settlement on Coast’. The first settlement you place must be placed on at least one water tile. No exceptions!';
+        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘First Settlement on Coast’. Everyone has to place their first settlement on at least one water tile. No exceptions!';
         break;
     }
     let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
