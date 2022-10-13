@@ -6,7 +6,6 @@
 {zRounds} Rounds:                {sRounds}
 {zDayfinal} Dayfinal:              {sDayfinal}
 {zDayfinalPrize} Dayfinal Prize:        {sDayfinalPrize}
-{zDayfinalPrizeCustom} Dayfinal Prize Custom: {sDayfinalPrizeCustom}
 {zBrackets} Brackets:              {sBrackets}
 {zLoserfinals} Loser Finals:          {sLoserfinals}
 {zTeamsize} Teamsize:              {sTeamsize}

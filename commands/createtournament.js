@@ -58,14 +58,8 @@ module.exports = {
             .setDescription('What does winning the Day Final reward? – defaults to CASH TICKET if omitted')
             .setRequired(false)
             .addChoice('Cash Ticket', 'Cash Ticket')
-            .addChoice('Custom (use ‘dayfinalprizecustom’)', 'Custom')
+            .addChoice('Final Spot', 'Final Spot')
             .addChoice('Nothing', 'Nothing')
-        )
-        .addStringOption
-        (option =>
-            option.setName('dayfinalprizecustom')
-            .setDescription('Custom Prize for winning the Day Final – only matters if ‘dayfinalprize’=CUSTOM')
-            .setRequired(false)
         )
         .addStringOption
         (option =>
@@ -291,7 +285,6 @@ async function command(interaction)
     let sBrackets = interaction.options.getInteger('brackets');
     let sDayfinal = interaction.options.getString('dayfinal');
     let sDayfinalPrize = interaction.options.getString('dayfinalprize');
-    let sDayfinalPrizeCustom = interaction.options.getString('dayfinalprizecustom');
     let sDice = interaction.options.getString('dice');
     let sDiscard = interaction.options.getInteger('discard');
     let sLoserfinals = interaction.options.getString('loserfinal');
@@ -315,15 +308,15 @@ async function command(interaction)
     {
         sBox = sBox ?? 1;
         sBrackets = sBrackets ?? 4;
-        sDayfinalPrizeCustom = sDayfinalPrizeCustom ?? 'None';
         sDayfinal = sDayfinal ?? 'No';
+        sDayfinalPrize = sDayfinalPrize ?? 'Cash Ticket';
         sDice = sDice ?? 'Random Dice';
         sDiscard = sDiscard ?? 7;
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
         sMode = sMode ?? 'Base';
         sPlayers = sPlayers ?? 4;
-        sDayfinalPrize = sDayfinalPrize ?? 'Cash Ticket';
+        
         sRandom = sRandom ?? 'No';
         sRobber = sRobber ?? 'No';
         sRound = sRound ?? 1;
@@ -368,12 +361,12 @@ async function command(interaction)
 
     if (sBrackets != null) dbContent = g.writeDb(dbContent, 'sBrackets', `${sBrackets}`);
     else sBrackets = g.readDb(dbContent, 'sBrackets');
-    
-    if (sDayfinalPrizeCustom != null) dbContent = g.writeDb(dbContent, 'sDayfinalPrizeCustom', `${sDayfinalPrizeCustom}`);
-    else dbContent = g.readDb(dbContent, 'sDayfinalPrizeCustom');
 
-    if (sDayfinal != null) dbContent = g.writeDb(dbContent, 'sDayfinal', sDayfinal);
+    if (sDayfinal != null) dbContent = g.writeDb(dbContent, 'sDayfinal', `${sDayfinal}`);
     else sDayfinal = g.readDb(dbContent, 'sDayfinal');
+    
+    if (sDayfinalPrize != null) dbContent = g.writeDb(dbContent, 'sDayfinalPrize', sDayfinalPrize);
+    else sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
 
     if (sDice != null)
     {
@@ -405,9 +398,6 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
     }
     else sMode = g.readDb(dbContent, 'sMode');
-
-    if (sDayfinalPrize != null) dbContent = g.writeDb(dbContent, 'sDayfinalPrize', sDayfinalPrize);
-    else sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
 
     if (sRandom != null) dbContent = g.writeDb(dbContent, 'sRandom', sRandom);
     else sRandom = g.readDb(dbContent, 'sRandom');
@@ -577,8 +567,6 @@ async function command(interaction)
         .replace(/{sDayfinal}/g, sDayfinal)
         .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
         .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
-        .replace(/{zDayfinalPrizeCustom}/g, sDayfinalPrizeCustom==='None'?'+':'-')
-        .replace(/{sDayfinalPrizeCustom}/g, sDayfinalPrizeCustom)
         .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
         .replace(/{sDice}/g, sDice)
         .replace(/{zDiscard}/g, sDiscard==7?'+':'-')

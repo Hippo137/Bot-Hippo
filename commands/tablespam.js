@@ -146,8 +146,8 @@ async function command(interaction)
 
     const sBox = g.readDb(dbContent, 'sBox');
     const sBrackets = g.readDb(dbContent, 'sBrackets');
-    const sDayfinalPrizeCustom = g.readDb(dbContent, 'sDayfinalPrizeCustom');
     const sDayfinal = g.readDb(dbContent, 'sDayfinal');
+    const sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
     const sDice = g.readDb(dbContent, 'sDice');
     const zDice = g.readDb(dbContent, 'zDice');
     const sDiscard = g.readDb(dbContent, 'sDiscard');
@@ -161,7 +161,6 @@ async function command(interaction)
     const zSpecial = g.readDb(dbContent, 'zSpecial');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
-    const sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
     const sRandom = g.readDb(dbContent, 'sRandom');
     const sRobber = g.readDb(dbContent, 'sRobber');
     const zRobber = g.readDb(dbContent, 'zRobber');
@@ -184,8 +183,6 @@ async function command(interaction)
             .replace(/{sDayfinal}/g, sDayfinal)
             .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
             .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
-            .replace(/{zDayfinalPrizeCustom}/g, sDayfinalPrizeCustom==='None'?'+':'-')
-            .replace(/{sDayfinalPrizeCustom}/g, sDayfinalPrizeCustom)
             .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
             .replace(/{sDice}/g, sDice)
             .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
@@ -252,8 +249,20 @@ async function command(interaction)
             if (sDayfinal === 'Yes')
             {
                 extraMessage2 += `There is a Dayfinal for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
-                if (sDayfinalPrize == 'Cash Ticket') extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:'
-                else if (sDayfinalPrize === 'Custom' && sDayfinalPrizeCustom != 'None') extraMessage2 += ` Don’t miss your chance to win ${sDayfinalPrizeCustom}`;
+                switch (sDayfinalPrize)
+                {
+                    case 'Cash Ticket':
+                    extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:';
+                    break;
+                    
+                    case 'Final Spot':
+                    extraMessage2 += ' Don’t miss your chance to win a guaranteed spot in the final. :trophy:'
+                    break;
+                    
+                    case 'None':    //no additional message if there is nothing to win
+                    //extraMessage2 += ' ';
+                    break;
+                }
             }
             else extraMessage2 += 'This is the last round in the qualifier.';
         }
@@ -265,9 +274,20 @@ async function command(interaction)
         case 'dayfinal':
         intro = 'Dayfinal';
         //roomname = `CC${sType} Dayfinal`;
-        if (sDayfinalPrize === 'Cash Ticket') extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
-        else if (sDayfinalPrize === 'Custom' && sDayfinalPrizeCustom != 'None') extraMessage2 += `Win this match to win ${sDayfinalPrizeCustom}`;
-        else extraMessage2 += 'This is your very last match in this qualifier. :slight_smile:';
+        switch (sDayfinalPrize)
+        {
+            case 'Cash Ticket':
+            extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
+            break;
+
+            case 'Final Spot':
+            extraMessage2 += 'Win this match to win a guaranteed spot in the final. :trophy:'
+            break;
+            
+            case 'None':
+            extraMessage2 += 'This is your very last match in this qualifier. :slight_smile:';
+            break;
+        }
         tableEnd = 1;
         link = 'DF';
         message = 'Posted the Dayfinal.';
