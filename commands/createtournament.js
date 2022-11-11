@@ -310,7 +310,7 @@ async function command(interaction)
         sBrackets = sBrackets ?? 4;
         sDayfinal = sDayfinal ?? 'No';
         sDayfinalPrize = sDayfinalPrize ?? 'Cash Ticket';
-        sDice = sDice ?? 'Random Dice';
+        sDice = sDice ?? g.tournamentDefaults.Dice;
         sDiscard = sDiscard ?? 7;
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
@@ -318,11 +318,11 @@ async function command(interaction)
         sPlayers = sPlayers ?? 4;
         
         sRandom = sRandom ?? 'No';
-        sRobber = sRobber ?? 'No';
+        sRobber = sRobber ?? g.tournamentDefaults.FriendlyRobber;
         sRound = sRound ?? 1;
         //sRounds = sRounds ?? 3; //at the bottom because it depends on the sMode
         sSpecial = sSpecial ?? 'None';
-        sSpeed = sSpeed ?? 'Fast';
+        sSpeed = sSpeed ?? g.tournamentDefaults.Speed;
         sTables = sTables ?? 0;
         sTeamsize = sTeamsize ?? 1;
         sType = sType ?? 'Open';
@@ -371,7 +371,7 @@ async function command(interaction)
     if (sDice != null)
     {
         dbContent = g.writeDb(dbContent, 'sDice', sDice);
-        dbContent = g.writeDb(dbContent, 'zDice', `${sDice === 'Random Dice' ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zDice', `${sDice === g.colonistDefaults.Dice ? '+' : '-'}`);
     }
     else sDice = g.readDb(dbContent, 'sDice');
 
@@ -405,7 +405,7 @@ async function command(interaction)
     if (sRobber != null)
     {
         dbContent = g.writeDb(dbContent, 'sRobber', sRobber);
-        dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === 'No' ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === g.colonistDefaults.FriendlyRobber ? '+' : '-'}`);
     }
     else sRobber = g.readDb(dbContent, 'sRobber');
 
@@ -425,7 +425,7 @@ async function command(interaction)
     if (sSpeed != null)
     {
         dbContent = g.writeDb(dbContent, 'sSpeed', `${sSpeed}`);
-        dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === 'Fast' ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === g.colonistDefaults.Speed ? '+' : '-'}`);
     }
     else sSpeed = g.readDb(dbContent, 'sSpeed');
     
@@ -567,7 +567,7 @@ async function command(interaction)
         .replace(/{sDayfinal}/g, sDayfinal)
         .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
         .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
-        .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
+        .replace(/{zDice}/g, sDice===g.colonistDefaults.Dice?'+':'-')
         .replace(/{sDice}/g, sDice)
         .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
         .replace(/{sDiscard}/g, sDiscard)
@@ -581,7 +581,7 @@ async function command(interaction)
         .replace(/{sPlayers}/g, sPlayers)
         .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
         .replace(/{sRandom}/g, sRandom)
-        .replace(/{zRobber}/g, sRobber==='No'?'+':'-')
+        .replace(/{zRobber}/g, sRobber===g.colonistDefaults.FriendlyRobber?'+':'-')
         .replace(/{sRobber}/g, sRobber)
         .replace(/{zRound}/g, sRound==1?'+':'-')
         .replace(/{sRound}/g, sRound)
@@ -589,7 +589,7 @@ async function command(interaction)
         .replace(/{sRounds}/g, sRounds)
         .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
         .replace(/{sSpecial}/g, sSpecial)
-        .replace(/{zSpeed}/g, sSpeed==='Fast'?'+':'-')
+        .replace(/{zSpeed}/g, sSpeed===g.colonistDefaults.Speed?'+':'-')
         .replace(/{sSpeed}/g, sSpeed)
         .replace(/{zTables}/g, sTables==0?'+':'-')
         .replace(/{sTables}/g, sTables)
