@@ -84,4 +84,9 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+client.on('guildMemberAdd', member => {
+    const roleToAdd = member.guild.roles.cache.find(role => role.name === 'Community Tournaments');
+    member.roles.add(roleToAdd);
+})
+
 client.login(process.env.TOKEN);
