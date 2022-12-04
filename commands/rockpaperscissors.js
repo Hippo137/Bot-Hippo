@@ -58,7 +58,7 @@ function command(interaction)
         }, 840000); //14 Minuten
         return;
     }
-    else if (opponentInteraction.member === interaction.member)
+    else if (opponentInteraction.member.id === interaction.member.id)   //Check ID so you can’t join your own game in a different guild
     {
         //interaction.deferReply( {ephemeral: true} );
         //return interaction.editReply('You can’t play against yourself. Nice try.');
