@@ -38,7 +38,7 @@ module.exports =
     colonistDefaults:
     {
         FriendlyRobber: 'No',
-        Dice: 'Balanced Dice',
+        Dice: 'Random Dice', //'Balanced Dice',
         Speed: 'Normal'
     },
     

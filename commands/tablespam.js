@@ -131,7 +131,7 @@ async function command(interaction)
         }
         if (tableStart > tableEnd)
         {
-            return interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables’`).catch(console.error);
+            return interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables.’`).catch(console.error);
         }
     }
 
@@ -140,7 +140,7 @@ async function command(interaction)
     const sRounds = g.readDb(dbContent, 'sRounds');
     if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds))
     {
-        return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
+        return interaction.editReply(`‘round’ must not exceed ‘rounds’. Maybe you need to restart the tournament.`).catch(console.error);
     }
     //if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
 

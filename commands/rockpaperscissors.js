@@ -21,7 +21,7 @@ module.exports = {
     
     async execute(interaction)
     {
-        await interaction.deferReply();
+        //await interaction.deferReply();
         success = false;
         await command(interaction);
         g.log(interaction, success);
@@ -41,9 +41,10 @@ function command(interaction)
     if (opponentInteraction === null)
     {
         opponentInteraction = interaction;
-        interaction.editReply('Match started.');
+        //interaction.editReply('Match started.');
+        interaction.reply({content: 'Match started.', ephemeral: true});
         interaction.channel.send(`${interaction.member} started a Rock Paper Scissors Match. Use /${interaction.commandName} to join.`).then(message => introMessage = message);
-
+        success = true;
         let introMessageCopy = introMessage;
         setTimeout(function()
         {
@@ -59,11 +60,15 @@ function command(interaction)
     }
     else if (opponentInteraction.member === interaction.member)
     {
-        return interaction.editReply('You can’t play against yourself. Nice try.');
+        //interaction.deferReply( {ephemeral: true} );
+        //return interaction.editReply('You can’t play against yourself. Nice try.');
+        return interaction.reply({content: 'You can’t play against yourself. Nice try.', ephemeral: true});
+        //return interaction.reply('You can’t play against yourself. Nice try.');
     }
     else
     {
-        interaction.editReply('Joined Match.');
+        //interaction.editReply('Joined Match.');
+        interaction.reply('Joined Match.');
         oppChoice = opponentInteraction.options.getString('choice');
         switch (oppChoice)
         {
