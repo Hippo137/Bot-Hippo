@@ -37,7 +37,7 @@ function command(interaction)
     if (host)
     {
         interaction.member.roles.add(host);
-        message += `\nGave you the ${host} role.`
+        message += `\nGave you the “Host” role.`
     }
     
     interaction.editReply(`Started the tournament.${message}`).catch(console.error);

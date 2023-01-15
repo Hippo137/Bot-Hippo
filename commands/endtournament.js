@@ -54,7 +54,7 @@ function command(interaction)
     if (backup)
     {
         backup.members.forEach(member => member.roles.remove(backup));
-        message += `\nRemoved the role ${backup} from everyone.`
+        message += `\nRemoved the role “Back Up Hero” from everyone.`
     }
     
     //remove Host role
@@ -62,7 +62,7 @@ function command(interaction)
     if (host)
     {
         interaction.member.roles.remove(host);
-        message += `\nRemoved the ${host} role from you.`
+        message += `\nRemoved the “Host” role from you.`
     }
     
     interaction.editReply(`Ended the tournament.${message}`).catch(console.error);
