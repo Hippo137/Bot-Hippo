@@ -24,6 +24,6 @@ function command(interaction)
     else if (random < 10) message = 'PONG!';
     else if (random < 20) message = 'Ping?';
     interaction.editReply(message).catch(console.error);
-
+    
     success = true;
 }
