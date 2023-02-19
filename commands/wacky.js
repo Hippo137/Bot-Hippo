@@ -54,4 +54,4 @@ function command(interaction)
     interaction.editReply(message).catch(console.error);
     
     success = true;
-’t}
+}
