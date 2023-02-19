@@ -1,0 +1,11 @@
+**Bot’s Revenge**
+
+All initial buildings must be placed by the bot. Players decide the road placement.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Very Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

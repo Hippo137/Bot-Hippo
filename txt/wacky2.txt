@@ -1,0 +1,11 @@
+**Colonist’s Choice**
+
+Choose the free map.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

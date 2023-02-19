@@ -1,0 +1,11 @@
+**Say Yes to the Trade**
+
+Every player must accept any trade offer immediately. Modifying requests is not allowed. All trade offers have to be 1:1. Trading with the bank is allowed normally.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

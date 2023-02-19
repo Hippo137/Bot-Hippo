@@ -1,0 +1,11 @@
+**Vacation Property**
+
+Player’s first initial building must be a spot with three hexes. Player’s second building must be placed on the shore.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

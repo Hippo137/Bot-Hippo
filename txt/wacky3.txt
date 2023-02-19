@@ -1,0 +1,11 @@
+**Social Distancing**
+
+No shared hexes when placing initial buildings. If this is played as a four player game on the base map, one of your settlements must be placed on the shore.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

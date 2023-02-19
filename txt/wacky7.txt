@@ -1,0 +1,11 @@
+**Shores Galore**
+
+All initial buildings must be placed on the shore.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

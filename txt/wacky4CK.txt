@@ -1,0 +1,11 @@
+**Fast ’n’ Furious**
+
+“I live my life a quarter-mile at a time.”
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Very Fast
+- Card Discard Limit:    9
++ VP to Win:             13
+```

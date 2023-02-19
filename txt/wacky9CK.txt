@@ -1,0 +1,12 @@
+**Weak Robber / Chicken Knights**
+
+When moving the robber due to a 7, it has to be played in such a way that only the player(s) with most visible VP are affected (excluding the player who rolled the 7). If that’s not possible, the robber must be placed on one of the player’s own hexes (shared hexes allowed).
+When moving the robber with a knight, the robber must be placed on the desert. If it is already on the desert, it’s not allowed to move it.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

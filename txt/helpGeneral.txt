@@ -49,3 +49,6 @@ Writes a custom message to table channels.
 
 __tablespam*__
 Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.
+
+__wacky__
+Returns a special ruleset you can use for you next game.

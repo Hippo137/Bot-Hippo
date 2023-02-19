@@ -1,0 +1,20 @@
+**Player Tag**
+
+Players choose the position of the initial buildings for each other in the following order. Players decide the road placement on their own.
+
+D for A.
+A for B.
+B for C.
+C for D.
+A for D.
+D for C.
+C for B.
+B for A.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

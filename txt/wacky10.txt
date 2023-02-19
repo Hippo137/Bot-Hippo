@@ -1,0 +1,11 @@
+**Blueprint Placements**
+The initial settlements must be placed according to the blueprint.
+
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             10
+```
