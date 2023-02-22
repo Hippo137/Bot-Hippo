@@ -1,6 +1,7 @@
 **Say Yes to the Trade**
 
-Every player must accept any trade offer immediately. Modifying requests is not allowed. All trade offers have to be 1:1. Trading with the bank is allowed normally.
+Every player must accept any trade offer immediately. Modifying requests is not allowed. All trade offers have to be 1:1. You are only allowed to trade once per turn.
+Trading with the bank is not affected.
 
 ```diff
 + Friendly Robber:       No
