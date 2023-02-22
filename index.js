@@ -17,13 +17,13 @@ client.once('ready', () => {
     
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
-    /*try
+    try
     {
     // change the path to your file
     await fs.unlink(path.join(__dirname, './txt/wacky10.txt'), () => {});
     } catch (error) {
       console.log(error);
-    }*/
+    }
     /*
     try
     {
