@@ -22,7 +22,7 @@ module.exports = {
 function command(interaction)
 {
     let facts = fs.readFileSync(`txt/facts.txt`, 'utf8').split('\n')
-    let r
+    let r;
     do
     {
         r = Math.floor(Math.random()*facts.length);
