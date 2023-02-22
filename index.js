@@ -24,6 +24,7 @@ client.once('ready', () => {
     } catch (error) {
       console.log(error);
     }
+    
     /*
     try
     {
