@@ -16,7 +16,7 @@ client.once('ready', () => {
     client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
     
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
-    
+    //do it ffs
     try
     {
     // change the path to your file
@@ -24,7 +24,6 @@ client.once('ready', () => {
     } catch (error) {
       console.log(error);
     }
-    
     /*
     try
     {
