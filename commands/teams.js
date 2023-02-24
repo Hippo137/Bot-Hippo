@@ -63,10 +63,10 @@ function command(interaction)
     for (let i=1; i<25; i++)
     {
         let user = interaction.options.getUser(`user${i<10?'0':''}${i}`);
-        if (user && !users.includes(user.username)) users.push(user.username);
-        else if (i==1) users.push(interaction.user.username);
+        if (user && !users.includes(user)) users.push(user);
+        else if (i==1) users.push(interaction.user);
     }
-    if (users.length < teams) return interaction.editReply('Provide at least as many users as the number of teams').catch(console.error);
+    if (users.length < teams) return interaction.editReply('Provide at least as many users as the number of teams.').catch(console.error);
     let usersInTeams = [];
     while (usersInTeams.push([])<teams); //every team has its own array inside this array
     let min = 0;
