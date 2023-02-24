@@ -18,7 +18,7 @@ module.exports = {
     
 function command(interaction)
 {
-    let message = 'Pong!'
+    let message = 'Pong!';
     let random = Math.floor(Math.random()*1000);
     if (random == 0) message = 'POOOOOOONNNGGGGGG!!!!!';
     else if (random < 10) message = 'PONG!';
