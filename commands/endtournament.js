@@ -48,7 +48,7 @@ function command(interaction)
     }
     message += `\nTable channels are hidden.`
     
-    //copy from backuprefresh
+    //remove Back Up Hero role from everyone – copy from backuprefresh
     interaction.guild.members.fetch();
     let backup = interaction.guild.roles.cache.find(role => role.name === 'Back Up Hero');
     if (backup)
@@ -57,15 +57,12 @@ function command(interaction)
         message += `\nRemoved the role “Back Up Hero” from everyone.`
     }
     
-    //remove Host role
-    let host = interaction.member.roles.cache.find(role => role.name === 'Host');
+    //remove Host role from everyone
+    let host = interaction.guild.roles.cache.find(role => role.name === 'Host');
     if (host)
     {
         host.members.forEach(member => member.roles.remove(host));
         message += `\nRemoved the role “Host” from everyone.`
-        
-        //interaction.member.roles.remove(host);
-        //message += `\nRemoved the “Host” role from you.`
     }
     
     interaction.editReply(`Ended the tournament.${message}`).catch(console.error);
