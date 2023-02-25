@@ -1,0 +1,2 @@
+__host__
+Used to take or remove the ‘Host’ role from yourself.

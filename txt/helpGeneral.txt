@@ -1,54 +1,22 @@
 This is a list of all available commands. To get more help on a specific command and a description of the parameters, set the optional *topic* parameter to the desired command name.
 
-* = CC Team only
-
-__backuprefresh*__
-Removes the Back Up Hero role for everyone.
-
-__clear*__
-This command is used to remove messages. It has two subcommands to either remove messages in the channel it is used in or in the table channels. This command can remove any messages which are younger than 14 days. Use it with caution and please do not wipe out an entire channel.
-
-__createtournament*__
-Sets or changes the settings of the tournament. The settings are used by the *tablespam* commands afterwards.
+__facts__
+Returns a random fact.
 
 __help__
 Shows a list of all available commands or detailed information about a single command.
 
-__facts__
-Returns a random fact.
-
 __ping__
 Returns a “pong”. Only there to check if the bot responds at all.
 
-__reboot*__
-Reboots the bot.
+__ntnt__
+Gives an explanation what ‘NTNT’ means.
 
 __rockpaperscissors__
 Play rock paper scissors against other players with this command.
 
-__roleadd*__
-Adds a new Discord role.
-
-__rolecolor*__
-Randomizes the color of a role.
-
-__rolecount*__
-Gets the number of roles in the guild.
-
-__rolelist*__
-Returns a list of all players with a given role.
-
-__roletransfer*__
-Removes a role. Every member who had that role gets a different role.
-
-__tablehide*__
-Hides or show table channels to everyone.
-
-__tablemessage*__
-Writes a custom message to table channels.
-
-__tablespam*__
-Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.
+__teams__
+Puts users randomly in teams.
 
 __wacky__
 Returns a special ruleset you can use for you next game.

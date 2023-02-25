@@ -45,6 +45,8 @@ module.exports = {
             .addChoice('8', 8)
             .addChoice('9', 9)
             .addChoice('10', 10)
+            .addChoice('11', 11)
+            .addChoice('12', 12)
         ),
     
     async execute(interaction)

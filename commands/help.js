@@ -13,25 +13,28 @@ module.exports = {
             option.setName('topic')
             .setDescription('Command to get help for. Omitting this gives a general overview over all commands. * = CC Team only')
             .setRequired(false)
-            .addChoice('backuprefresh*', 'Backuprefresh')
-            .addChoice('clear*', 'Clear')
-            .addChoice('createtournament*', 'Createtournament')
-            //.addChoice('endtournament*', 'Endtournament')
+            .addChoice('*backuprefresh', '*Backuprefresh')
+            .addChoice('*clear', '*Clear')
+            .addChoice('*createtournament', '*Createtournament')
+            .addChoice('*endtournament', '*Endtournament')
             .addChoice('facts', 'Facts')
             .addChoice('help', 'Help')
+            .addChoice('*host', 'Host')
             .addChoice('ntnt', 'Ntnt')
             .addChoice('ping', 'Ping')
-            .addChoice('reboot*', 'Reboot')
+            .addChoice('*raffledonator', '*Raffledonator')
+            .addChoice('*reboot', '*Reboot')
             .addChoice('rockpaperscissors', 'Rockpaperscissors')
-            .addChoice('roleadd*', 'Roleadd')
-            .addChoice('rolecolor*', 'Rolecolor')
-            .addChoice('rolecount', 'Rolecount')
-            .addChoice('rolelist*', 'Rolelist')
-            .addChoice('roletransfer*', 'Roletransfer')
-            //.addChoice('starttournament*', 'Starttournament')
-            .addChoice('tablehide*', 'Tablehide')
-            .addChoice('tablemessage*', 'Tablemessage')
-            .addChoice('tablespam*', 'Tablespam')
+            .addChoice('*roleadd', '*Roleadd')
+            .addChoice('*rolecolor', '*Rolecolor')
+            .addChoice('*rolelist', '*Rolelist')
+            .addChoice('*roletransfer', '*Roletransfer')
+            .addChoice('*starttournament', '*Starttournament')
+            .addChoice('*tablehide', '*Tablehide')
+            .addChoice('*tablemessage', '*Tablemessage')
+            .addChoice('*tablespam', '*Tablespam')
+            .addChoice('teams', 'teams')
+            .addChoice('wacky', 'wacky')
         ),
         
     async execute(interaction)
@@ -45,7 +48,22 @@ module.exports = {
     
 function command(interaction)
 {
-	interaction.editReply(fs.readFileSync(`txt/help${interaction.options.getString('topic') ?? 'General'}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
+	let topic = interaction.options.getString('topic');
+    let memberIsCCTeam = interaction.member.roles.cache.find(role => role.name === 'CC Team')
+    if (topic === null)
+    {
+        topic = `General${memberIsCCTeam?'CC':''}`;
+    }
+    else if (topic.includes('*'))
+    {
+        if (!memberIsCCTeam)
+        {
+            return interaction.editReply('Your selected command can only used by members of the CC-Team.').catch(console.error);
+        }
+        else topic = topic.slice(1);
+    }
+    
+    interaction.editReply(fs.readFileSync(`txt/help${topic}.txt`, 'utf8')).catch(console.error); //error handling in case the message was manually removed in the meantime
     
     success = true;
 }

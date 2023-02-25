@@ -2,6 +2,5 @@
 Play rock paper scissors against another player.
 
 *Required*
-
 __choice__
 Your choice. If you are the first player, other players can not see your selected choice before they select theirs.

@@ -1,0 +1,2 @@
+**Raffledonator**
+Returns a list of donators without spaces in names. This should be used over *rolelist* when refreshing the list of Donators because the command *!finalsraffle* removes the spaces from the names.

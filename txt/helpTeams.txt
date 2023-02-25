@@ -1,0 +1,7 @@
+**teams**
+Puts users randomly in teams. You can select up to 24 users and assign them randomly to up to twelve teams. You need to put in at least as many users as you have teams. Duplicate users are ignored.
+
+*Optional*
+__user01__ (yourself): If you don’t specify ‘user01’, ‘user01’ will be you.
+__userXX__: Select all users which you want to put into teams.
+__teams__ (2): Select the number of teams you want to put the users in.

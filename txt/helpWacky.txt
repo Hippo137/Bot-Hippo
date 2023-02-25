@@ -1,0 +1,5 @@
+**wacky**
+Returns a special ruleset you can use for your next game.
+
+*Optional*
+__mode__: The game mode you want to get settings for. Current, only Base and CK are supported.

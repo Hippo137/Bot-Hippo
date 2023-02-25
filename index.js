@@ -16,21 +16,10 @@ client.once('ready', () => {
     client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
     
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
-    /*try
-    {
-    // change the path to your file
-    await fs.unlink(path.join(__dirname, './txt/wacky10.txt'), () => {});
-    } catch (error) {
-      console.log(error);
-    }*/
-    /*
-    try
-    {
-    // change the path to your file
-    await fs.unlink(path.join(__dirname, './commands/rolecount.js'), () => {});
-    } catch (error) {
-      console.log(error);
-    }*/
+    
+    
+    fs.rmSync(path.join(__dirname, './txt/helpRolecount.txt'), {force: true});
+    fs.rmSync(path.join(__dirname, './commands/rolecount.js'), {force: true});
     
     /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database

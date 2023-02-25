@@ -1,2 +1,0 @@
-**rolecount**
-Gets the number of roles in the guild. The maximum number of roles is 250.

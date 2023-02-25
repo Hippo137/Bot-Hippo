@@ -1,0 +1,2 @@
+**starttournament**
+Is a shortcut to call *host* and show the ‘Tournament Assistance’ VC.

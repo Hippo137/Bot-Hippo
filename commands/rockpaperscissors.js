@@ -68,7 +68,7 @@ function command(interaction)
     else
     {
         //interaction.editReply('Joined Match.');
-        interaction.reply('Joined Match.');
+        interaction.reply({content: 'Joined Match', ephemeral: true});
         oppChoice = opponentInteraction.options.getString('choice');
         switch (oppChoice)
         {

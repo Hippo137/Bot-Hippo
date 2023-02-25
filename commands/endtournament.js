@@ -61,8 +61,11 @@ function command(interaction)
     let host = interaction.member.roles.cache.find(role => role.name === 'Host');
     if (host)
     {
-        interaction.member.roles.remove(host);
-        message += `\nRemoved the “Host” role from you.`
+        host.members.forEach(member => member.roles.remove(host));
+        message += `\nRemoved the role “Host” from everyone.`
+        
+        //interaction.member.roles.remove(host);
+        //message += `\nRemoved the “Host” role from you.`
     }
     
     interaction.editReply(`Ended the tournament.${message}`).catch(console.error);
