@@ -26,15 +26,17 @@ function command(interaction)
     let message = ``;
     
     let host = interaction.guild.roles.cache.find(role => role.name === 'Host');
-    if (host)
+    if (!host) return interaction.editReply('The ‘Host’ role wasn’t found.').catch(console.error);
+    
+    if (interaction.member.roles.cache.find(role => role.name === 'Host'))
     {
-        interaction.member.roles.add(host);
-        message += `Gave you the ‘Host’ role.`
+        interaction.member.roles.remove(host);
+        message += `Removed the ‘Host’ role from you.`
     }
     else
     {
-        interaction.member.roles.remove(host);
-        message += `Removed you the ‘Host’ role from you.`
+        interaction.member.roles.add(host);
+        message += `Gave you the ‘Host’ role.`
     }
     
     interaction.editReply(`${message}`).catch(console.error);
