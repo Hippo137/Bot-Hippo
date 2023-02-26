@@ -175,7 +175,7 @@ async function command(interaction)
     if (interaction.options.getSubcommand() === 'settings')
     {
         let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-            .replace(/{zBox}/g, zBox)
+            /*.replace(/{zBox}/g, zBox)
             .replace(/{sBox}/g, sBox)
             .replace(/{zBrackets}/g, zBrackets)
             .replace(/{sBrackets}/g, sBrackets)
@@ -214,9 +214,9 @@ async function command(interaction)
             .replace(/{zType}/g, zType)
             .replace(/{sType}/g, sType)
             .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp);
+            .replace(/{sVp}/g, sVp);*/
             
-            /*.replace(/{zBox}/g, sBox==1?'+':'-')
+            .replace(/{zBox}/g, sBox==1?'+':'-')
             .replace(/{sBox}/g, sBox)
             .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
             .replace(/{sBrackets}/g, sBrackets)
@@ -255,7 +255,7 @@ async function command(interaction)
             .replace(/{zType}/g, sType==='Open'?'+':'-')
             .replace(/{sType}/g, sType)
             .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp);*/
+            .replace(/{sVp}/g, sVp);
 
         //settings don’t change anything, so no need to update the database
         success = true;
