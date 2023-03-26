@@ -47,6 +47,6 @@ async function command(interaction)
         }
     });
     if (success) interaction.editReply('Successfully created a new role.').catch(console.error); //error handling in case the message was manually removed
-
-    success = true;
+    
+    //success = true;
 }
