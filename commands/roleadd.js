@@ -31,6 +31,7 @@ async function command(interaction)
     }
     
     const position = interaction.guild.roles.cache.find(role => role.name === 'Back Up Hero').position;
+    success = true;
     await interaction.guild.roles.create(
     {
         position: position,
@@ -41,11 +42,11 @@ async function command(interaction)
     {
         if (e.stack.startsWith('DiscordAPIError: Maximum number of server roles reached'))
         {
+            success = false; //return doesn’t work in await/catch. Without this, the reply would be edited again at the bottom overriding the error message from here
             return interaction.editReply('Couldn’t create a new role. Maximum number of roles reached.').catch(console.error); //error handling in case the message was manually removed in the meantime
         }
     });
-    
-    interaction.editReply('Successfully created a new role.').catch(console.error); //error handling in case the message was manually 
+    if (success) interaction.editReply('Successfully created a new role.').catch(console.error); //error handling in case the message was manually removed
 
     success = true;
 }
