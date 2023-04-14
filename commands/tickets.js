@@ -4,8 +4,8 @@ let success = false;
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('ntnt')
-		.setDescription('Explains NTNT'),
+		.setName('tickets')
+		.setDescription('Check your number of Cash Tournament Tickets'),
     
     async execute(interaction)
     {
@@ -18,7 +18,7 @@ module.exports = {
     
 function command(interaction)
 {
-    let message = 'NTNT means “No Talk No Trade” and is a Catan variant.\nCheck out more information about it in this small document: <http://tiny.cc/NTNT>'
+    let message = 'Check the following link to see how many Cash Tournament Tickets you have: <http://tiny.cc/CashTicketsStash>'
     interaction.editReply(message).catch(console.error);
 
     success = true;

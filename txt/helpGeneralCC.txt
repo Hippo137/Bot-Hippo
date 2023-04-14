@@ -65,5 +65,8 @@ Writes the messages to the table channels based on the settings given by *create
 __teams__
 Puts users randomly in teams.
 
+__tickets__
+Gives the option to check your number of Cash Tournament Tickets.
+
 __wacky__
 Returns a special ruleset you can use for you next game.

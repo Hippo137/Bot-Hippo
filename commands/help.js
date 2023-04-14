@@ -34,6 +34,7 @@ module.exports = {
             .addChoice('*tablemessage', '*Tablemessage')
             .addChoice('*tablespam', '*Tablespam')
             .addChoice('teams', 'teams')
+            .addChoice('tickets', 'tickets')
             .addChoice('wacky', 'wacky')
         ),
         

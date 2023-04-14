@@ -18,5 +18,8 @@ Play rock paper scissors against other players with this command.
 __teams__
 Puts users randomly in teams.
 
+__tickets__
+Gives the option to check your number of Cash Tournament Tickets.
+
 __wacky__
 Returns a special ruleset you can use for you next game.
