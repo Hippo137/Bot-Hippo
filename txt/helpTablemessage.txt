@@ -1,10 +1,12 @@
 **tablemessage**
-Writes a custom message to table channels.
+Writes a custom message to table channels. You can either give the desired content as a parameter or the message id of the message you want to copy.
 
 
-*Required*
+*Required (one or the other, not both)*
 __content__
 The message to be sent.
+__id__
+The id of the message you want to copy. Has to be in this channel.
 *Optional*
 __tableend__ (tables)
 Last table channel to write the message to.

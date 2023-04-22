@@ -11,8 +11,14 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('content')
-            .setDescription('The message to be sent')
-            .setRequired(true)
+            .setDescription('The message to be sent – Use either this or ‘id’, not both')
+            .setRequired(false)
+        )
+        .addStringOption
+        (option =>
+            option.setName('id')
+            .setDescription('Copy this message – Use either this or ‘content’, not both')
+            .setRequired(false)
         )
         .addIntegerOption
         (option =>
@@ -43,12 +49,24 @@ async function command(interaction)
         return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     }
     
+    let content = interaction.options.getString('content');
+    const id = interaction.options.getString('id');
+    
+    if (!content && !id) return interaction.editReply('You need to provide either a text to be sent or an id to a message to be copied.').catch(console.error);
+    if (content && id) return interaction.editReply('Do not provide both ‘content’ and ‘id’, but only one.').catch(console.error);
+    
+    if (id)
+    {
+        const msg = await interaction.channel.messages.fetch(id).catch(console.error);;
+        if (!msg) return interaction.editReply('Could not find a message with that id. Make sure it is in this channel.').catch(console.error);
+        content = msg.content;
+    }
+    
     const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
     let dbContent = dbMessage.content;
     
     const sTables = parseInt(g.readDb(dbContent, 'sTables'));
 
-    const content = interaction.options.getString('content');
     const tableEnd = interaction.options.getInteger('tableend') ?? sTables;
     const tableStart = interaction.options.getInteger('tablestart') ?? 1;
     if (tableEnd === 0)
