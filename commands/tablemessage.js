@@ -75,7 +75,6 @@ async function command(interaction)
     {
         return interaction.editReply(`‘tablestart’ must not exceed ‘tableend’/‘tables’`).catch(console.error);
     }
-    
     for (let i=tableStart; i<=tableEnd; i++)
     {
         const channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table-`+i);
