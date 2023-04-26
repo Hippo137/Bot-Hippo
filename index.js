@@ -17,7 +17,6 @@ client.once('ready', () => {
     
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
-    
     //fs.rmSync(path.join(__dirname, './txt/helpRolecount.txt'), {force: true});
     //fs.rmSync(path.join(__dirname, './commands/rolecount.js'), {force: true});
     
