@@ -61,12 +61,10 @@ async function command(interaction)
         if (!msg) return interaction.editReply('Could not find a message with that id. Make sure it is in this channel.').catch(console.error);
         content = msg.content;
     }
-    
     const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
     let dbContent = dbMessage.content;
     
     const sTables = parseInt(g.readDb(dbContent, 'sTables'));
-
     const tableEnd = interaction.options.getInteger('tableend') ?? sTables;
     const tableStart = interaction.options.getInteger('tablestart') ?? 1;
     if (tableEnd === 0)
