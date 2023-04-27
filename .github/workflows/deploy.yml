@@ -16,7 +16,7 @@ jobs:
       uses: appleboy/scp-action@v0.1.4
       env:
         HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.SSH_USERNAME }}
+        USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
       with:
@@ -27,7 +27,7 @@ jobs:
       uses: appleboy/ssh-action@v0.1.4
       with:
         HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.SSH_USERNAME }}
+        USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
         script: |
