@@ -27,10 +27,10 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.SSHKEY }}
-        script: 
+        USERNAME: ${{ secrets.SSH_USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: |
             sudo /bin/systemctl restart hippobot.service
             cd /app/Bot-Hippo
             node deploy-commands-w9.js
