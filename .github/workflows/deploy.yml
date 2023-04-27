@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v0.1.4
 
     - name: Copy repository contents via scp
-      uses: appleboy/scp-action@v0.1.10
+      uses: appleboy/scp-action@v0.1.4
       env:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.SSH_USERNAME }}
@@ -24,7 +24,7 @@ jobs:
         target: "/app/Bot-Hippo"
 
     - name: Executing remote command
-      uses: appleboy/ssh-action@v0.1.10
+      uses: appleboy/ssh-action@v0.1.4
       with:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.SSH_USERNAME }}
