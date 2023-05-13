@@ -1,0 +1,11 @@
+**Side-by-Side**
+
+Your initial buildings must be two or three roads apart.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
++ VP to Win:             {sVp}
+```

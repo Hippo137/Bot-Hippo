@@ -42,7 +42,7 @@ function command(interaction)
         let r;
         do
         {
-            r = Math.floor(Math.random()*10);
+            r = Math.floor(Math.random()*12);
         }
         while (repeats.includes(r));
         let filename = `txt/wacky${r}.txt`;

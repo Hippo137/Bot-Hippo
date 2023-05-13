@@ -171,51 +171,12 @@ async function command(interaction)
     const sVp = g.readDb(dbContent, 'sVp');
     const zVp = g.readDb(dbContent, 'zVp');
     const sTeamsize = g.readDb(dbContent, 'sTeamsize');
-
+    
+    const ck = sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights';
+    
     if (interaction.options.getSubcommand() === 'settings')
     {
         let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-            /*.replace(/{zBox}/g, zBox)
-            .replace(/{sBox}/g, sBox)
-            .replace(/{zBrackets}/g, zBrackets)
-            .replace(/{sBrackets}/g, sBrackets)
-            .replace(/{zDayfinal}/g, zDayfinal)
-            .replace(/{sDayfinal}/g, sDayfinal)
-            .replace(/{zDayfinalPrize}/g, zDayfinalPrize)
-            .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
-            .replace(/{zDice}/g, zDice)
-            .replace(/{sDice}/g, sDice)
-            .replace(/{zDiscard}/g, zDiscard)
-            .replace(/{sDiscard}/g, sDiscard)
-            .replace(/{zLoserfinals}/g, zLoserfinals)
-            .replace(/{sLoserfinals}/g, sLoserfinals)
-            .replace(/{zMap}/g, zMap)
-            .replace(/{sMap}/g, sMap)
-            .replace(/{zMode}/g, zMode)
-            .replace(/{sMode}/g, sMode)
-            .replace(/{zPlayers}/g, zPlayers)
-            .replace(/{sPlayers}/g, sPlayers)
-            .replace(/{zRandom}/g, zRandom)
-            .replace(/{sRandom}/g, sRandom)
-            .replace(/{zRobber}/g, zRobber)
-            .replace(/{sRobber}/g, sRobber)
-            .replace(/{zRound}/g, zRound)
-            .replace(/{sRound}/g, sRound)
-            .replace(/{zRounds}/g, zRounds)
-            .replace(/{sRounds}/g, sRounds)
-            .replace(/{zSpecial}/g, zSpecial)
-            .replace(/{sSpecial}/g, sSpecial)
-            .replace(/{zSpeed}/g, zSpeed)
-            .replace(/{sSpeed}/g, sSpeed)
-            .replace(/{zTables}/g, zTables)
-            .replace(/{sTables}/g, sTables)
-            .replace(/{zTeamsize}/g, zTeamsize)
-            .replace(/{sTeamsize}/g, sTeamsize)
-            .replace(/{zType}/g, zType)
-            .replace(/{sType}/g, sType)
-            .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp);*/
-            
             .replace(/{zBox}/g, sBox==1?'+':'-')
             .replace(/{sBox}/g, sBox)
             .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
@@ -242,7 +203,7 @@ async function command(interaction)
             .replace(/{sRobber}/g, sRobber)
             .replace(/{zRound}/g, sRound==1?'+':'-')
             .replace(/{sRound}/g, sRound)
-            .replace(/{zRounds}/g, (sRounds==3)!=(sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights')?'+':'-')
+            .replace(/{zRounds}/g, (sRounds==3)!=ck?'+':'-')
             .replace(/{sRounds}/g, sRounds)
             .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
             .replace(/{sSpecial}/g, sSpecial)
@@ -382,12 +343,48 @@ async function command(interaction)
     }
     switch (sSpecial)
     {
+        case 'CoastSingle':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Coastal Start’. Everyone has to place one of their initial buildings on at least one water tile. No exceptions!`;
+        break;
+        
+        case 'CoastDouble':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Double Coastal Start’. Everyone has to place both of their initial buildings on at least one water tile. No exceptions!`;
+        break;
+        
+        case 'CoastFirst':
+        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘First Settlement on Coast’. Everyone has to place their very first settlement on at least one water tile. No exceptions!';
+        break;
+        
+        case 'Goon':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Goon’. Everyone has to place one of their initial buildings on only a single hex. The desert counts as a hex. No exceptions!`;
+        break;
+        
         case 'Ntnt':
         extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘NTNT’. No messages, no talking, no trades until the game officially ended. No exceptions!';
         break;
         
-        case 'CoastFirst':
-        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘First Settlement on Coast’. Everyone has to place their first settlement on at least one water tile. No exceptions!';
+        case 'Port0':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Ports are for the weak’. For the entire game, you are not allowed to settle a port. No exceptions!`;
+        break;
+        
+        case 'PortFirst':
+        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘First Settlement on Port’. Everyone has to place their very first settlement on a port. No exceptions!';
+        break;
+        
+        case 'Resources3':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Three Resources’. Everyone has to place their initial buildings in a way such that you only produce a maximum of three different resources. No exceptions!`;
+        break;
+        
+        case 'Resources4':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Four Resources’. Everyone has to place their initial buildings in a way such that you only produce a maximum of four different resources. No exceptions!`;
+        break;
+        
+        case 'SBS':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Side-By-Side’. Your initial buildings must be two or three roads apart. No exceptions!`;
+        break;
+        
+        case 'ASBS':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Anti-Side-By-Side’. Your initial buildings must be at least five roads apart. No exceptions!`;
         break;
     }
     let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
