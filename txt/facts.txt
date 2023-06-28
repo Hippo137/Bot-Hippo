@@ -40,7 +40,7 @@ In Texas Hold ’em, Ace+Ace is the best starting hand while 7+2 from different 
 The Rubik’s Cube has 43252003274489856000 different permutations you can reach by turning the faces. Each permutation is only a maximum of 20 turns away from the solved state. The 20 is also called “God’s number”.
 CFOP is the most common method to solve a Rubik’s Cube. CFOP stands for the four main steps to solve the cube using the method: Cross – F2L (First two Layers) – OLL (Orientation of the Last Layer) – PLL (Permutation of the Last Layer).
 2 is the lowest prime number and the only one which is even.
-The name Google is based on the number “Googol” – 10^100.
+The name Google is based on the number “Googol” – 10↑100.
 Google went online 1997 and was developed by Sergey Brin and Larry Page.
 Amazon was founded 1994 by Jeff Bezos.
 The Settlers of Catan was originally released in 1995.
@@ -60,3 +60,8 @@ Sound emissions greatly hurt the marine ecosystem. Animals like whales need to u
 Representatives of the genera Alpheus and Synalpheus in the family Alpheidae are shrimp and the loudest known animals on earth. The snapping of their specialized claw creates sounds over 220 Decibel and temperatures over 5000 Kelvin which can kill or paralyze nearby creatures such as fish.
 You can’t change the past. But you can change yourself – for the future.
 The number of people older than you is never increasing.
+The naked mole-rat is the only ectothermic mammal.
+Tobacco is the only legal drug that kills its users when used exactly as intended by the manufacturers.
+Female hyenas don’t have an external vagina opening. Their clitoris appears as a pseudo-penis very similar to the male counterpart and is used to urinate, copulate and give birth.
+Larvae of Symphysodon (“Discus fish”) feed on the skin of their parents.
+Everyone is born as an atheist and stays an atheist until someone lies to them.

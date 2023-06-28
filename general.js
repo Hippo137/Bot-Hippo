@@ -1,5 +1,19 @@
 module.exports =
 {
+    allowed:
+    function (interaction, level) //level 0=everyone, 1=Tournament Team, 2=CC-Team, 3=Transition Team, 4=Hippo
+    {
+        switch (level)  //There are no breaks in the switch cases. This is not an accident. You don’t need the exact level, you need at least this level
+        {
+            case 0: return true;
+            case 1: if (interaction.member.roles.cache.find(role => role.name === 'Tournament Team')) return true;
+            case 2: if (interaction.member.roles.cache.find(role => role.name === 'CC Team')) return true;
+            case 3: if (interaction.member.roles.cache.find(role => role.name === 'Transition Team')) return true;
+            case 4: if (interaction.member.id === '383011975057113088') return true;
+        }
+        return false;
+    },
+    
     readDb:
     function (message, type)
     {

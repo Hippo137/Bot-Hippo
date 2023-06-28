@@ -30,10 +30,7 @@ module.exports = {
 
 async function command(interaction, dbMessage)
 {
-    if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
-    {
-        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
-    }
+    if (!g.allowed(interaction, 3)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
     await interaction.guild.members.fetch();
     

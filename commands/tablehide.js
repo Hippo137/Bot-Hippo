@@ -39,10 +39,7 @@ module.exports = {
 
 function command(interaction, dbMessage)
 {
-    if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
-    {
-        return interaction.editReply('You are not allowed to use this command.').catch(console.error);
-    }
+    if (!g.allowed(interaction, 1)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
     const show = interaction.options.getString('show') ?? 'No';
     const tableStart = interaction.options.getInteger('tablestart') ?? 1;

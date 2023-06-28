@@ -20,6 +20,8 @@ module.exports = {
     
 function command(interaction)
 {        
+    if (!g.allowed(interaction, 2)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
     if (!interaction.member.roles.cache.find(role => role.name === 'CC Team'))
     {
         return interaction.editReply('You are not allowed to use this command.').catch(console.error);

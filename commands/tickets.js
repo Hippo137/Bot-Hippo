@@ -18,6 +18,8 @@ module.exports = {
     
 function command(interaction)
 {
+    //if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
     let message = 'Check the following link to see how many Cash Tournament Tickets you have: <http://tiny.cc/CashTicketsStash>'
     interaction.editReply(message).catch(console.error);
 

@@ -18,6 +18,8 @@ module.exports = {
     
 function command(interaction)
 {
+    //if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
     let message = 'Pong!';
     let random = Math.floor(Math.random()*1000);
     if (random == 0) message = 'POOOOOOONNNGGGGGG!!!!!';

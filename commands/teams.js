@@ -60,6 +60,8 @@ module.exports = {
     
 function command(interaction)
 {
+    //if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
     let teams = interaction.options.getInteger('teams') ?? 2;
     let users = [];
     for (let i=1; i<25; i++)

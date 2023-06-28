@@ -18,6 +18,8 @@ module.exports = {
     
 function command(interaction)
 {
+    //if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
     let message = 'NTNT means “No Talk No Trade” and is a Catan variant.\nCheck out more information about it in this small document: <http://tiny.cc/NTNT>'
     interaction.editReply(message).catch(console.error);
 

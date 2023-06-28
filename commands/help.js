@@ -49,8 +49,10 @@ module.exports = {
     
 function command(interaction)
 {
-	let topic = interaction.options.getString('topic');
-    let memberIsCCTeam = interaction.member.roles.cache.find(role => role.name === 'CC Team')
+	//if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    
+    let topic = interaction.options.getString('topic');
+    let memberIsCCTeam = g.allowed(interaction, 1) //Tournament Team is enough now
     if (topic === null)
     {
         topic = `General${memberIsCCTeam?'CC':''}`;
