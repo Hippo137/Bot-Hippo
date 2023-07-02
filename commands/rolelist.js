@@ -11,6 +11,12 @@ module.exports = {
             option.setName('role')
             .setDescription('Select a role')
             .setRequired(true)
+        )
+        .addBooleanOption
+        (option =>
+            option.setName('id')
+            .setDescription('false=only names, true=names and IDs')
+            .setRequired(false)
         ),
         
     async execute(interaction)
@@ -34,15 +40,19 @@ async function command(interaction, dbMessage)
 
     interaction.editReply(`${membersWithRole.size} Member${membersWithRole.size==1?'':'s'} with the role: ${roleToSearch.name}`);
     let messageToWrite = '';
-
+    
+    const withID = interaction.options.getBoolean('id') ?? false;
+    
     membersWithRole.forEach(member =>
     {
-        if (messageToWrite.length + member.user.tag.length > 1950)
+        if (messageToWrite.length + member.user.tag.length + member.user.id.length > 1950)
         {
             interaction.channel.send(`\`${messageToWrite}\``);
-            messageToWrite = `${member.user.tag}\n`;
+            if (withID) messageToWrite = `${member.user.tag};${member.user.id}\n`;
+            else messageToWrite = `${member.user.tag}\n`;
         }
-        else messageToWrite += `${member.user.tag}\n`
+        else if (withID) messageToWrite += `${member.user.tag};${member.user.id}\n`;
+        else messageToWrite += `${member.user.tag}\n`;
 
     });
 
