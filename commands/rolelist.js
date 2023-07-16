@@ -12,11 +12,14 @@ module.exports = {
             .setDescription('Select a role')
             .setRequired(true)
         )
-        .addBooleanOption
+        .addStringOption
         (option =>
-            option.setName('id')
-            .setDescription('false=only names, true=names and IDs')
+            option.setName('nameid')
+            .setDescription('Select how the output should look like – defaults to ‘Only Names’ if omitted')
             .setRequired(false)
+            .addChoice('Name', 'Name')
+            .addChoice('ID', 'ID')
+            .addChoice('Name and ID', 'Name and ID')
         ),
         
     async execute(interaction)
@@ -41,19 +44,21 @@ async function command(interaction, dbMessage)
     interaction.editReply(`${membersWithRole.size} Member${membersWithRole.size==1?'':'s'} with the role: ${roleToSearch.name}`);
     let messageToWrite = '';
     
-    const withID = interaction.options.getBoolean('id') ?? false;
+    const nameID = interaction.options.getString('nameid') ?? 'Name';
+    const name = nameID != 'ID';
+    const id = nameID != 'Name';
     
     membersWithRole.forEach(member =>
     {
         if (messageToWrite.length + member.user.tag.length + member.user.id.length > 1950)
         {
             interaction.channel.send(`\`${messageToWrite}\``);
-            if (withID) messageToWrite = `${member.user.tag};${member.user.id}\n`;
-            else messageToWrite = `${member.user.tag}\n`;
+            messageToWrite = '';
         }
-        else if (withID) messageToWrite += `${member.user.tag};${member.user.id}\n`;
-        else messageToWrite += `${member.user.tag}\n`;
-
+        if (name) messageToWrite += `${member.user.tag}`
+        if (name && id) messageToWrite += ';'
+        if (id) messageToWrite += `${member.user.id}`;
+        messageToWrite += '\n';
     });
 
     if (messageToWrite.length > 0) interaction.channel.send(`\`${messageToWrite}\``);
