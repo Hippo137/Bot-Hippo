@@ -18,7 +18,7 @@ client.once('ready', () => {
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
     //fs.rmSync(path.join(__dirname, './txt/helpRolecount.txt'), {force: true});
-    fs.rmSync(path.join(__dirname, './commands/giveeveryoneroles.js'), {force: true});
+    //fs.rmSync(path.join(__dirname, './commands/giveeveryoneroles.js'), {force: true});
     
     /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
