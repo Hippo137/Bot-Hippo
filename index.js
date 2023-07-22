@@ -75,13 +75,12 @@ client.on('guildMemberAdd', member => {
     //const roleToAdd = member.guild.roles.cache.find(role => role.name === 'Community Tournaments');
     //member.roles.add(roleToAdd);
     if (member.guild.id === '545226514829017117') return; //Don’t add roles in Test Guild
-    const cacheTemp = member.guild.roles.cache;
     const rolesToAdd =
     [
-        interaction.guild.roles.cache.find(role => role.name === 'Tournaments Base'),
-        interaction.guild.roles.cache.find(role => role.name === 'Tournaments CK'),
-        interaction.guild.roles.cache.find(role => role.name === 'Tournaments Cash'),
-        interaction.guild.roles.cache.find(role => role.name === 'Updates')
+        member.guild.roles.cache.find(role => role.name === 'Tournaments Base'),
+        member.guild.roles.cache.find(role => role.name === 'Tournaments CK'),
+        member.guild.roles.cache.find(role => role.name === 'Tournaments Cash'),
+        member.guild.roles.cache.find(role => role.name === 'Updates')
     ];
     member.roles.add(rolesToAdd);
 })
