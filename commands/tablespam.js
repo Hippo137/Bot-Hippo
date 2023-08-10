@@ -383,6 +383,10 @@ async function command(interaction)
         case 'ASBS':
         extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Anti-Side-By-Side’. Your initial buildings must be at least five roads apart. No exceptions!`;
         break;
+        
+        case 'Bingo':
+        extraMessage2 += `\n\n:warning: Remember that this game is played with special ‘Bingo’ rules!`;
+        break;
     }
     let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
         .replace(/{intro}/g, intro)

@@ -197,6 +197,7 @@ module.exports = {
             .addChoice('Side-By-Side', 'SBS')
             .addChoice('Anti-Side-By-Side', 'ASBS')
             .addChoice('Goon', 'Goon')
+            .addChoice('Bingo', 'Bingo')
             .addChoice('None', 'None')
         )
         .addStringOption
