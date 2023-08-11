@@ -54,9 +54,10 @@ async function command(interaction)
     
     if (id)
     {
-        const msg = await interaction.channel.messages.fetch(id).catch(console.error);;
+        const msg = await interaction.channel.messages.fetch(id).catch(console.error);
         if (!msg) return interaction.editReply('Could not find a message with that id. Make sure it is in this channel.').catch(console.error);
         content = msg.content;
+        if (!content) return interaction.editReply('The provided message doesn’t include any text.').catch(console.error);
     }
     const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
     let dbContent = dbMessage.content;
