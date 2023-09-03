@@ -12,14 +12,15 @@ module.exports = {
             .setDescription('Select a role')
             .setRequired(true)
         )
-        .addStringOption
+        .addIntegerOption
         (option =>
             option.setName('nameid')
-            .setDescription('Select how the output should look like – defaults to ‘Only Names’ if omitted')
+            .setDescription('Select how the output should look like – defaults to ‘Name’ if omitted')
             .setRequired(false)
-            .addChoice('Name', 'Name')
-            .addChoice('ID', 'ID')
-            .addChoice('Name and ID', 'Name and ID')
+            .addChoice('Name', 1)
+            .addChoice('ID', 2)
+            .addChoice('Name and ID', 3)
+            .addChoice('None', 0)
         ),
         
     async execute(interaction)
@@ -44,24 +45,27 @@ async function command(interaction, dbMessage)
     interaction.editReply(`${membersWithRole.size} Member${membersWithRole.size==1?'':'s'} with the role: ${roleToSearch.name}`);
     let messageToWrite = '';
     
-    const nameID = interaction.options.getString('nameid') ?? 'Name';
-    const name = nameID != 'ID';
-    const id = nameID != 'Name';
-    
-    membersWithRole.forEach(member =>
+    const nameID = interaction.options.getInteger('nameid') ?? 1;
+    if (nameID > 0)
     {
-        if (messageToWrite.length + member.user.tag.length + member.user.id.length > 1950)
-        {
-            interaction.channel.send(`\`${messageToWrite}\``);
-            messageToWrite = '';
-        }
-        if (name) messageToWrite += `${member.user.tag}`
-        if (name && id) messageToWrite += ';'
-        if (id) messageToWrite += `${member.user.id}`;
-        messageToWrite += '\n';
-    });
+        const name = nameID % 2 == 1;
+        const id = nameID > 1;
 
-    if (messageToWrite.length > 0) interaction.channel.send(`\`${messageToWrite}\``);
+        membersWithRole.forEach(member =>
+        {
+            if (messageToWrite.length + member.user.tag.length + member.user.id.length > 1950)
+            {
+                interaction.channel.send(`\`${messageToWrite}\``);
+                messageToWrite = '';
+            }
+            if (name) messageToWrite += `${member.user.tag}`
+            if (name && id) messageToWrite += ';'
+            if (id) messageToWrite += `${member.user.id}`;
+            messageToWrite += '\n';
+        });
+
+        if (messageToWrite.length > 0) interaction.channel.send(`\`${messageToWrite}\``);
+    }
     
     success = true;
 }
