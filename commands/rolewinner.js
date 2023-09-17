@@ -41,11 +41,11 @@ function command(interaction)
     
     interaction.guild.members.fetch();
     let role = interaction.guild.roles.cache.get('1081074925567217675');
-    if (!role) return interaction.editReply('The role was not found').catch(console.error);
+    if (!role) return interaction.editReply('The role was not found.').catch(console.error);
     if (name)
     {
         role.edit({name: name});
-        message += `\nChanged the name of the role to ${name}.`;
+        message += `\nChanged the name of the role to ‘${name}’.`;
     }
     if (user)
     {
