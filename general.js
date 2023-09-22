@@ -9,7 +9,8 @@ module.exports =
             case 1: if (interaction.member.roles.cache.find(role => role.name === 'Tournament Team')) return true;
             case 2: if (interaction.member.roles.cache.find(role => role.name === 'CC Team')) return true;
             case 3: if (interaction.member.roles.cache.find(role => role.name === 'Transition Team')) return true;
-            case 4: if (interaction.member.id === '383011975057113088') return true;
+            case 4: //if (interaction.member.id === '383011975057113088') return true;
+            if (interaction.member.id === '383011975057113088' || interaction.member.id === '512608910914617366') return true;
         }
         return false;
     },

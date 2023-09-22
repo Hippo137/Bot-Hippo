@@ -1,0 +1,11 @@
+**Sheep are friends, not slaves**
+
+You are not allowed to settle on sheep for the entire game.
+
+```diff
++ Friendly Robber:       No
+{zMode} Game Mode:             {sMode}
+- Game Speed:            Fast
++ Card Discard Limit:    7
+- VP to Win:             11
+```
