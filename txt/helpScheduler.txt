@@ -1,0 +1,18 @@
+**scheduler**
+This command lets you create bot messages to figure out a possible time with others, for example to play a game.
+Parameters *month*, *day*, *hour* and *minute* refer to the desired first suggestion. Parameters are optional and default to the current date if possible (except *minute* which defaults to 0). Whenever something is set, all “lower” options which aren’t set themselves default to the first option. “Higher” options default to the current date if possible, otherwise the next. So only choosing a day results in the current month unless that day already passed in which case it will choose the next month. At the same time, if it isn’t the current day, it will set hour to 0.
+Defaults of the parameters are in () behind the name below.
+
+*Optional*
+__month__
+Month for the first suggestion.
+__day__
+Day for the first suggestion. First day of the month is 1.
+__hour__
+Hour for the first suggestion.
+__minute__ (0)
+Minute for the first suggestion.
+__intervall__ (120)
+Timespam between each suggestion. Only relevant if suggestions>1.
+__suggestions__ (1)
+Total number of suggestions. Each suggestion is a message from the bot with the timestamp and a :+1: reaction to vote for.

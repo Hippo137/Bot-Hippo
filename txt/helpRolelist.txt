@@ -1,2 +1,6 @@
 **rolelist**
-Returns a list of all players with a given role. I wonder who will be the first to use it with @everyone and crash the bot.
+Returns a list of all players with a given role.
+
+*Optional*
+__nameid__ (name)
+Choose if you want to get the names, the IDs, both or none.

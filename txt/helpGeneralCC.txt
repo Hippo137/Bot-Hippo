@@ -1,6 +1,4 @@
-This is a list of all available commands. To get more help on a specific command and a description of the parameters, set the optional *topic* parameter to the desired command name.
-
-* = CC Team only
+*CC Team only*
 
 __*backuprefresh__
 Removes the Back Up Hero role for everyone.
@@ -14,29 +12,11 @@ Sets or changes the settings of the tournament. The settings are used by the *ta
 __*endtournament__
 Is a shortcut to take away the ‘Host’ role from everyone, call *backuprefresh* and *tablehide* and hide the ‘Tournament Assistance’ VC.
 
-__facts__
-Returns a random fact.
-
-__help__
-Shows a list of all available commands or detailed information about a single command.
-
-__host__
-Used to take or remove the ‘Host’ role from yourself.
-
-__ping__
-Returns a ‘pong’. Only there to check if the bot responds at all.
-
-__ntnt__
-Gives an explanation what ‘NTNT’ means.
-
 __*raffledonator__
 Returns a list of donators without spaces in names.
 
 __*reboot__
 Reboots the bot.
-
-__rockpaperscissors__
-Play rock paper scissors against other players with this command.
 
 __*roleadd__
 Adds a new Discord role.
@@ -50,6 +30,9 @@ Returns a list of all players with a given role.
 __*roletransfer__
 Removes a role. Every member who had that role gets a different role.
 
+__*rolewinner__
+Handles the weekly tournament winner role.
+
 __*starttournament__
 Is a shortcut to call *host* and show the ‘Tournament Assistance’ VC.
 
@@ -61,12 +44,3 @@ Writes a custom message to table channels.
 
 __*tablespam__
 Writes the messages to the table channels based on the settings given by *createtournament*. Has several subcommands.
-
-__teams__
-Puts users randomly in teams.
-
-__tickets__
-Gives the option to check your number of Cash Tournament Tickets.
-
-__wacky__
-Returns a special ruleset you can use for you next game.

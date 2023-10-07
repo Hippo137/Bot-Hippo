@@ -1,0 +1,9 @@
+**rolewinner**
+Can be used to take away the weekly tournament winner role from the last weekend’s winner, give it to a new user and change the name of the role. If either “user” or “name” is omitted, the current user or name stays.
+
+*Optional*
+__user__
+Choose the user who should get the role.
+
+__name__
+Choose a new name for the role.

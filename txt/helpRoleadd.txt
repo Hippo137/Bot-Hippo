@@ -3,4 +3,4 @@ Adds a new Discord role with a random color to the correct position. Otherwise, 
 
 *Optional*
 __name__ (new role)
-    Specifies the name of the new role.
+Specifies the name of the new role.
