@@ -1,2 +1,2 @@
 **endtournament**
-Is a shortcut to take away the ‘Host’ role from everyone, call *backuprefresh* and *tablehide* and hide the ‘Tournament Assistance’ VC.
+Is a shortcut to take away the ‘Host’ role from everyone, call *backuprefresh* and *tablehide* and hide the ‘Tournament Assistance’ VC. It also restarts the tournament.

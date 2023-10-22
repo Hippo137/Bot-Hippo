@@ -16,7 +16,7 @@ module.exports = {
 	}
 }
     
-function command(interaction)
+async function command(interaction)
 {
     if (!g.allowed(interaction, 1)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
@@ -61,6 +61,16 @@ function command(interaction)
         host.members.forEach(member => member.roles.remove(host));
         message += `\nRemoved the role “Host” from everyone.`
     }
+    
+    //restart tournament – copy from createtournament(Restart)
+    const dbMessage = await interaction.client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE);
+    let dbContent = dbMessage.content;
+
+    dbContent = g.writeDb(dbContent, 'sRound', '1'); //sRound
+    dbContent = g.writeDb(dbContent, 'sTables', '0'); //sTables
+
+    dbMessage.edit(dbContent).catch(console.error);
+    message += `\nSuccessfully restarted the tournament.`;
     
     interaction.editReply(`Ended the tournament.${message}`).catch(console.error);
     
