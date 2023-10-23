@@ -1,2 +1,0 @@
-*tickets**
-Returns a link to the sheet in which everyone can check their current number of Cash Tournament Tickets.

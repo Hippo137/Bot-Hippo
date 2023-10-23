@@ -70,7 +70,7 @@ async function command(interaction)
     dbContent = g.writeDb(dbContent, 'sTables', '0'); //sTables
 
     dbMessage.edit(dbContent).catch(console.error);
-    message += `\nSuccessfully restarted the tournament.`;
+    message += `\nRestarted the tournament.`;
     
     interaction.editReply(`Ended the tournament.${message}`).catch(console.error);
     
