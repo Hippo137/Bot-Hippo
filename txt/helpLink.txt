@@ -1,0 +1,2 @@
+**link**
+Receive a link to a document. Choose which document you want to receive.

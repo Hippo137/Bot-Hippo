@@ -6,11 +6,11 @@ Returns a random fact.
 __help__
 Shows a list of all available commands or detailed information about a single command.
 
+__link__
+Gives an explanation what ‘NTNT’ means.
+
 __ping__
 Returns a “pong”. Only there to check if the bot responds at all.
-
-__ntnt__
-Gives an explanation what ‘NTNT’ means.
 
 __rockpaperscissors__
 Play rock paper scissors against other players with this command.

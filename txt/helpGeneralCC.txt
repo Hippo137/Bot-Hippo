@@ -15,9 +15,6 @@ Is a shortcut to take away the ‘Host’ role from everyone, call *backuprefres
 __*raffledonator__
 Returns a list of donators without spaces in names.
 
-__*reboot__
-Reboots the bot.
-
 __*roleadd__
 Adds a new Discord role.
 
