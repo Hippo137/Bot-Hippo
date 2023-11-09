@@ -114,14 +114,13 @@ module.exports = {
 async function command(interaction)
 {
     //if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
-    
     const d = new Date();
-    const currentYear = d.getFullYear();
-    const currentMonth = d.getMonth();
-    const currentDay = d.getDate();
-    const currentHour = d.getHours();
-    const currentMinute = d.getMinutes();
-    
+    const currentYear = d.getUTCFullYear();
+    const currentMonth = d.getUTCMonth();
+    const currentDay = d.getUTCDate();
+    const currentHour = d.getUTCHours();
+    const currentMinute = d.getUTCMinutes();
+    //console.log(`000, ${currentYear}, ${currentMonth}, ${currentDay}, ${currentHour}, ${currentMinute}`)
     let startYear, startMonth, startDay, startHour, startMinute;
     //console.log(`00, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
     startYear = currentYear;
@@ -157,12 +156,13 @@ async function command(interaction)
     startHour = interaction.options.getInteger('hour') ?? startHour;
     if (startHour !== undefined && startHour != currentHour)
     {
-        //console.log(`07, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
         startMinute = 0;
+        //console.log(`07, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
         if (startHour<currentHour && startDay==currentDay && startMonth==currentMonth)
         {
             startDay++;
         }
+        
         //console.log(`08, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
     }
     else startHour = currentHour;
@@ -173,7 +173,8 @@ async function command(interaction)
         //console.log(`10, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
         if (startMinute<currentMinute && startHour==currentHour && startDay==currentDay && startMonth==currentMonth)
         {
-            startHour++;
+            if (interaction.options.getInteger('hour')) startDay++;
+            else startHour++;
         }
         //console.log(`11, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
     }
@@ -183,12 +184,13 @@ async function command(interaction)
         startMinute = 0;
         if (currentMinute>0 && startHour==currentHour && startDay==currentDay && startMonth==currentMonth)
         {
-            startHour++;
+            if (interaction.options.getInteger('hour')) startDay++;
+            else startHour++;
         }
         //console.log(`13, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
     }
     //console.log(`14, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
-    let currentTime = Date.UTC(currentYear, currentMonth, currentDay, currentHour, currentMinute) / 1000;
+    //let currentTime = Date.UTC(currentYear, currentMonth, currentDay, currentHour, currentMinute) / 1000;
     let startTime = Date.UTC(startYear, startMonth, startDay, startHour, startMinute) / 1000;
     const interval = 60*(interaction.options.getInteger('interval') ?? 60);
     const suggestions = interaction.options.getInteger('suggestions') ?? 1;
