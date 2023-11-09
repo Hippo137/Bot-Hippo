@@ -60,10 +60,10 @@ sTeamsize: 1
 sType: Open
 sVp: 13
 zVp: +
-`).catch(console.error)})
+`).catch(console.error)})*/
 
 
-    });*/
+    });
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
