@@ -82,7 +82,7 @@ module.exports = {
         .addIntegerOption
         (option =>
             option.setName('interval')
-            .setDescription(`Time span between each suggested time in minutes – defaults to 120 if omitted`)
+            .setDescription(`Time span between each suggested time in minutes – defaults to 60 if omitted`)
             .setRequired(false)
         )
         .addIntegerOption
@@ -111,7 +111,7 @@ module.exports = {
 	}
 }
     
-function command(interaction)
+async function command(interaction)
 {
     //if (!g.allowed(interaction, 0)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
@@ -190,15 +190,41 @@ function command(interaction)
     //console.log(`14, ${startYear}, ${startMonth}, ${startDay}, ${startHour}, ${startMinute}`)
     let currentTime = Date.UTC(currentYear, currentMonth, currentDay, currentHour, currentMinute) / 1000;
     let startTime = Date.UTC(startYear, startMonth, startDay, startHour, startMinute) / 1000;
-    const interval = 60*(interaction.options.getInteger('interval') ?? 120);
+    const interval = 60*(interaction.options.getInteger('interval') ?? 60);
     const suggestions = interaction.options.getInteger('suggestions') ?? 1;
     
-    interaction.editReply(`<t:${startTime}:F>`).then(message => message.react('👍')).catch(console.error);
+    const replies = [];
+    
+    replies.push(await interaction.editReply(`<t:${startTime}:F>`).catch(console.error));
+    replies[0].react('👍').catch(console.error);
+    replies[0].react('👎').catch(console.error);
     
     for (let i=1; i<suggestions; i++)
     {
-        interaction.channel.send(`<t:${startTime+i*interval}:F>`).then(message => message.react('👍')).catch(console.error);
+        replies.push(await interaction.channel.send(`<t:${startTime+i*interval}:F>`).catch(console.error));
+        replies[i].react('👍').catch(console.error);
+        replies[i].react('👎').catch(console.error);
     }
     
+    for (let r=0; r<replies.length; r++)
+    {
+        const collectorFilter = (reaction, user) =>
+        {
+            return reaction.emoji.name == '👎' && user.id === interaction.user.id;
+        };
+        const collector = replies[r].createReactionCollector({filter: collectorFilter, time: 3600000});
+
+        collector.on('collect', (reaction, user) =>
+        {
+            //console.log(`Removed ${r}`);
+            replies[r].delete();
+            collector.stop();
+        });
+
+        collector.on('end', collected =>
+        {
+            //console.log(`Ended ${r}`);
+        });
+    }
     success = true;
 }

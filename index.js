@@ -1,7 +1,7 @@
 require('dotenv').config();
 const {Client, Collection, Intents} = require('discord.js');
 const fs = require('fs');
-const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS]});
+const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]});
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const path = require('path');
@@ -15,7 +15,7 @@ client.once('ready', () => {
     
     client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
     
-    client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
+    //client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
     /*fs.rmSync(path.join(__dirname, './txt/helpNtnt.txt'), {force: true});
     fs.rmSync(path.join(__dirname, './txt/helpTickets.txt'), {force: true});
@@ -24,13 +24,13 @@ client.once('ready', () => {
     fs.rmSync(path.join(__dirname, './commands/tickets.js'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/reboot.js'), {force: true});*/
     
-    /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
 
 corrupted: False
 sBox: 1
-sBrackets: 4
+sBrackets: 1
 sDayfinal: No
 sDayfinalPrize: Cash Ticket
 sDice: Random Dice
@@ -40,25 +40,27 @@ zDiscard: +
 sLoserfinals: No
 sMap: Base
 zMap: +
-sMode: Base
-zMode: +
-sSpecial: No
-zSpecial: +
+sMode: Cities & Knights
+zMode: -
+sPlatform: Colonist
+zPlatform: +
 sPlayers: 4
 zPlayers: +
-sSpeed: Fast
-zSpeed: +
-sTables: 0
-sTeamsize: 1
-sType: Open
 sRandom: No
 sRobber: No
 zRobber: +
 sRound: 1
-sRounds: 3
-sVp: 10
+sRounds: 2
+sSpecial: None
+zSpecial: +
+sSpeed: Fast
+zSpeed: -
+sTables: 0
+sTeamsize: 1
+sType: Open
+sVp: 13
 zVp: +
-`).catch(console.error)})*/
+`).catch(console.error)})
 
 
     });
