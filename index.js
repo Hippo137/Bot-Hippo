@@ -15,7 +15,7 @@ client.once('ready', () => {
     
     client.user.setPresence({ activities: [{ name: '/help', type: 'LISTENING' }], status: 'online' });
     
-    //client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
+    client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
     /*fs.rmSync(path.join(__dirname, './txt/helpNtnt.txt'), {force: true});
     fs.rmSync(path.join(__dirname, './txt/helpTickets.txt'), {force: true});
@@ -24,7 +24,7 @@ client.once('ready', () => {
     fs.rmSync(path.join(__dirname, './commands/tickets.js'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/reboot.js'), {force: true});*/
     
-    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
 
@@ -63,7 +63,7 @@ zVp: +
 `).catch(console.error)})
 
 
-    });
+    });*/
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
