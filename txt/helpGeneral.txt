@@ -7,7 +7,7 @@ __help__
 Shows a list of all available commands or detailed information about a single command.
 
 __link__
-Gives an explanation what ‘NTNT’ means.
+Receive a link to a document.
 
 __ping__
 Returns a “pong”. Only there to check if the bot responds at all.
@@ -20,9 +20,6 @@ Puts users randomly in teams.
 
 __scheduler__
 Proposes times to meet with others.
-
-__tickets__
-Gives the option to check your number of Cash Tournament Tickets.
 
 __wacky__
 Returns a special ruleset you can use for your next game.

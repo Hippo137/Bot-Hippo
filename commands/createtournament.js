@@ -138,6 +138,14 @@ module.exports = {
             .addChoice('Cities & Knights', 'Cities & Knights')
             .addChoice('Seafarers + Cities & Knights', 'Seafarers + Cities & Knights')
         )
+        .addStringOption
+        (option =>
+            option.setName('platform')
+            .setDescription('platform/website – defaults to Colonist if omitted')
+            .setRequired(false)
+            .addChoice('Colonist', 'Colonist')
+            .addChoice('TwoSheep', 'TwoSheep')
+        )
         .addIntegerOption
         (option =>
             option.setName('players')
@@ -297,12 +305,13 @@ async function command(interaction)
     let sLoserfinals = interaction.options.getString('loserfinal');
     let sMap = interaction.options.getString('map');
     let sMode = interaction.options.getString('mode');
-    let sSpecial = interaction.options.getString('special');
+    let sPlatform = interaction.options.getString('platform');
     let sPlayers = interaction.options.getInteger('players');
     let sRandom = interaction.options.getString('random');
     let sRobber = interaction.options.getString('friendlyrobber');
     let sRound = interaction.options.getInteger('round');
     let sRounds = interaction.options.getInteger('rounds');
+    let sSpecial = interaction.options.getString('special');
     let sSpeed = interaction.options.getString('speed');
     let sTables = interaction.options.getInteger('tables');
     let sTeamsize = interaction.options.getInteger('teamsize');
@@ -322,6 +331,7 @@ async function command(interaction)
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
         sMode = sMode ?? 'Base';
+        sPlatform = sPlatform ?? 'Colonist';
         sPlayers = sPlayers ?? 4;
         
         sRandom = sRandom ?? 'No';
@@ -341,7 +351,14 @@ async function command(interaction)
         updateVP = true;
     }
     else updateVP = sVp != null || sMode != null || sMap != null;
-
+    
+    if (sPlatform != null)
+    {
+        dbContent = g.writeDb(dbContent, 'sPlatform', `${sPlatform}`);
+        dbContent = g.writeDb(dbContent, 'zPlatform', `${sPlatform === 'Colonist' ? '+' : '-'}`);
+    }
+    else sPlatform = g.readDb(dbContent, 'sPlatform');
+    
     if (sPlayers != null)
     {
         dbContent = g.writeDb(dbContent, 'sPlayers', `${sPlayers}`);
@@ -584,6 +601,8 @@ async function command(interaction)
         .replace(/{sMap}/g, sMap)
         .replace(/{zMode}/g, sMode==='Base'?'+':'-')
         .replace(/{sMode}/g, sMode)
+        .replace(/{zPlatform}/g, sPlatform=='Colonist'?'+':'-')
+        .replace(/{sPlatform}/g, sPlatform)
         .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
         .replace(/{sPlayers}/g, sPlayers)
         .replace(/{zRandom}/g, sRandom==='No'?'+':'-')

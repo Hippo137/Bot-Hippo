@@ -25,11 +25,23 @@ module.exports = {
                 .setDescription('First table channel which should be posted in – defaults to 1 if omitted')
                 .setRequired(false)
             )
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
+                .setRequired(false)
+            )
         )
         .addSubcommand(subcommand =>
         subcommand
             .setName('dayfinal')
             .setDescription('Use this for the dayfinal')
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
+                .setRequired(false)
+            )
         )
         .addSubcommand(subcommand =>
         subcommand
@@ -39,6 +51,12 @@ module.exports = {
             (option =>
                 option.setName('tableend')
                 .setDescription('Number of tables in the eigthfinal. Only set this if some players skip a round.')
+                .setRequired(false)
+            )
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
                 .setRequired(false)
             )
         )
@@ -52,6 +70,12 @@ module.exports = {
                 .setDescription('Number of tables in the eigthfinal. Only set this if some players skip a round.')
                 .setRequired(false)
             )
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
+                .setRequired(false)
+            )
         )
         .addSubcommand(subcommand =>
         subcommand
@@ -61,6 +85,12 @@ module.exports = {
             (option =>
                 option.setName('tableend')
                 .setDescription('Number of tables in the quarterfinal. Only set this if some players skip a round.')
+                .setRequired(false)
+            )
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
                 .setRequired(false)
             )
         )
@@ -74,6 +104,12 @@ module.exports = {
                 .setDescription('Number of tables in the semifinal. Only set this if some players skip a round.')
                 .setRequired(false)
             )
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
+                .setRequired(false)
+            )
         )
         .addSubcommand(subcommand =>
         subcommand
@@ -85,13 +121,19 @@ module.exports = {
                 .setDescription('Number of tables in the final. Only set this with one bracket and if some players skipped a round.')
                 .setRequired(false)
             )
+            .addStringOption
+            (option =>
+                option.setName('mapkey')
+                .setDescription('Custom Map on which the game should be played if TwoSheep is used')
+                .setRequired(false)
+            )
         )
         .addSubcommand(subcommand =>
         subcommand
             .setName('settings')
             .setDescription('Use this to get the current settings')
         ),
-            
+        
 	async execute(interaction)
     {
         await interaction.deferReply();
@@ -154,13 +196,15 @@ async function command(interaction)
     const zMap = g.readDb(dbContent, 'zMap');
     const sMode = g.readDb(dbContent, 'sMode');
     const zMode = g.readDb(dbContent, 'zMode');
-    const sSpecial = g.readDb(dbContent, 'sSpecial');
-    const zSpecial = g.readDb(dbContent, 'zSpecial');
+    const sPlatform = g.readDb(dbContent, 'sPlatform');
+    const zPlatform = g.readDb(dbContent, 'zPlatform');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
     const sRandom = g.readDb(dbContent, 'sRandom');
     const sRobber = g.readDb(dbContent, 'sRobber');
     const zRobber = g.readDb(dbContent, 'zRobber');
+    const sSpecial = g.readDb(dbContent, 'sSpecial');
+    const zSpecial = g.readDb(dbContent, 'zSpecial');
     const sSpeed = g.readDb(dbContent, 'sSpeed');
     const zSpeed = g.readDb(dbContent, 'zSpeed');
     const sTables = g.readDb(dbContent, 'sTables');
@@ -192,6 +236,8 @@ async function command(interaction)
             .replace(/{sMap}/g, sMap)
             .replace(/{zMode}/g, sMode==='Base'?'+':'-')
             .replace(/{sMode}/g, sMode)
+            .replace(/{zPlatform}/g, sPlatform=='Colonist'?'+':'-')
+            .replace(/{sPlatform}/g, sPlatform)
             .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
             .replace(/{sPlayers}/g, sPlayers)
             .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
@@ -388,9 +434,168 @@ async function command(interaction)
         extraMessage2 += `\n\n:warning: Remember that this game is played with special ‘Bingo’ rules!`;
         break;
     }
+    
+    link = link.replace(/{sRound}/g, sRound);
+    let platformLink, twoSheepData;
+    switch (sPlatform)
+    {
+        case 'Colonist':
+        platformLink = 'colonist.io/#';
+        break;
+        
+        case 'TwoSheep':
+        platformLink = 'twosheep.io/lobby/';
+        let twoSheepMap; //gamemode aka map for TwoSheep;
+        switch (sMap)
+        {
+            case 'Base': twoSheepMap = 0; break;
+            case 'Base 5-6 Player': twoSheepMap = 1; break;
+            case 'Base 7-8 Player': twoSheepMap = 3; break;
+            case 'Base Random': twoSheepMap = 9; break;
+            case 'Black Forest': twoSheepMap = -1; break;
+            case 'Diamond', 'Diamond': twoSheepMap = -1; break;
+            case 'Earth', 'Earth': twoSheepMap = -1; break;
+            case 'Heading for New Shores', 'Heading for New Shores': twoSheepMap = 4; break;
+            case 'Fog Islands', 'Fog Islands': twoSheepMap = 5; break;
+            case 'Four Islands', 'Four Islands': twoSheepMap = 6; break;
+            case 'Gear', 'Gear': twoSheepMap = -1; break;
+            case 'Gold Rush', 'Gold Rush': twoSheepMap = -1; break;
+            case 'Lakes', 'Lakes': twoSheepMap = -1; break;
+            case 'Pond', 'Pond': twoSheepMap = -1; break;
+            case 'UK & Ireland', 'UK & Ireland': twoSheepMap = -1; break;
+            case 'USA', 'USA': twoSheepMap = -1; break;
+            case 'Shuffle Board', 'Shuffle Board': twoSheepMap = -1; break;
+            case 'Through the Desert', 'Through the Desert': twoSheepMap = 7; break;
+            case 'Twirl', 'Twirl': twoSheepMap = -1; break;
+            case 'Volcano', 'Volcano': twoSheepMap = -1; break;
+        }
+        if (twoSheepMap == -1) return interaction.editReply(`The map ${sMap} doesn’t exist on TwoSheep or was not implemented to this bot yet.`).catch(console.error);
+        
+        
+        let twoSheepRobber = sRobber == 'Yes'; //currently only Friendly or Nicht
+        let twoSheepDice = sDice == 'Balanced Dice'; //currently only Random or Balanced
+        
+        let twoSheepSpeed;
+        switch (sSpeed)
+        {
+            case 'Very Slow': twoSheepSpeed = 5; break;
+            case 'Slow': twoSheepSpeed = 1; break;
+            case 'Normal': twoSheepSpeed = 2; break;
+            case 'Fast': twoSheepSpeed = 3; break;
+            case 'Very Fast': twoSheepMap = 4; break;
+        }
+        
+        twoSheepData =
+        {
+            lobbyId: 'temp',
+            apiKey: process.env.TWOSHEEPAPIKEY,
+            tournament: true,
+            mapKey: interaction.options.getString('mapkey'),
+            options: 
+            {
+                ps : parseInt(sPlayers), //players
+                gM : twoSheepMap, //gameMode
+                //t : //theme
+                mRBR : parseInt(sDiscard), //maxResourcesBeforeRobber
+                wVPA : parseInt(sVp), //winVPAmount
+                //sd : //seed
+                //nR : //numRoads
+                //nC : //numCities
+                //nS : //numSettlements
+                //rM : //robberMode
+                //fS : //firstSettle
+                //sS : //secondSettle,
+                sf : sMode == 'Seafarers' || sMode == 'Seafarers + Cities & Knights', //seafarers
+                ck : sMode == 'Cities & Knights' || sMode == 'Seafarers + Cities & Knights', //citiesAndKnights
+                //nSh : //numShips
+                //nW : //numWalls
+                //nk : //numKnights
+                //rTL : //restrictFoundingToLargestIsland
+                //dCC : //devCardCounts
+                dM : twoSheepDice, //diceMode
+                //fSM : //firstSettleMode
+                //sSM : //secondSettleMode
+                //iV : //newIslandVPBonuses
+                //oV : //overrideVPPerStructure
+                //d : //countDesertAsWaterForIslandCalc
+                //nd : //noDuplicateAdjacentNumbers
+                //sR : //startingResourceCount
+                //sC : //startingCommodityCount
+                //iLR : //islandLockRobber
+                r : twoSheepRobber, //robber
+                //p : //pirate
+                //h : //harborMaster
+                //dh : //dynamicHex
+                //BT : //firstBarbTimer
+                //Bt : //barbarianTimer
+                //KE : //ckKnightErrant
+                //ES : //ckEasyStart
+                //s : //shuffleMode
+                //mPC : //maxProgressCards
+                //bR : //bankResourceSetting
+                //R : //randomizeMapMode
+                //RP : //randomizePlacementOrder
+                gS : twoSheepSpeed,//gameSpeedMode
+            }
+        };
+    }
+    
+    let gameIDs = []; //links
+    for (let i=tableStart; i<=tableEnd; i++)
+    {
+        let linkTemp = link;
+        let randomLetters = '';
+        if (sRandom === 'Yes')
+        {
+            for (let i=0; i<3; i++)
+            {
+                randomLetters += g.symbols[Math.floor(Math.random()*g.symbols.length)];
+            }
+        }
+        let table = i;
+        if (interaction.options.getSubcommand() === 'final')
+        {
+            if (i > sBrackets)
+            {
+                table = sBrackets * (sPlayers / sTeamsize - 1) + i;
+                linkTemp = linkTemp.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
+            }
+            else
+            {
+                linkTemp = linkTemp.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
+            }
+        }
+        linkTemp = linkTemp.replace(/{sTable}/g, table<10?'0'+table:table) + randomLetters;
+        gameIDs.push(linkTemp);
+        
+        if (sPlatform == 'TwoSheep')
+        {
+            let twoSheepDataTemp = Object.assign({}, twoSheepData);
+            twoSheepDataTemp.lobbyId = linkTemp;
+            console.log(twoSheepDataTemp);
+            const response = await fetch
+            (
+                'https://twosheep.io/api/createLobby',
+                {
+                    method: 'POST',
+                    headers:
+                    {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(twoSheepDataTemp)
+                }
+            )
+            .catch((error) => console.error('Error:', error));
+            //console.log(response)
+            //console.log(response.status)
+            if (response.status != 200) return interaction.editReply(`TwoSheep couldn’t create the lobby ${linkTemp} with reason ${response.status}. You might want to set ‘random=Yes’ and try again in case the lobby already exists.`).catch(console.error);
+        }
+    }
+    
+    
     let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
         .replace(/{intro}/g, intro)
-        .replace(/{link}/g, link)
+        //.replace(/{link}/g, link)
         //.replace(/{roomname}/g, roomname)
         .replace(/{zRobber}/g, zRobber)
         .replace(/{sRobber}/g, sRobber)
@@ -402,13 +607,13 @@ async function command(interaction)
         .replace(/{sDice}/g, sDice)
         .replace(/{zSpeed}/g, zSpeed)
         .replace(/{sSpeed}/g, sSpeed)
+        .replace(/{platformLink}/g, platformLink)
         .replace(/{zPlayers}/g, zPlayers)
         .replace(/{sPlayers}/g, sPlayers)
         .replace(/{zDiscard}/g, zDiscard)
         .replace(/{sDiscard}/g, sDiscard)
         .replace(/{zVp}/g, zVp)
         .replace(/{sVp}/g, sVp)
-        .replace(/{sRound}/g, sRound)
         .replace(/{sType}/g, sType)
         .replace(/{roundName}/g, roundName[sRound>=sRounds ? 0 : sRound])
         .replace(/{screenshotMessage}/g, screenshotMessage)
@@ -416,35 +621,25 @@ async function command(interaction)
         .replace(/{extraMessage2}/g, extraMessage2)
         .replace(/{screenshots}/g, /*await*/ interaction.guild.channels.cache.find(channel => channel.name === `💻screenshots`));
         //.replace(/{screenshots}/g, interaction.guild.channels.cache.get('894372076884992015'));
-
+    console.log(botMessage)
+    
+    
+    let linkIndex = 0;
     for (let i=tableStart; i<=tableEnd; i++)
     {
-        let randomLetters = '';
-        if (sRandom === 'Yes')
-        {
-            for (let i=0; i<3; i++)
-            {
-                randomLetters += g.symbols[Math.floor(Math.random()*g.symbols.length)];
-            }
-        }
-        let table = i, botMessageTemp = botMessage;
+        let table = i;
         if (interaction.options.getSubcommand() === 'final')
         {
             if (i > sBrackets)
             {
                 table = sBrackets * (sPlayers / sTeamsize - 1) + i;
-                botMessageTemp = botMessage.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
-            }
-            else
-            {
-                botMessageTemp = botMessage.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
             }
         }
         let channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
         if (channelTarget)
         {
             channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
-            channelTarget.send(botMessageTemp.replace(/{sTable}/g, table<10?'0'+table:table).replace(/{random}/g, randomLetters));
+            channelTarget.send(botMessage.replace(/{link}/g, gameIDs[linkIndex]));
         }
         if (sSpecial !== 'Ntnt')
         {
@@ -454,6 +649,7 @@ async function command(interaction)
                 channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             }
         }
+        linkIndex++;
     }
 
     /*if (interaction.guild.id != '894372075622526986')

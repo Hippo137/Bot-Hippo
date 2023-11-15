@@ -13,7 +13,7 @@
 {zDiscard} Card Discard Limit:  {sDiscard}
 {zVp} VP to Win:           {sVp}
 ```
-:arrow_right: <https://colonist.io/#{link}{random}>
+:arrow_right: <https://{platformLink}{link}>
 
 :bell: Mention your table mates using @DiscordName. You can also send them a direct message or call them if they don’t show up. If a player doesn’t respond in about five minutes, mention @Host to notify us. We will find a back-up player.
 
