@@ -17,7 +17,7 @@ client.once('ready', () => {
     
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
-    fs.rmSync(path.join(__dirname, './txt/blank special.txt'), {force: true});
+    //fs.rmSync(path.join(__dirname, './txt/blank special.txt'), {force: true});
     /*fs.rmSync(path.join(__dirname, './txt/helpTickets.txt'), {force: true});
     fs.rmSync(path.join(__dirname, './txt/helpReboot.txt'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/ntnt.js'), {force: true});
