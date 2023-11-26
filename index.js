@@ -17,14 +17,12 @@ client.once('ready', () => {
     
     client.channels.cache.get('960288981419962448').send(`Logged in as ${client.user.tag}`).catch(console.error);
     
-    
     //fs.rmSync(path.join(__dirname, './txt/blank special.txt'), {force: true});
     /*fs.rmSync(path.join(__dirname, './txt/helpTickets.txt'), {force: true});
     fs.rmSync(path.join(__dirname, './txt/helpReboot.txt'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/ntnt.js'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/tickets.js'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/reboot.js'), {force: true});*/
-    
     /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
@@ -61,10 +59,10 @@ sTeamsize: 1
 sType: Open
 sVp: 13
 zVp: +
-`).catch(console.error)})
+`).catch(console.error)})*/
 
 
-    });*/
+    });
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
