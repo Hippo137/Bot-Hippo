@@ -12,8 +12,6 @@ __box__ (QF, 1) “Best of X”.
     Number of matches per round played against the same opponents.
 __brackets__ (F, 4)
     Number of brackets.
-__dayfinal__ (Q, No)
-    Adds an additional paragraph in the last round.
 __dice__ (QF, Random Dice)
     Colonist setting: Dice.
 __discard__ (QF, 7)
@@ -30,6 +28,8 @@ __players__ (QF, 4)
     Colonist setting: Max Players.
 __prize__ (Q, Cash Ticket)
     The prize for winning the Day Final.
+__qualfinal__ (Q, No)
+    Adds an additional paragraph in the last round.
 __random__ (Q, No)
     Adds random letters to the end of every Colonist link.
 __round__ (Q, 1)

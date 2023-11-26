@@ -42,6 +42,8 @@ module.exports =
     log:
     async function (interaction, success)
     {
+        if (interaction.guildId === '545226514829017117') return;
+        
         const botLogChannel = await interaction.client.channels.cache.get('960288981419962448');
         botLogChannel.send(`${success?':white_check_mark:':':negative_squared_cross_mark:'} ${interaction.commandName} used by ${interaction.member}, ${interaction.user.username}${interaction.user.discriminator > 0 ? `#${interaction.user.discriminator}` : ``}, id=${interaction.user.id}, https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`).catch(console.error);
     },

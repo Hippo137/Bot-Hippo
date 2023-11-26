@@ -46,23 +46,6 @@ module.exports = {
         )
         .addStringOption
         (option =>
-            option.setName('dayfinal')
-            .setDescription('YES if the qualifier has a Day Final – defaults to NO if omitted')
-            .setRequired(false)
-            .addChoice('Yes', 'Yes')
-            .addChoice('No', 'No')
-        )
-        .addStringOption
-        (option =>
-            option.setName('dayfinalprize')
-            .setDescription('What does winning the Day Final reward? – defaults to CASH TICKET if omitted')
-            .setRequired(false)
-            .addChoice('Cash Ticket', 'Cash Ticket')
-            .addChoice('Final Spot', 'Final Spot')
-            .addChoice('Nothing', 'Nothing')
-        )
-        .addStringOption
-        (option =>
             option.setName('dice')
             .setDescription('[setting]: dice – defaults to RANDOM DICE if omitted')
             .setRequired(false)
@@ -158,6 +141,23 @@ module.exports = {
             .addChoice('6', 6)
             .addChoice('7', 7)
             .addChoice('8', 8)
+        )
+        .addStringOption
+        (option =>
+            option.setName('qualfinal')
+            .setDescription('YES if the qualifier has a separate final – defaults to NO if omitted')
+            .setRequired(false)
+            .addChoice('Yes', 'Yes')
+            .addChoice('No', 'No')
+        )
+        .addStringOption
+        (option =>
+            option.setName('qualfinalprize')
+            .setDescription('What does winning the Qual Final reward? – defaults to CASH TICKET if omitted')
+            .setRequired(false)
+            .addChoice('Cash Ticket', 'Cash Ticket')
+            .addChoice('Final Spot', 'Final Spot')
+            .addChoice('Nothing', 'Nothing')
         )
         .addStringOption
         (option =>
@@ -298,8 +298,6 @@ async function command(interaction)
     }
     let sBox = interaction.options.getInteger('box');
     let sBrackets = interaction.options.getInteger('brackets');
-    let sDayfinal = interaction.options.getString('dayfinal');
-    let sDayfinalPrize = interaction.options.getString('dayfinalprize');
     let sDice = interaction.options.getString('dice');
     let sDiscard = interaction.options.getInteger('discard');
     let sLoserfinals = interaction.options.getString('loserfinal');
@@ -307,6 +305,8 @@ async function command(interaction)
     let sMode = interaction.options.getString('mode');
     let sPlatform = interaction.options.getString('platform');
     let sPlayers = interaction.options.getInteger('players');
+    let sQualfinal = interaction.options.getString('qualfinal');
+    let sQualfinalPrize = interaction.options.getString('qualfinalprize');
     let sRandom = interaction.options.getString('random');
     let sRobber = interaction.options.getString('friendlyrobber');
     let sRound = interaction.options.getInteger('round');
@@ -324,8 +324,6 @@ async function command(interaction)
     {
         sBox = sBox ?? 1;
         sBrackets = sBrackets ?? 4;
-        sDayfinal = sDayfinal ?? 'No';
-        sDayfinalPrize = sDayfinalPrize ?? 'Cash Ticket';
         sDice = sDice ?? g.tournamentDefaults.Dice;
         sDiscard = sDiscard ?? 7;
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
@@ -333,7 +331,8 @@ async function command(interaction)
         sMode = sMode ?? 'Base';
         sPlatform = sPlatform ?? 'Colonist';
         sPlayers = sPlayers ?? 4;
-        
+        sQualfinal = sQualfinal ?? 'No';
+        sQualfinalPrize = sQualfinalPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
         sRobber = sRobber ?? g.tournamentDefaults.FriendlyRobber;
         sRound = sRound ?? 1;
@@ -386,12 +385,6 @@ async function command(interaction)
     if (sBrackets != null) dbContent = g.writeDb(dbContent, 'sBrackets', `${sBrackets}`);
     else sBrackets = g.readDb(dbContent, 'sBrackets');
 
-    if (sDayfinal != null) dbContent = g.writeDb(dbContent, 'sDayfinal', `${sDayfinal}`);
-    else sDayfinal = g.readDb(dbContent, 'sDayfinal');
-    
-    if (sDayfinalPrize != null) dbContent = g.writeDb(dbContent, 'sDayfinalPrize', sDayfinalPrize);
-    else sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
-
     if (sDice != null)
     {
         dbContent = g.writeDb(dbContent, 'sDice', sDice);
@@ -422,6 +415,12 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
     }
     else sMode = g.readDb(dbContent, 'sMode');
+
+    if (sQualfinal != null) dbContent = g.writeDb(dbContent, 'sQualfinal', `${sQualfinal}`);
+    else sQualfinal = g.readDb(dbContent, 'sQualfinal');
+    
+    if (sQualfinalPrize != null) dbContent = g.writeDb(dbContent, 'sQualfinalPrize', sQualfinalPrize);
+    else sQualfinalPrize = g.readDb(dbContent, 'sQualfinalPrize');
 
     if (sRandom != null) dbContent = g.writeDb(dbContent, 'sRandom', sRandom);
     else sRandom = g.readDb(dbContent, 'sRandom');
@@ -587,10 +586,6 @@ async function command(interaction)
         .replace(/{sBox}/g, sBox)
         .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
         .replace(/{sBrackets}/g, sBrackets)
-        .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
-        .replace(/{sDayfinal}/g, sDayfinal)
-        .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
-        .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
         .replace(/{zDice}/g, sDice===g.colonistDefaults.Dice?'+':'-')
         .replace(/{sDice}/g, sDice)
         .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
@@ -605,6 +600,10 @@ async function command(interaction)
         .replace(/{sPlatform}/g, sPlatform)
         .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
         .replace(/{sPlayers}/g, sPlayers)
+        .replace(/{zQualfinal}/g, sQualfinal==='No'?'+':'-')
+        .replace(/{sQualfinal}/g, sQualfinal)
+        .replace(/{zQualfinalPrize}/g, sQualfinalPrize==='Cash Ticket'?'+':'-')
+        .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
         .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
         .replace(/{sRandom}/g, sRandom)
         .replace(/{zRobber}/g, sRobber===g.colonistDefaults.FriendlyRobber?'+':'-')

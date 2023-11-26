@@ -34,8 +34,8 @@ module.exports = {
         )
         .addSubcommand(subcommand =>
         subcommand
-            .setName('dayfinal')
-            .setDescription('Use this for the dayfinal')
+            .setName('qualfinal')
+            .setDescription('Use this for the Qual Final')
             .addStringOption
             (option =>
                 option.setName('mapkey')
@@ -185,8 +185,6 @@ async function command(interaction)
 
     const sBox = g.readDb(dbContent, 'sBox');
     const sBrackets = g.readDb(dbContent, 'sBrackets');
-    const sDayfinal = g.readDb(dbContent, 'sDayfinal');
-    const sDayfinalPrize = g.readDb(dbContent, 'sDayfinalPrize');
     const sDice = g.readDb(dbContent, 'sDice');
     const zDice = g.readDb(dbContent, 'zDice');
     const sDiscard = g.readDb(dbContent, 'sDiscard');
@@ -200,6 +198,8 @@ async function command(interaction)
     const zPlatform = g.readDb(dbContent, 'zPlatform');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
+    const sQualfinal = g.readDb(dbContent, 'sQualfinal');
+    const sQualfinalPrize = g.readDb(dbContent, 'sQualfinalPrize');
     const sRandom = g.readDb(dbContent, 'sRandom');
     const sRobber = g.readDb(dbContent, 'sRobber');
     const zRobber = g.readDb(dbContent, 'zRobber');
@@ -222,10 +222,10 @@ async function command(interaction)
             .replace(/{sBox}/g, sBox)
             .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
             .replace(/{sBrackets}/g, sBrackets)
-            .replace(/{zDayfinal}/g, sDayfinal==='No'?'+':'-')
-            .replace(/{sDayfinal}/g, sDayfinal)
-            .replace(/{zDayfinalPrize}/g, sDayfinalPrize==='Cash Ticket'?'+':'-')
-            .replace(/{sDayfinalPrize}/g, sDayfinalPrize)
+            .replace(/{zQualfinal}/g, sQualfinal==='No'?'+':'-')
+            .replace(/{sQualfinal}/g, sQualfinal)
+            .replace(/{zQualfinalPrize}/g, sQualfinalPrize==='Cash Ticket'?'+':'-')
+            .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
             .replace(/{zDice}/g, sDice===g.colonistDefaults.Dice?'+':'-')
             .replace(/{sDice}/g, sDice)
             .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
@@ -291,10 +291,10 @@ async function command(interaction)
         //roomname = `CC${sType} Round ${sRound} Table {sTable}`;
         if (remainingRounds == 0)
         {
-            if (sDayfinal === 'Yes')
+            if (sQualfinal === 'Yes')
             {
-                extraMessage2 += `There is a Dayfinal for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
-                switch (sDayfinalPrize)
+                extraMessage2 += `There is a Qual Final for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
+                switch (sQualfinalPrize)
                 {
                     case 'Cash Ticket':
                     extraMessage2 += ' Don’t miss your chance to win a cash tournament ticket. :money_with_wings:';
@@ -316,10 +316,10 @@ async function command(interaction)
         link = 'R{sRound}T{sTable}'
         break;
 
-        case 'dayfinal':
-        intro = 'Dayfinal';
-        //roomname = `CC${sType} Dayfinal`;
-        switch (sDayfinalPrize)
+        case 'qualfinal':
+        intro = 'Qual Final';
+        //roomname = `CC${sType} Qualfinal`;
+        switch (sQualfinalPrize)
         {
             case 'Cash Ticket':
             extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
@@ -334,8 +334,8 @@ async function command(interaction)
             break;
         }
         tableEnd = 1;
-        link = 'DF';
-        message = 'Posted the Dayfinal.';
+        link = 'QF';
+        message = 'Posted the Qual Final.';
         break;
 
         case 'sixteenthfinal':
