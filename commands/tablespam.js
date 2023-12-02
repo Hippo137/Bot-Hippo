@@ -474,15 +474,15 @@ async function command(interaction)
         let twoSheepDice; //currently only Balanced or Random
         switch (sDice)
         {
-            case 'Random Dice': twoSheepDice = 0;
-            case 'Balanced Dice': twoSheepDice = 1;
+            case 'Random Dice': twoSheepDice = 0; break;
+            case 'Balanced Dice': twoSheepDice = 1; break;
         }
         
         let twoSheepRobber; //currently only Friendly or Not
         switch (sRobber)
         {
-            case 'No': twoSheepRobber = 0;
-            case 'Yes': twoSheepRobber = 1;
+            case 'No': twoSheepRobber = 0; break;
+            case 'Yes': twoSheepRobber = 1; break;
         }
         
         let twoSheepSpeed;
