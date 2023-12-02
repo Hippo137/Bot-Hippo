@@ -471,9 +471,19 @@ async function command(interaction)
         }
         if (twoSheepMap == -1) return interaction.editReply(`The map ${sMap} doesn’t exist on TwoSheep or was not implemented to this bot yet.`).catch(console.error);
         
+        let twoSheepDice; //currently only Balanced or Random
+        switch (sDice)
+        {
+            case 'Random Dice': twoSheepDice = 0;
+            case 'Balanced Dice': twoSheepDice = 1;
+        }
         
-        let twoSheepRobber = sRobber == 'Yes'; //currently only Friendly or Nicht
-        let twoSheepDice = sDice == 'Balanced Dice'; //currently only Random or Balanced
+        let twoSheepRobber; //currently only Friendly or Not
+        switch (sRobber)
+        {
+            case 'No': twoSheepRobber = 0;
+            case 'Yes': twoSheepRobber = 1;
+        }
         
         let twoSheepSpeed;
         switch (sSpeed)
