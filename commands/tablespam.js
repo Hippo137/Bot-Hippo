@@ -194,6 +194,8 @@ async function command(interaction)
     const zMap = g.readDb(dbContent, 'zMap');
     const sMode = g.readDb(dbContent, 'sMode');
     const zMode = g.readDb(dbContent, 'zMode');
+    const sPlacements = g.readDb(dbContent, 'sPlacements');
+    const zPlacements = g.readDb(dbContent, 'zPlacements');
     const sPlatform = g.readDb(dbContent, 'sPlatform');
     const zPlatform = g.readDb(dbContent, 'zPlatform');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
@@ -214,6 +216,33 @@ async function command(interaction)
     const sTeamsize = g.readDb(dbContent, 'sTeamsize');
     
     const ck = sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights';
+    
+    
+    if (sPlatform === 'Colonist')
+    {
+        if (sDice === 'Uniform Dice')
+        {
+            return interaction.editReply(`The dice setting ‘${sDice}’ does not exist on Colonist.`).catch(console.error);
+        }
+        if (sDiscard > 20)
+        {
+            return interaction.editReply(`The discard setting can’t be set above 20 on Colonist. It’s currently set to ${sDiscard}.`).catch(console.error);
+        }
+        if (sRobber != 'Normal' && sRobber != 'Friendly')
+        {
+            return interaction.editReply(`The robber setting ‘${sRobber}’ does not exist on Colonist.`).catch(console.error);
+        }
+        if (sSpeed === 'None')
+        {
+            return interaction.editReply(`The speed setting ‘${sSpeed}’ does not exist on Colonist.`).catch(console.error);
+        }
+        if (sVp > 20)
+        {
+            return interaction.editReply(`The VP setting can’t be set above 20 on Colonist. It’s currently set to ${sVp}.`).catch(console.error);
+        }
+    }
+    
+    
     
     if (interaction.options.getSubcommand() === 'settings')
     {
@@ -236,13 +265,15 @@ async function command(interaction)
             .replace(/{sMap}/g, sMap)
             .replace(/{zMode}/g, sMode==='Base'?'+':'-')
             .replace(/{sMode}/g, sMode)
+            .replace(/{zPlacements}/g, sPlacements=='Random'?'+':'-')
+            .replace(/{sPlacements}/g, sPlacements)
             .replace(/{zPlatform}/g, sPlatform=='Colonist'?'+':'-')
             .replace(/{sPlatform}/g, sPlatform)
             .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
             .replace(/{sPlayers}/g, sPlayers)
             .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
             .replace(/{sRandom}/g, sRandom)
-            .replace(/{zRobber}/g, sRobber===g.colonistDefaults.FriendlyRobber?'+':'-')
+            .replace(/{zRobber}/g, sRobber===g.colonistDefaults.Robber?'+':'-')
             .replace(/{sRobber}/g, sRobber)
             .replace(/{zRound}/g, sRound==1?'+':'-')
             .replace(/{sRound}/g, sRound)
@@ -471,18 +502,25 @@ async function command(interaction)
         }
         if (twoSheepMap == -1) return interaction.editReply(`The map ${sMap} doesn’t exist on TwoSheep or was not implemented to this bot yet.`).catch(console.error);
         
-        let twoSheepDice; //currently only Balanced or Random
+        let twoSheepDice;
         switch (sDice)
         {
             case 'Random Dice': twoSheepDice = 0; break;
             case 'Balanced Dice': twoSheepDice = 1; break;
+            case 'Uniform Dice': twoSheepDice = 2; break;
         }
         
-        let twoSheepRobber; //currently only Friendly or Not
+        let twoSheepPlacements = sPlacements === 'Random';
+        
+        let twoSheepRobber;
         switch (sRobber)
         {
-            case 'No': twoSheepRobber = 0; break;
-            case 'Yes': twoSheepRobber = 1; break;
+            case 'Normal': twoSheepRobber = 0; break;
+            case 'Friendly': twoSheepRobber = 1; break;
+            case 'Lazy': twoSheepRobber = 2; break;
+            case 'Smelly': twoSheepRobber = 3; break;
+            case 'Red': twoSheepRobber = 4; break;
+            case 'Junior': twoSheepRobber = 5; break;
         }
         
         let twoSheepSpeed;
@@ -492,7 +530,8 @@ async function command(interaction)
             case 'Slow': twoSheepSpeed = 1; break;
             case 'Normal': twoSheepSpeed = 2; break;
             case 'Fast': twoSheepSpeed = 3; break;
-            case 'Very Fast': twoSheepMap = 4; break;
+            case 'Very Fast': twoSheepSpeed = 4; break;
+            case 'None': twoSheepSpeed = 0; break;
         }
         
         twoSheepData =
@@ -512,7 +551,7 @@ async function command(interaction)
                 //nR : //numRoads
                 //nC : //numCities
                 //nS : //numSettlements
-                //rM : //robberMode
+                rM : twoSheepRobber, //robberMode
                 //fS : //firstSettle
                 //sS : //secondSettle,
                 sf : sMode == 'Seafarers' || sMode == 'Seafarers + Cities & Knights', //seafarers
@@ -532,7 +571,7 @@ async function command(interaction)
                 //sR : //startingResourceCount
                 //sC : //startingCommodityCount
                 //iLR : //islandLockRobber
-                r : twoSheepRobber, //robber
+                //r : , //robber
                 //p : //pirate
                 //h : //harborMaster
                 //dh : //dynamicHex
@@ -544,7 +583,7 @@ async function command(interaction)
                 //mPC : //maxProgressCards
                 //bR : //bankResourceSetting
                 //R : //randomizeMapMode
-                //RP : //randomizePlacementOrder
+                RP : twoSheepPlacements, //randomizePlacementOrder
                 gS : twoSheepSpeed,//gameSpeedMode
             }
         };
@@ -582,7 +621,7 @@ async function command(interaction)
         {
             let twoSheepDataTemp = Object.assign({}, twoSheepData);
             twoSheepDataTemp.lobbyId = linkTemp;
-            console.log(twoSheepDataTemp);
+            //console.log(twoSheepDataTemp);
             const response = await fetch
             (
                 'https://twosheep.io/api/createLobby',
@@ -598,7 +637,12 @@ async function command(interaction)
             .catch((error) => console.error('Error:', error));
             //console.log(response)
             //console.log(response.status)
-            if (response.status != 200) return interaction.editReply(`TwoSheep couldn’t create the lobby ${linkTemp} with reason ${response.status}. You might want to set ‘random=Yes’ and try again in case the lobby already exists.`).catch(console.error);
+            if (response.status != 200)
+            {
+                let m = `TwoSheep couldn’t create the lobby ${linkTemp} with reason ${response.status}.`;
+                if (sRandom === 'No') m += ` You might want to set ‘random=Yes’ and try again in case the lobby already exists.`;
+                return interaction.editReply(m).catch(console.error);
+            }
         }
     }
     
@@ -631,7 +675,7 @@ async function command(interaction)
         .replace(/{extraMessage2}/g, extraMessage2)
         .replace(/{screenshots}/g, /*await*/ interaction.guild.channels.cache.find(channel => channel.name === `💻screenshots`));
         //.replace(/{screenshots}/g, interaction.guild.channels.cache.get('894372076884992015'));
-    console.log(botMessage)
+    //console.log(botMessage)
     
     
     let linkIndex = 0;

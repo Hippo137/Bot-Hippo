@@ -54,14 +54,14 @@ module.exports =
         
     colonistDefaults:
     {
-        FriendlyRobber: 'No',
+        Robber: 'Normal',
         Dice: 'Random Dice', //'Balanced Dice',
         Speed: 'Normal'
     },
     
     tournamentDefaults:
     {
-        FriendlyRobber: 'No',
+        Robber: 'Normal',
         Dice: 'Random Dice',
         Speed: 'Fast'
     }

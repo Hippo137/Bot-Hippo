@@ -1,6 +1,7 @@
 :game_die: **__Settings__**
 ```diff
 {zPlatform} Platform:              {sPlatform}
+{zPlacements} Placement Order:       {sPlacements}
 {zType} Type:                  {sType}
 {zTables} Tables:                {sTables}
 {zRound} Round:                 {sRound}

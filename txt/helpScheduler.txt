@@ -12,7 +12,7 @@ __hour__
 Hour for the first suggestion.
 __minute__ (0)
 Minute for the first suggestion.
-__intervall__ (120)
-Timespam between each suggestion. Only relevant if suggestions>1.
+__intervall__ (60)
+Timespan between each suggestion. Only relevant if suggestions>1.
 __suggestions__ (1)
-Total number of suggestions. Each suggestion is a message from the bot with the timestamp and a :+1: reaction to vote for.
+Total number of suggestions. Each suggestion is a message from the bot with the timestamp and a :+1: and :-1: reaction to vote for. The creator can remove suggestions by reacting with :-1:.

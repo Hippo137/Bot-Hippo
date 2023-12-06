@@ -51,6 +51,7 @@ module.exports = {
             .setRequired(false)
             .addChoice('Random Dice', 'Random Dice')
             .addChoice('Balanced Dice', 'Balanced Dice')
+            .addChoice('Uniform Dice', 'Uniform Dice')
         )
         .addIntegerOption
         (option =>
@@ -68,14 +69,6 @@ module.exports = {
             .addChoice('10', 10)
             .addChoice('11', 11)
             .addChoice('12', 12)
-        )
-        .addStringOption
-        (option =>
-            option.setName('friendlyrobber')
-            .setDescription('[setting]: Friendly Robber – defaults to NO if omitted')
-            .setRequired(false)
-            .addChoice('Yes', 'Yes')
-            .addChoice('No', 'No')
         )
         .addStringOption
         (option =>
@@ -123,8 +116,16 @@ module.exports = {
         )
         .addStringOption
         (option =>
+            option.setName('placements')
+            .setDescription('placement order – defaults to RANDOM if omitted')
+            .setRequired(false)
+            .addChoice('Random', 'Random')
+            .addChoice('Specified', 'Specified')
+        )
+        .addStringOption
+        (option =>
             option.setName('platform')
-            .setDescription('platform/website – defaults to Colonist if omitted')
+            .setDescription('platform/website – defaults to COLONIST if omitted')
             .setRequired(false)
             .addChoice('Colonist', 'Colonist')
             .addChoice('TwoSheep', 'TwoSheep')
@@ -166,6 +167,18 @@ module.exports = {
             .setRequired(false)
             .addChoice('Yes', 'Yes')
             .addChoice('No', 'No')
+        )
+        .addStringOption
+        (option =>
+            option.setName('robber')
+            .setDescription('[setting]: Robber – defaults to NORMAL if omitted')
+            .setRequired(false)
+            .addChoice('Normal', 'Normal')
+            .addChoice('Friendly', 'Friendly')
+            .addChoice('Lazy', 'Lazy')
+            .addChoice('Smelly', 'Smelly')
+            .addChoice('Red', 'Red')
+            .addChoice('Junior', 'Junior')
         )
         .addIntegerOption
         (option =>
@@ -218,6 +231,7 @@ module.exports = {
             .addChoice('Normal', 'Normal')
             .addChoice('Fast', 'Fast')
             .addChoice('Very Fast', 'Very Fast')
+            .addChoice('None', 'None')
         )
         .addIntegerOption
         (option =>
@@ -303,12 +317,13 @@ async function command(interaction)
     let sLoserfinals = interaction.options.getString('loserfinal');
     let sMap = interaction.options.getString('map');
     let sMode = interaction.options.getString('mode');
+    let sPlacements = interaction.options.getString('placements');
     let sPlatform = interaction.options.getString('platform');
     let sPlayers = interaction.options.getInteger('players');
     let sQualfinal = interaction.options.getString('qualfinal');
     let sQualfinalPrize = interaction.options.getString('qualfinalprize');
     let sRandom = interaction.options.getString('random');
-    let sRobber = interaction.options.getString('friendlyrobber');
+    let sRobber = interaction.options.getString('robber');
     let sRound = interaction.options.getInteger('round');
     let sRounds = interaction.options.getInteger('rounds');
     let sSpecial = interaction.options.getString('special');
@@ -334,7 +349,7 @@ async function command(interaction)
         sQualfinal = sQualfinal ?? 'No';
         sQualfinalPrize = sQualfinalPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
-        sRobber = sRobber ?? g.tournamentDefaults.FriendlyRobber;
+        sRobber = sRobber ?? g.tournamentDefaults.Robber;
         sRound = sRound ?? 1;
         //sRounds = sRounds ?? 3; //at the bottom because it depends on the sMode
         sSpecial = sSpecial ?? 'None';
@@ -350,6 +365,13 @@ async function command(interaction)
         updateVP = true;
     }
     else updateVP = sVp != null || sMode != null || sMap != null;
+    
+    if (sPlacements != null)
+    {
+        dbContent = g.writeDb(dbContent, 'sPlacements', `${sPlacements}`);
+        dbContent = g.writeDb(dbContent, 'zPlacements', `${sPlacements === 'Random' ? '+' : '-'}`);
+    }
+    else sPlacements = g.readDb(dbContent, 'sPlacements');
     
     if (sPlatform != null)
     {
@@ -428,7 +450,7 @@ async function command(interaction)
     if (sRobber != null)
     {
         dbContent = g.writeDb(dbContent, 'sRobber', sRobber);
-        dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === g.colonistDefaults.FriendlyRobber ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === g.colonistDefaults.Robber ? '+' : '-'}`);
     }
     else sRobber = g.readDb(dbContent, 'sRobber');
 
@@ -596,6 +618,8 @@ async function command(interaction)
         .replace(/{sMap}/g, sMap)
         .replace(/{zMode}/g, sMode==='Base'?'+':'-')
         .replace(/{sMode}/g, sMode)
+        .replace(/{zPlacements}/g, sPlacements=='Random'?'+':'-')
+        .replace(/{sPlacements}/g, sPlacements)
         .replace(/{zPlatform}/g, sPlatform=='Colonist'?'+':'-')
         .replace(/{sPlatform}/g, sPlatform)
         .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
@@ -606,7 +630,7 @@ async function command(interaction)
         .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
         .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
         .replace(/{sRandom}/g, sRandom)
-        .replace(/{zRobber}/g, sRobber===g.colonistDefaults.FriendlyRobber?'+':'-')
+        .replace(/{zRobber}/g, sRobber===g.colonistDefaults.Robber?'+':'-')
         .replace(/{sRobber}/g, sRobber)
         .replace(/{zRound}/g, sRound==1?'+':'-')
         .replace(/{sRound}/g, sRound)
