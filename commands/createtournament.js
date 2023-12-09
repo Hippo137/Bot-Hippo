@@ -73,7 +73,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('loserfinal')
-            .setDescription('adds Loserfinals to the final round – defaults to NO in BASE and YES in CASH if omitted')
+            .setDescription('adds Loserfinals to the final round – defaults to NO in OPEN and YES in CASH if omitted')
             .setRequired(false)
             .addChoice('Yes', 'Yes')
             .addChoice('No', 'No')
@@ -146,7 +146,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('qualfinal')
-            .setDescription('YES if the qualifier has a separate final – defaults to NO if omitted')
+            .setDescription('YES if the qualifier has a separate final –  defaults to YES in OPEN and NO in CASH if omitted')
             .setRequired(false)
             .addChoice('Yes', 'Yes')
             .addChoice('No', 'No')
@@ -346,7 +346,7 @@ async function command(interaction)
         sMode = sMode ?? 'Base';
         sPlatform = sPlatform ?? 'Colonist';
         sPlayers = sPlayers ?? 4;
-        sQualfinal = sQualfinal ?? 'No';
+        sQualfinal = sQualfinal ?? sType === 'Cash' ? 'No' : 'Yes';
         sQualfinalPrize = sQualfinalPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
         sRobber = sRobber ?? g.tournamentDefaults.Robber;
@@ -624,7 +624,7 @@ async function command(interaction)
         .replace(/{sPlatform}/g, sPlatform)
         .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
         .replace(/{sPlayers}/g, sPlayers)
-        .replace(/{zQualfinal}/g, sQualfinal==='No'?'+':'-')
+        .replace(/{zQualfinal}/g, (sQualfinal==='No')==(sType==='Cash')?'+':'-')
         .replace(/{sQualfinal}/g, sQualfinal)
         .replace(/{zQualfinalPrize}/g, sQualfinalPrize==='Cash Ticket'?'+':'-')
         .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
