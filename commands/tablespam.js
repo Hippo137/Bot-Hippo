@@ -492,6 +492,7 @@ async function command(interaction)
             case 'Gear', 'Gear': twoSheepMap = -1; break;
             case 'Gold Rush', 'Gold Rush': twoSheepMap = -1; break;
             case 'Lakes', 'Lakes': twoSheepMap = -1; break;
+            case 'New World', 'New World': twoSheepMap = 18; break;
             case 'Pond', 'Pond': twoSheepMap = -1; break;
             case 'UK & Ireland', 'UK & Ireland': twoSheepMap = -1; break;
             case 'USA', 'USA': twoSheepMap = -1; break;

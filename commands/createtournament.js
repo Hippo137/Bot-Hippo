@@ -96,6 +96,7 @@ module.exports = {
             .addChoice('Gear', 'Gear')
             .addChoice('Gold Rush', 'Gold Rush')
             .addChoice('Lakes', 'Lakes')
+            .addChoice('New World', 'New World')
             .addChoice('Pond', 'Pond')
             .addChoice('UK & Ireland', 'UK & Ireland')
             .addChoice('USA', 'USA')
