@@ -486,9 +486,9 @@ async function command(interaction)
             case 'Black Forest': twoSheepMap = -1; break;
             case 'Diamond', 'Diamond': twoSheepMap = -1; break;
             case 'Earth', 'Earth': twoSheepMap = -1; break;
-            case 'Heading for New Shores', 'Heading for New Shores': twoSheepMap = 4; break;
-            case 'Fog Islands', 'Fog Islands': twoSheepMap = 5; break;
-            case 'Four Islands', 'Four Islands': twoSheepMap = 6; break;
+            case 'Heading for New Shores', 'Heading for New Shores': twoSheepMap = 11; break;
+            case 'Fog Islands', 'Fog Islands': twoSheepMap = 15; break;
+            case 'Four Islands', 'Four Islands': twoSheepMap = 13; break;
             case 'Gear', 'Gear': twoSheepMap = -1; break;
             case 'Gold Rush', 'Gold Rush': twoSheepMap = -1; break;
             case 'Lakes', 'Lakes': twoSheepMap = -1; break;
@@ -496,7 +496,7 @@ async function command(interaction)
             case 'UK & Ireland', 'UK & Ireland': twoSheepMap = -1; break;
             case 'USA', 'USA': twoSheepMap = -1; break;
             case 'Shuffle Board', 'Shuffle Board': twoSheepMap = -1; break;
-            case 'Through the Desert', 'Through the Desert': twoSheepMap = 7; break;
+            case 'Through the Desert', 'Through the Desert': twoSheepMap = 17; break;
             case 'Twirl', 'Twirl': twoSheepMap = -1; break;
             case 'Volcano', 'Volcano': twoSheepMap = -1; break;
         }
