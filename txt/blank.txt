@@ -4,7 +4,7 @@
 ```diff
 + Private Game:        Yes
 + Hide Bank Cards:     Yes
-{zRobber} Friendly Robber:     {sRobber}
+{zRobber} Robber:              {sRobber}
 {zMode} Game Mode:           {sMode}
 {zMap} Map:                 {sMap}
 {zDice} Dice:                {sDice}

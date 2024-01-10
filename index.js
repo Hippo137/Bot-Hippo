@@ -24,13 +24,17 @@ client.once('ready', () => {
     fs.rmSync(path.join(__dirname, './commands/ntnt.js'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/tickets.js'), {force: true});
     fs.rmSync(path.join(__dirname, './commands/reboot.js'), {force: true});*/
-    /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    
+    
+    
+    
+    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
 
 corrupted: False
 sBox: 1
-sBrackets: 1
+sBrackets: 4
 sDice: Random Dice
 zDice: +
 sDiscard: 7
@@ -38,21 +42,23 @@ zDiscard: +
 sLoserfinals: No
 sMap: Base
 zMap: +
-sMode: Cities & Knights
-zMode: -
+sMode: Base
+zMode: +
+sNumber: -1
+zNumber: +
 sPlacements: Random
 zPlacements: +
 sPlatform: Colonist
 zPlatform: +
 sPlayers: 4
 zPlayers: +
-sQualfinal: No
+sQualfinal: Yes
 sQualfinalPrize: Cash Ticket
 sRandom: No
-sRobber: No
+sRobber: Normal
 zRobber: +
 sRound: 1
-sRounds: 2
+sRounds: 3
 sSpecial: None
 zSpecial: +
 sSpeed: Fast
@@ -60,10 +66,12 @@ zSpeed: -
 sTables: 0
 sTeamsize: 1
 sType: Open
-sVp: 13
+sVp: 10
 zVp: +
-`).catch(console.error)})*/
-
+`).catch(console.error)})
+    
+    
+    
 
     });
 

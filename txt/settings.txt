@@ -1,26 +1,27 @@
 :game_die: **__Settings__**
 ```diff
-{zPlatform} Platform:              {sPlatform}
-{zPlacements} Placement Order:       {sPlacements}
-{zType} Type:                  {sType}
-{zTables} Tables:                {sTables}
-{zRound} Round:                 {sRound}
-{zRounds} Rounds:                {sRounds}
-{zQualfinal} Qual Final:            {sQualfinal}
-{zQualfinalPrize} Qual Final Prize:      {sQualfinalPrize}
-{zBrackets} Brackets:              {sBrackets}
-{zLoserfinals} Loser Finals:          {sLoserfinals}
-{zTeamsize} Teamsize:              {sTeamsize}
-{zRandom} Random Letters:        {sRandom}
-{zBox} Best Of:               {sBox}
-{zSpecial} Special Rules:         {sSpecial}
+{zPlatform} Platform:            {sPlatform}
+{zNumber} Tournament Number:   {sNumber}
+{zPlacements} Placement Order:     {sPlacements}
+{zType} Type:                {sType}
+{zTables} Tables:              {sTables}
+{zRound} Round:               {sRound}
+{zRounds} Rounds:              {sRounds}
+{zQualfinal} Qual Final:          {sQualfinal}
+{zQualfinalPrize} Qual Final Prize:    {sQualfinalPrize}
+{zBrackets} Brackets:            {sBrackets}
+{zLoserfinals} Loser Finals:        {sLoserfinals}
+{zTeamsize} Teamsize:            {sTeamsize}
+{zRandom} Random Letters:      {sRandom}
+{zBox} Best Of:             {sBox}
+{zSpecial} Special Rules:       {sSpecial}
 
-{zRobber} Friendly Robber:       {sRobber}
-{zMode} Game Mode:             {sMode}
-{zMap} Map:                   {sMap}
-{zDice} Dice:                  {sDice}
-{zSpeed} Game Speed:            {sSpeed}
-{zPlayers} Max Players:           {sPlayers}
-{zDiscard} Card Discard Limit:    {sDiscard}
-{zVp} VP to Win:             {sVp}
+{zRobber} Robber:              {sRobber}
+{zMode} Game Mode:           {sMode}
+{zMap} Map:                 {sMap}
+{zDice} Dice:                {sDice}
+{zSpeed} Game Speed:          {sSpeed}
+{zPlayers} Max Players:         {sPlayers}
+{zDiscard} Card Discard Limit:  {sDiscard}
+{zVp} VP to Win:           {sVp}
 ```

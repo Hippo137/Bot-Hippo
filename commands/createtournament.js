@@ -3,6 +3,7 @@ const fs = require('fs');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const g = require('../general.js');
 let success = false;
+let errorMessage = ''; //receive an error message in the end instead of immediately failing, so you can fix what’s wrong instead of doing everything all over again
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -73,7 +74,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('loserfinal')
-            .setDescription('adds Loserfinals to the final round – defaults to NO in OPEN and YES in CASH if omitted')
+            .setDescription('adds Loserfinals to the final round – defaults to NO in OPEN/WEEKDAY and YES in CASH if omitted')
             .setRequired(false)
             .addChoice('Yes', 'Yes')
             .addChoice('No', 'No')
@@ -115,6 +116,12 @@ module.exports = {
             .addChoice('Cities & Knights', 'Cities & Knights')
             .addChoice('Seafarers + Cities & Knights', 'Seafarers + Cities & Knights')
         )
+        .addIntegerOption
+        (option =>
+            option.setName('number')
+            .setDescription('tournament number – is used for TwoSheep to be able to search for games and replays')
+            .setRequired(false)
+        )
         .addStringOption
         (option =>
             option.setName('placements')
@@ -147,7 +154,7 @@ module.exports = {
         .addStringOption
         (option =>
             option.setName('qualfinal')
-            .setDescription('YES if the qualifier has a separate final –  defaults to YES in OPEN and NO in CASH if omitted')
+            .setDescription('YES if the qualifier has a final – defaults to YES in OPEN and NO in WEEKDAY/CASH if omitted')
             .setRequired(false)
             .addChoice('Yes', 'Yes')
             .addChoice('No', 'No')
@@ -257,7 +264,8 @@ module.exports = {
             .setRequired(false)
             .addChoice('Open', 'Open')
             .addChoice('Cash', 'Cash')
-            .addChoice('Special', 'Special')
+            .addChoice('Weekday', 'Weekday')
+            //.addChoice('Special', 'Special')
         )
         .addIntegerOption
         (option =>
@@ -303,13 +311,13 @@ async function command(interaction)
 
     if (create === 'Restart')
     {
-        dbContent = g.writeDb(dbContent, 'sRound', '1'); //sRound
-        dbContent = g.writeDb(dbContent, 'sTables', '0'); //sTables
+        dbContent = g.writeDb(dbContent, 'sRound', '1');
+        dbContent = g.writeDb(dbContent, 'sTables', '0');
 
         //log(interaction);
         success = true;
         dbMessage.edit(dbContent).catch(console.error);
-        return interaction.editReply(`Successfully restarted the tournament.`).catch(console.error);
+        return interaction.editReply(`Restarted the tournament.`).catch(console.error);
     }
     let sBox = interaction.options.getInteger('box');
     let sBrackets = interaction.options.getInteger('brackets');
@@ -318,6 +326,7 @@ async function command(interaction)
     let sLoserfinals = interaction.options.getString('loserfinal');
     let sMap = interaction.options.getString('map');
     let sMode = interaction.options.getString('mode');
+    let sNumber = interaction.options.getInteger('number');
     let sPlacements = interaction.options.getString('placements');
     let sPlatform = interaction.options.getString('platform');
     let sPlayers = interaction.options.getInteger('players');
@@ -345,9 +354,10 @@ async function command(interaction)
         //sLoserfinals = sLoserfinals ?? 'No'; //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
         sMode = sMode ?? 'Base';
+        sNumber = sNumber ?? -1;
         sPlatform = sPlatform ?? 'Colonist';
         sPlayers = sPlayers ?? 4;
-        sQualfinal = sQualfinal ?? sType === 'Cash' ? 'No' : 'Yes';
+        //sQualfinal = sQualfinal ?? 'Yes'; //at the bottom because it depends on sType
         sQualfinalPrize = sQualfinalPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
         sRobber = sRobber ?? g.tournamentDefaults.Robber;
@@ -358,14 +368,17 @@ async function command(interaction)
         sTables = sTables ?? 0;
         sTeamsize = sTeamsize ?? 1;
         sType = sType ?? 'Open';
-        //sVp = sVp;
+        //sVp = sVp; //depends on map
 
         sLoserfinals = sLoserfinals ?? sType === 'Cash' ? 'Yes' : 'No';
+        sQualfinal = sQualfinal ?? ['Cash', 'Weekday'].includes(sType) ? 'No' : 'Yes';
         sRounds = sRounds ?? (sMode === 'Cities & Knights' || sMode === 'Seafarers + Cities & Knights' ? 2 : 3);
 
         updateVP = true;
     }
-    else updateVP = sVp != null || sMode != null || sMap != null;
+    else updateVP = sVp != null || sMode != null || sMap != null || sPlatform != null;
+    
+    errorMessage = '';
     
     if (sPlacements != null)
     {
@@ -393,13 +406,11 @@ async function command(interaction)
 
     if (sPlayers % sTeamsize != 0)
     {
-        dbContent = g.writeDb(dbContent, 'corrupted', 'True');
-        return interaction.editReply(`The number of players per match must be divisible by the number of winners in a match.`).catch(console.error);
+        addErrorMessage(`The number of players per match must be divisible by the number of winners in a match.`);
     }
     if (sPlayers <= sTeamsize)
     {
-        dbContent = g.writeDb(dbContent, 'corrupted', 'True');
-        return interaction.editReply(`The number of players per match must be higher than the number of winners in a match.`).catch(console.error);
+        addErrorMessage(`The number of players per match must be higher than the number of winners in a match.`)
     }
 
     if (sBox != null) dbContent = g.writeDb(dbContent, 'sBox', `${sBox}`);
@@ -422,9 +433,6 @@ async function command(interaction)
     }
     else sDiscard = g.readDb(dbContent, 'sDiscard');
 
-    if (sLoserfinals != null) dbContent = g.writeDb(dbContent, 'sLoserfinals', sLoserfinals);
-    else sLoserfinals = g.readDb(dbContent, 'sLoserfinals');
-
     if (sMap != null)
     {
         dbContent = g.writeDb(dbContent, 'sMap', sMap);
@@ -438,6 +446,16 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
     }
     else sMode = g.readDb(dbContent, 'sMode');
+    
+    if (sNumber != null)
+    {
+        dbContent = g.writeDb(dbContent, 'sNumber', `${sNumber}`);
+        dbContent = g.writeDb(dbContent, 'zNumber', `${sNumber === 0 ? '+' : '-'}`);
+    }
+    else sNumber = g.readDb(dbContent, 'sNumber');
+    
+    if (sLoserfinals != null) dbContent = g.writeDb(dbContent, 'sLoserfinals', sLoserfinals);
+    else sLoserfinals = g.readDb(dbContent, 'sLoserfinals');
 
     if (sQualfinal != null) dbContent = g.writeDb(dbContent, 'sQualfinal', `${sQualfinal}`);
     else sQualfinal = g.readDb(dbContent, 'sQualfinal');
@@ -489,7 +507,7 @@ async function command(interaction)
             case 'Base':
             switch (sMap)
             {
-                case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert':
+                case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert': case 'New World':
                 //do nothing
                 break;
 
@@ -522,6 +540,11 @@ async function command(interaction)
                 if (!sVp) sVp = 14;
                 zVp = sVp === 14 ? '+' : '-';
                 break;
+                
+                case 'New World':
+                if (!sVp) sVp = 14;
+                zVp = sVp === 14 ? '+' : '-';
+                break;
 
                 case 'Earth':
                 if (!sVp) sVp = 14;
@@ -532,13 +555,23 @@ async function command(interaction)
                 if (!sVp) sVp = 14;
                 zVp = sVp === 14 ? '+' : '-';
                 break;
+                
+                default:
+                if (sPlatform === 'TwoSheep')
+                {
+                    if (!sVp)
+                    {
+                        sVp = g.readDb(dbContent, 'sVp');
+                    }
+                    zVp = '?';
+                }
             }
             break;
 
             case 'Cities & Knights':
             switch (sMap)
             {
-                case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert':
+                case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert': case 'New World':
                 //do nothing
                 break;
 
@@ -571,6 +604,11 @@ async function command(interaction)
                 if (!sVp) sVp = 16;
                 zVp = sVp === 16 ? '+' : '-';
                 break;
+                
+                case 'New World':
+                if (!sVp) sVp = 16;
+                zVp = sVp === 16 ? '+' : '-';
+                break;
 
                 case 'Earth':
                 if (!sVp) sVp = 16;
@@ -581,29 +619,61 @@ async function command(interaction)
                 if (!sVp) sVp = 16;
                 zVp = sVp === 16 ? '+' : '-';
                 break;
+                
+                default:
+                if (sPlatform === 'TwoSheep')
+                {
+                    if (!sVp)
+                    {
+                        sVp = g.readDb(dbContent, 'sVp');
+                    }
+                    zVp = '?';
+                }
             }
             break;
         }
-
-        if (!zVp)
+        if (!zVp && sPlatform == 'Colonist')
         {
-            dbContent = g.writeDb(dbContent, 'corrupted', 'True');
-            return interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
+            addErrorMessage(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’.`)
+            zVp = '?';
         }
-        dbContent = g.writeDb(dbContent, 'sVp', `${sVp}`);
-        dbContent = g.writeDb(dbContent, 'zVp', `${zVp}`);
-        dbContent = g.writeDb(dbContent, 'corrupted', 'False');
+        if (sVp) dbContent = g.writeDb(dbContent, 'sVp', `${sVp}`);
+        if (zVp) dbContent = g.writeDb(dbContent, 'zVp', `${zVp}`);
     }
     else
     {
         sVp = g.readDb(dbContent, 'sVp');
         zVp = g.readDb(dbContent, 'zVp');
-        if (g.readDb(dbContent, 'corrupted') == 'True')
+        if (sPlatform == 'Colonist' && !consistentModeMap(sMode, sMap))
         {
-            return interaction.editReply(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’!`).catch(console.error);
+            addErrorMessage(`The map ‘${sMap}’ isn’t available in the game mode ‘${sMode}’.`)
         }
     }
-
+    
+    if (sPlatform === 'Colonist')
+    {
+        if (sDice === 'Uniform Dice')
+        {
+            addErrorMessage(`The dice setting ‘${sDice}’ does not exist on Colonist.`)
+        }
+        if (sDiscard > 20)
+        {
+            addErrorMessage(`The discard setting can’t be set above 20 on Colonist. It’s currently set to ${sDiscard}.`)
+        }
+        if (sRobber != 'Normal' && sRobber != 'Friendly')
+        {
+            addErrorMessage(`The robber setting ‘${sRobber}’ does not exist on Colonist.`);
+        }
+        if (sSpeed === 'None')
+        {
+            addErrorMessage(`The speed setting ‘${sSpeed}’ does not exist on Colonist.`);
+        }
+        if (sVp > 20)
+        {
+            addErrorMessage(`The VP setting can’t be set above 20 on Colonist. It’s currently set to ${sVp}.`);
+        }
+    }
+    
     let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
         .replace(/{zBox}/g, sBox==1?'+':'-')
         .replace(/{sBox}/g, sBox)
@@ -619,6 +689,8 @@ async function command(interaction)
         .replace(/{sMap}/g, sMap)
         .replace(/{zMode}/g, sMode==='Base'?'+':'-')
         .replace(/{sMode}/g, sMode)
+        .replace(/{zNumber}/g, sNumber==-1?'+':'-')
+        .replace(/{sNumber}/g, sNumber)
         .replace(/{zPlacements}/g, sPlacements=='Random'?'+':'-')
         .replace(/{sPlacements}/g, sPlacements)
         .replace(/{zPlatform}/g, sPlatform=='Colonist'?'+':'-')
@@ -652,8 +724,72 @@ async function command(interaction)
         
 
     //await interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.`).catch(console.error); //error handling in case the message was manually removed in the meantime
-    interaction.editReply(`Successfully ${create === 'New' ? 'created' : 'updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
+    
+    
+    
+    if (sPlatform == 'TwoSheep')
+    {
+        if(sNumber == -1)
+        {
+            let random = 1+Math.floor(Math.random()*1000);
+            addErrorMessage(`To host a tournament on TwoSheep, you have to provide ‘number’. It’s used to easily find games and replays from this tournament. The ‘number’ is our tournament number, so for tournament ${random} it’s ‘${random}’. *(Set ‘number=0’ if you only want to test!)*`);
+        }
+        else if (sNumber == 0)
+        {
+            botMessage += `\nSince ‘number’ is currently 0, this tournament is considered a test and won’t be registered by TwoSheep as a tournament. *(If this isn’t supposed to be a test, change ‘number’ to a number bigger than 0 to receive an ‘id’.)*`;
+        }
+        else if (sNumber < -1)
+        {
+            addErrorMessage(`‘number’ must not be negative.`);
+        }
+        else
+        {
+            let modeTemp;
+            switch (sMode)
+            {
+                case 'Base': modeTemp = 'Base'; break;
+                case 'Seafarers': modeTemp = 'SF'; break;
+                case 'Cities & Knights': modeTemp = 'CK'; break;
+                case 'Seafarers + Cities & Knights': modeTemp = 'CKSF'; break;
+            }
+            if (modeTemp)
+            {
+                id = `CC-${sType}-${sNumber}-${modeTemp}`;
+                botMessage += `\nThis tournament will use the following id: ${id}`;
+            }
+        }
+    }
+    
+    interaction.editReply(`${create === 'New' ? 'Created' : 'Updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
+    
+    if (errorMessage != '')
+    {
+        interaction.channel.send(`:warning: The settings are corrupted: :warning:${errorMessage}`);
+        dbContent = g.writeDb(dbContent, 'corrupted', 'True');
+    }
+    else
+    {
+        dbContent = g.writeDb(dbContent, 'corrupted', 'False');
+    }
     dbMessage.edit(dbContent).catch(console.error);
     
-    success = true;
+    success = errorMessage == '';
+}
+
+function addErrorMessage(message)
+{
+    errorMessage += `\n- ${message}`;
+}
+
+function consistentModeMap(mode, map) //in Colonist, you can’t play SF maps in Base/CK or non-SF maps in SF
+{
+    let sfOnly = ['Heading for New Shores', 'Four Islands', 'Fog Islands'];
+    if (mode == 'Seafarers' || mode == 'Seafarers + Cities & Knights')
+    {
+        return sfOnly.includes(map) || ['Through the Desert', 'Earth', 'UK & Ireland'].includes(map);
+    }
+    else
+    {
+        return !sfOnly.includes(map);
+    }
 }

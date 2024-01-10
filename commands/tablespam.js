@@ -127,11 +127,6 @@ module.exports = {
                 .setDescription('Custom Map on which the game should be played if TwoSheep is used')
                 .setRequired(false)
             )
-        )
-        .addSubcommand(subcommand =>
-        subcommand
-            .setName('settings')
-            .setDescription('Use this to get the current settings')
         ),
         
 	async execute(interaction)
@@ -182,7 +177,13 @@ async function command(interaction)
         return interaction.editReply(`‘round’ must not exceed ‘rounds’. Maybe you need to restart the tournament.`).catch(console.error);
     }
     //if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
-
+    
+    const sNumber = g.readDb(dbContent, 'sNumber');
+    const sPlatform = g.readDb(dbContent, 'sPlatform');
+    if (sNumber < 0 && sPlatform == 'TwoSheep') return interaction.editReply(`Tournaments hosted in TwoSheep must have a ‘number’. If you want to ignore this (for example when testing), set ‘number’ to 0.`).catch(console.error);
+    
+    const mapKey = interaction.options.getString('mapkey')
+    
     const sBox = g.readDb(dbContent, 'sBox');
     const sBrackets = g.readDb(dbContent, 'sBrackets');
     const sDice = g.readDb(dbContent, 'sDice');
@@ -194,9 +195,9 @@ async function command(interaction)
     const zMap = g.readDb(dbContent, 'zMap');
     const sMode = g.readDb(dbContent, 'sMode');
     const zMode = g.readDb(dbContent, 'zMode');
+    const zNumber = g.readDb(dbContent, 'zNumber');
     const sPlacements = g.readDb(dbContent, 'sPlacements');
     const zPlacements = g.readDb(dbContent, 'zPlacements');
-    const sPlatform = g.readDb(dbContent, 'sPlatform');
     const zPlatform = g.readDb(dbContent, 'zPlatform');
     const sPlayers = g.readDb(dbContent, 'sPlayers');
     const zPlayers = g.readDb(dbContent, 'zPlayers');
@@ -215,89 +216,6 @@ async function command(interaction)
     const zVp = g.readDb(dbContent, 'zVp');
     const sTeamsize = g.readDb(dbContent, 'sTeamsize');
     
-    const ck = sMode==='Cities & Knights'||sMode==='Seafarers + Cities & Knights';
-    
-    
-    if (sPlatform === 'Colonist')
-    {
-        if (sDice === 'Uniform Dice')
-        {
-            return interaction.editReply(`The dice setting ‘${sDice}’ does not exist on Colonist.`).catch(console.error);
-        }
-        if (sDiscard > 20)
-        {
-            return interaction.editReply(`The discard setting can’t be set above 20 on Colonist. It’s currently set to ${sDiscard}.`).catch(console.error);
-        }
-        if (sRobber != 'Normal' && sRobber != 'Friendly')
-        {
-            return interaction.editReply(`The robber setting ‘${sRobber}’ does not exist on Colonist.`).catch(console.error);
-        }
-        if (sSpeed === 'None')
-        {
-            return interaction.editReply(`The speed setting ‘${sSpeed}’ does not exist on Colonist.`).catch(console.error);
-        }
-        if (sVp > 20)
-        {
-            return interaction.editReply(`The VP setting can’t be set above 20 on Colonist. It’s currently set to ${sVp}.`).catch(console.error);
-        }
-    }
-    
-    
-    
-    if (interaction.options.getSubcommand() === 'settings')
-    {
-        let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
-            .replace(/{zBox}/g, sBox==1?'+':'-')
-            .replace(/{sBox}/g, sBox)
-            .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
-            .replace(/{sBrackets}/g, sBrackets)
-            .replace(/{zQualfinal}/g, sQualfinal==='No'?'+':'-')
-            .replace(/{sQualfinal}/g, sQualfinal)
-            .replace(/{zQualfinalPrize}/g, sQualfinalPrize==='Cash Ticket'?'+':'-')
-            .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
-            .replace(/{zDice}/g, sDice===g.colonistDefaults.Dice?'+':'-')
-            .replace(/{sDice}/g, sDice)
-            .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
-            .replace(/{sDiscard}/g, sDiscard)
-            .replace(/{zLoserfinals}/g, (sLoserfinals==='No')!=(sType==='Cash')?'+':'-')
-            .replace(/{sLoserfinals}/g, sLoserfinals)
-            .replace(/{zMap}/g, sMap==='Base'?'+':'-')
-            .replace(/{sMap}/g, sMap)
-            .replace(/{zMode}/g, sMode==='Base'?'+':'-')
-            .replace(/{sMode}/g, sMode)
-            .replace(/{zPlacements}/g, sPlacements=='Random'?'+':'-')
-            .replace(/{sPlacements}/g, sPlacements)
-            .replace(/{zPlatform}/g, sPlatform=='Colonist'?'+':'-')
-            .replace(/{sPlatform}/g, sPlatform)
-            .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
-            .replace(/{sPlayers}/g, sPlayers)
-            .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
-            .replace(/{sRandom}/g, sRandom)
-            .replace(/{zRobber}/g, sRobber===g.colonistDefaults.Robber?'+':'-')
-            .replace(/{sRobber}/g, sRobber)
-            .replace(/{zRound}/g, sRound==1?'+':'-')
-            .replace(/{sRound}/g, sRound)
-            .replace(/{zRounds}/g, (sRounds==3)!=ck?'+':'-')
-            .replace(/{sRounds}/g, sRounds)
-            .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
-            .replace(/{sSpecial}/g, sSpecial)
-            .replace(/{zSpeed}/g, sSpeed===g.colonistDefaults.Speed?'+':'-')
-            .replace(/{sSpeed}/g, sSpeed)
-            .replace(/{zTables}/g, sTables==0?'+':'-')
-            .replace(/{sTables}/g, sTables)
-            .replace(/{zTeamsize}/g, sTeamsize==1?'+':'-')
-            .replace(/{sTeamsize}/g, sTeamsize)
-            .replace(/{zType}/g, sType==='Open'?'+':'-')
-            .replace(/{sType}/g, sType)
-            .replace(/{zVp}/g, zVp)
-            .replace(/{sVp}/g, sVp);
-
-        //settings don’t change anything, so no need to update the database
-        success = true;
-        return interaction.editReply(botMessage).catch(console.error);
-    }
-
-
 
     const roundName = ['last', 'first', 'second', 'third', 'fourth'];
     const intNames = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
@@ -535,12 +453,29 @@ async function command(interaction)
             case 'None': twoSheepSpeed = 0; break;
         }
         
+        let id = '';
+        if (sNumber > 0)
+        {
+            let modeTemp;
+            switch (sMode)
+            {
+                case 'Base': modeTemp = 'Base'; break;
+                case 'Seafarers': modeTemp = 'SF'; break;
+                case 'Cities & Knights': modeTemp = 'CK'; break;
+                case 'Seafarers + Cities & Knights': modeTemp = 'CKSF'; break;
+            }
+            if (modeTemp) id = `CC-${sType}-${sNumber}-${modeTemp}`;
+        }
+        
+        //console.log(id);
+        
         twoSheepData =
         {
-            lobbyId: 'temp',
+            lobbyId: 'temp', //at the bottom because it isn’t the same for all tables
             apiKey: process.env.TWOSHEEPAPIKEY,
             tournament: true,
-            mapKey: interaction.options.getString('mapkey'),
+            tournamentId: id,
+            mapKey: mapKey,
             options: 
             {
                 ps : parseInt(sPlayers), //players
@@ -572,7 +507,7 @@ async function command(interaction)
                 //sR : //startingResourceCount
                 //sC : //startingCommodityCount
                 //iLR : //islandLockRobber
-                //r : , //robber
+                //r : //robber
                 //p : //pirate
                 //h : //harborMaster
                 //dh : //dynamicHex
@@ -618,6 +553,7 @@ async function command(interaction)
         linkTemp = linkTemp.replace(/{sTable}/g, table<10?'0'+table:table) + randomLetters;
         gameIDs.push(linkTemp);
         
+        
         if (sPlatform == 'TwoSheep')
         {
             let twoSheepDataTemp = Object.assign({}, twoSheepData);
@@ -641,14 +577,18 @@ async function command(interaction)
             if (response.status != 200)
             {
                 let m = `TwoSheep couldn’t create the lobby ${linkTemp} with reason ${response.status}.`;
-                if (sRandom === 'No') m += ` You might want to set ‘random=Yes’ and try again in case the lobby already exists.`;
-                return interaction.editReply(m).catch(console.error);
+                switch (response.status) //in case I will ever have a complete list of error codes
+                {
+                    case 409:
+                    if (sRandom === 'No') m += ` A lobby with the link ‘${linkTemp}’ already exists. You might want to set ‘random=Yes’ and try again.`;
+                    return interaction.editReply(m).catch(console.error);
+                }
             }
         }
     }
     
     
-    let botMessage = fs.readFileSync(sType != 'Special' ? `txt/blank.txt` : `txt/blank special.txt`, 'utf8')
+    let botMessage = fs.readFileSync(/*sType != 'Special' ?*/ `txt/blank.txt` /*: `txt/blank special.txt`*/, 'utf8')
         .replace(/{intro}/g, intro)
         //.replace(/{link}/g, link)
         //.replace(/{roomname}/g, roomname)
@@ -656,8 +596,8 @@ async function command(interaction)
         .replace(/{sRobber}/g, sRobber)
         .replace(/{zMode}/g, zMode)
         .replace(/{sMode}/g, sMode)
-        .replace(/{zMap}/g, zMap)
-        .replace(/{sMap}/g, sMap)
+        .replace(/{zMap}/g, mapKey && sPlatform == 'TwoSheep' ? '-' : zMap)
+        .replace(/{sMap}/g, mapKey && sPlatform == 'TwoSheep' ? 'Custom' : sMap)
         .replace(/{zDice}/g, zDice)
         .replace(/{sDice}/g, sDice)
         .replace(/{zSpeed}/g, zSpeed)
@@ -696,7 +636,7 @@ async function command(interaction)
             channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessage.replace(/{link}/g, gameIDs[linkIndex]));
         }
-        if (sSpecial !== 'Ntnt')
+        if (sSpecial !== 'Ntnt') //don’t open voice channels in NTNT tournaments
         {
             channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
             if (channelTarget)
