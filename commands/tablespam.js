@@ -278,7 +278,7 @@ async function command(interaction)
             extraMessage2 += 'Win this match to win a guaranteed spot in the final. :trophy:'
             break;
             
-            case 'None':
+            case 'Nothing':
             extraMessage2 += 'This is your very last match in this qualifier. :slight_smile:';
             break;
         }
@@ -543,11 +543,11 @@ async function command(interaction)
             if (i > sBrackets)
             {
                 table = sBrackets * (sPlayers / sTeamsize - 1) + i;
-                linkTemp = linkTemp.replace(/{finalName}/g, 'Loserfinal').replace(/{X}/g, 'L');
+                linkTemp = linkTemp.replace(/{X}/g, 'L');
             }
             else
             {
-                linkTemp = linkTemp.replace(/{finalName}/g, 'Final').replace(/{X}/g, 'F');
+                linkTemp = linkTemp.replace(/{X}/g, 'F');
             }
         }
         linkTemp = linkTemp.replace(/{sTable}/g, table<10?'0'+table:table) + randomLetters;
@@ -628,6 +628,11 @@ async function command(interaction)
             if (i > sBrackets)
             {
                 table = sBrackets * (sPlayers / sTeamsize - 1) + i;
+                botMessage = botMessage.replace(/{finalName}/g, 'Loserfinal');
+            }
+            else
+            {
+                botMessage = botMessage.replace(/{finalName}/g, 'Final');
             }
         }
         let channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);

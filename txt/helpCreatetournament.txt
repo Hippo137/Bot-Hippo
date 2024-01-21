@@ -13,36 +13,38 @@ __box__ (QF, 1) “Best of X”.
 __brackets__ (F, 4)
     Number of brackets.
 __dice__ (QF, Random Dice)
-    Colonist setting: Dice.
+    Lobby setting: Dice.
 __discard__ (QF, 7)
-    Colonist setting: Card Discard Limit.
+    Lobby setting: Card Discard Limit.
 __friendlyrobber__ (QF, No)
-    Colonist setting: Friendly Robber.
+    Lobby setting: Friendly Robber.
 __loserfinal__ (F, No for Open, Yes for Cash)
     Adds tables in the final for the losers of the semifinal.
 __map__ (QF, Base)
-    Colonist setting: Map.
+    Lobby setting: Map.
 __mode__ (QF, Base)
-    Colonist setting: Game Mode.
+    Lobby setting: Game Mode.
+__number__ (QF, -1)
+    Tournament number to create a unique tournament id for TwoSheep.
 __players__ (QF, 4)
-    Colonist setting: Max Players.
+    Lobby setting: Max Players.
 __prize__ (Q, Cash Ticket)
     The prize for winning the Day Final.
 __qualfinal__ (Q, No)
     Adds an additional paragraph in the last round.
 __random__ (Q, No)
-    Adds random letters to the end of every Colonist link.
+    Adds random letters to the end of every lobby link.
 __round__ (Q, 1)
     The current round number. Is updated by *tablespam*.
 __rounds__ (Q, 3 for Base/SF, 2 for CK/CKSF)
     The total number of rounds in the qualifier.
 __speed__ (QF, Fast)
-    Colonist Setting: Game Speed
+    Lobby Setting: Game Speed
 __tables__ (Q, 0)
     The number of tables in the qualifier. You can set this with the *tablespam* command, too.
 __teamsize__ (QF, 1)
     Number of players on each team.
 __type__ (QF, Open)
     Defines if this is an Open or Cash Tournament.
-__vp__ (QF, Colonist default)
-    Colonist setting: VP to Win. vp is set to Colonist’s default if vp isn’t provided, but map or mode is.
+__vp__ (QF, default)
+    Lobby setting: VP to Win. vp is set to the default if vp isn’t provided, but map or mode is.

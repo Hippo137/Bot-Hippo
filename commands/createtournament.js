@@ -450,7 +450,7 @@ async function command(interaction)
     if (sNumber != null)
     {
         dbContent = g.writeDb(dbContent, 'sNumber', `${sNumber}`);
-        dbContent = g.writeDb(dbContent, 'zNumber', `${sNumber === 0 ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zNumber', `${sNumber === -1 ? '+' : '-'}`);
     }
     else sNumber = g.readDb(dbContent, 'sNumber');
     
