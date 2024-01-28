@@ -761,7 +761,7 @@ async function command(interaction)
     }
     
     let players = sTables * sPlayers;
-    if (sTables > 0)
+    if (sType != 'Cash' && sTables > 0)
     {
         if (sTables < 3)
         {
