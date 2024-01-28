@@ -760,6 +760,25 @@ async function command(interaction)
         }
     }
     
+    let players = sTables * sPlayers;
+    if (sTables > 0)
+    {
+        if (sTables < 3)
+        {
+            if (sQualfinal == 'Yes') botMessage += `\n:warning: Since we have less than three tables, there should be no Qualfinal.`;
+        }
+        else if (sTables < 6)
+        {
+            if (sQualfinal == 'No') botMessage += `\n:warning: Since we have at least three tables, there should be a Qualfinal which has no prize.`;
+            else if (sQualfinalPrize != 'Nothing') botMessage += `\n:warning: Since we have less than six tables, the Qualfinal should not have a prize.`;
+        }
+        else
+        {
+            if (sQualfinal == 'No') botMessage += `\n:warning: Since we have at least three tables, there should be a Qualfinal which gives a Cash Ticket.`;
+            else if (sQualfinalPrize != 'Cash Ticket') botMessage += `\n:warning: Since we have at least six tables, the Qualfinal should give a Cash Ticket.`;
+        }
+    }
+    
     interaction.editReply(`${create === 'New' ? 'Created' : 'Updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
     
     if (errorMessage != '')

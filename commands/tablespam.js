@@ -661,6 +661,28 @@ async function command(interaction)
     //console.log(dbContent);
     if (interaction.options.getSubcommand() === 'qualifier') dbContent = g.writeDb(dbContent, 'sRound', `${parseInt(sRound)+1}`);
     interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed in the meantime
+    switch (interaction.options.getSubcommand())
+    {
+        case 'qualifier': case 'qualfinal':
+        
+        let players = sTables * sPlayers;
+        if (sTables < 3)
+        {
+            if (sQualfinal == 'Yes') interaction.channel.send(`:warning: Since we have less than three tables, there should be no Qualfinal. ${interaction.user}`);
+        }
+        else if (sTables < 6)
+        {
+            if (sQualfinal == 'No') interaction.channel.send(`:warning: Since we have at least three tables, there should be a Qualfinal which has no prize. ${interaction.user}`);
+            else if (sQualfinalPrize != 'Nothing') interaction.channel.send(`:warning: Since we have less than six tables, the Qualfinal should not have a prize. ${interaction.user}`);
+        }
+        else
+        {
+            if (sQualfinal == 'No') interaction.channel.send(`:warning: Since we have at least three tables, there should be a Qualfinal which gives a Cash Ticket. ${interaction.user}`);
+            else if (sQualfinalPrize != 'Cash Ticket') interaction.channel.send(`:warning: Since we have at least six tables, the Qualfinal should give a Cash Ticket. ${interaction.user}`);
+        }
+    }
+        
+    
     //console.log(dbContent);
     dbMessage.edit(dbContent).catch(console.error);
     success = true;
