@@ -54,6 +54,9 @@ function command(interaction)
         message += `\nGave ${user} the role ${role}.`;
     }
     
+    let roleTournamentWinner = interaction.guild.roles.cache.find(role => role.name === 'Tournament Winner');
+    interaction.guild.members.cache.get(user.id).roles.add(roleTournamentWinner);
+    
     interaction.editReply(`${message}`).catch(console.error);
     
     success = true;
