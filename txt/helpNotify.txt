@@ -1,2 +1,6 @@
-__notify__
+**notify**
 With this command, you can notify the team.
+
+*Optional*
+__content__
+Extra message you want to send.
