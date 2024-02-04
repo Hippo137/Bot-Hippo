@@ -30,7 +30,9 @@ async function command(interaction)
     
     let content = interaction.options.getString('content');
     
-    let message = `${interaction.user} used the notify command @here: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}`;
+    let roleTournamentTeam = interaction.guild.roles.cache.find(role => role.name === 'Tournament Team');
+    
+    let message = `${interaction.user} used the notify command here: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}\n${roleTournamentTeam}`;
     if (content) message += `\n\nThe following message was added:\n${content}`;
     
     const channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `notification`);
