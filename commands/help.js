@@ -16,6 +16,7 @@ module.exports = {
             .addChoice('facts', 'Facts')
             .addChoice('help', 'Help')
             .addChoice('link', 'Link')
+            .addChoice('notify', 'Notify')
             .addChoice('ping', 'Ping')
             .addChoice('rockpaperscissors', 'Rockpaperscissors')
             .addChoice('scheduler', 'Scheduler')

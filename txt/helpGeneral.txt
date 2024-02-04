@@ -9,6 +9,9 @@ Shows a list of all available commands or detailed information about a single co
 __link__
 Receive a link to a document.
 
+__notify__
+With this command, you can notify the team.
+
 __ping__
 Returns a “pong”. Only there to check if the bot responds at all.
 

@@ -66,10 +66,10 @@ function command(interaction)
 {
     if (!g.allowed(interaction, 2)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
-    if (!interaction.guild.me.permissions.has('MANAGE_MESSAGES'))
+    /*if (!interaction.guild.me.permissions.has('MANAGE_MESSAGES'))
     {
         return interaction.editReply('I don’t have the permission to delete messages.').catch(console.error);
-    }
+    }*/
     
     let number = interaction.options.getInteger('number') ?? 1;
     if (number<1) number=1;
