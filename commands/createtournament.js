@@ -673,6 +673,18 @@ async function command(interaction)
             addErrorMessage(`The VP setting can’t be set above 20 on Colonist. It’s currently set to ${sVp}.`);
         }
     }
+    else
+    {
+        switch (sSpeed)
+        {
+            case 'Very Slow': sSpeed = 'Relaxed'; break;
+            case 'Slow': sSpeed = 'Classic'; break;
+            case 'Normal': sSpeed = 'Rapid'; break;
+            case 'Fast': sSpeed = 'Blitz'; break;
+            case 'Very Fast': sSpeed = 'Bullet'; break;
+            //case 'None': break;
+        }
+    }
     
     let botMessage = fs.readFileSync(`txt/settings.txt`, 'utf8')
         .replace(/{zBox}/g, sBox==1?'+':'-')
@@ -697,7 +709,7 @@ async function command(interaction)
         .replace(/{sPlatform}/g, sPlatform)
         .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
         .replace(/{sPlayers}/g, sPlayers)
-        .replace(/{zQualfinal}/g, (sQualfinal==='No')==(sType==='Cash')?'+':'-')
+        .replace(/{zQualfinal}/g, (sQualfinal==='No')==(sType!='Open')?'+':'-')
         .replace(/{sQualfinal}/g, sQualfinal)
         .replace(/{zQualfinalPrize}/g, sQualfinalPrize==='Cash Ticket'?'+':'-')
         .replace(/{sQualfinalPrize}/g, sQualfinalPrize)

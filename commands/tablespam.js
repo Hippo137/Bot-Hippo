@@ -121,6 +121,12 @@ module.exports = {
                 .setDescription('Number of tables in the final. Only set this with one bracket and if some players skipped a round.')
                 .setRequired(false)
             )
+            .addIntegerOption
+            (option =>
+                option.setName('tablestart')
+                .setDescription('One more than the number of tables which should be skipped – defaults to 1 if omitted')
+                .setRequired(false)
+            )
             .addStringOption
             (option =>
                 option.setName('mapkey')
@@ -240,7 +246,11 @@ async function command(interaction)
         //roomname = `CC${sType} Round ${sRound} Table {sTable}`;
         if (remainingRounds == 0)
         {
-            if (sQualfinal === 'Yes')
+            if (sType === 'Weekday')
+            {
+                extraMessage2 += `There is a Final for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
+            }
+            else if (sQualfinal === 'Yes')
             {
                 extraMessage2 += `There is a Qual Final for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
                 switch (sQualfinalPrize)
@@ -266,6 +276,10 @@ async function command(interaction)
         break;
 
         case 'qualfinal':
+        if (sType == 'Weekday')
+        {
+            return interaction.editReply(`Weekday tournaments don’t have a Qualfinal. Use ‘tablespam final’ instead.`).catch(console.error);
+        }
         intro = 'Qual Final';
         //roomname = `CC${sType} Qualfinal`;
         switch (sQualfinalPrize)
@@ -445,11 +459,11 @@ async function command(interaction)
         let twoSheepSpeed;
         switch (sSpeed)
         {
-            case 'Very Slow': twoSheepSpeed = 5; break;
-            case 'Slow': twoSheepSpeed = 1; break;
-            case 'Normal': twoSheepSpeed = 2; break;
-            case 'Fast': twoSheepSpeed = 3; break;
-            case 'Very Fast': twoSheepSpeed = 4; break;
+            case 'Very Slow': twoSheepSpeed = 5; sSpeed = 'Relaxed'; break;
+            case 'Slow': twoSheepSpeed = 1; sSpeed = 'Classic'; break;
+            case 'Normal': twoSheepSpeed = 2; sSpeed = 'Rapid'; break;
+            case 'Fast': twoSheepSpeed = 3; sSpeed = 'Blitz'; break;
+            case 'Very Fast': twoSheepSpeed = 4; sSpeed = 'Bullet'; break;
             case 'None': twoSheepSpeed = 0; break;
         }
         
@@ -661,7 +675,8 @@ async function command(interaction)
     //console.log(dbContent);
     if (interaction.options.getSubcommand() === 'qualifier') dbContent = g.writeDb(dbContent, 'sRound', `${parseInt(sRound)+1}`);
     interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed in the meantime
-    if (sType != 'Cash')
+    
+    if (sType == 'Open')
     {
         switch (interaction.options.getSubcommand())
         {
