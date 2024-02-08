@@ -77,6 +77,8 @@ async function command(interaction)
     checkInChannel.bulkDelete(100, true).catch(console.error);
     message += `\nCleared ${checkInChannel}.`;
     
+    message += `\n\n:bell: Make sure to update the Quit spreadsheet.`;
+    
     interaction.editReply(`Ended the tournament.${message}`).catch(console.error);
     
     success = true;
