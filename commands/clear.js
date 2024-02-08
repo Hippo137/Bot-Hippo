@@ -64,7 +64,9 @@ module.exports = {
     
 function command(interaction)
 {
-    if (!g.allowed(interaction, 2)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
+    let perm = interaction.channel.name === '📑check-in' ? 1 : 2;
+    console.log(perm);
+    if (!g.allowed(interaction, perm)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
     /*if (!interaction.guild.me.permissions.has('MANAGE_MESSAGES'))
     {

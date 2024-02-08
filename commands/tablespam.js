@@ -214,7 +214,7 @@ async function command(interaction)
     const zRobber = g.readDb(dbContent, 'zRobber');
     const sSpecial = g.readDb(dbContent, 'sSpecial');
     const zSpecial = g.readDb(dbContent, 'zSpecial');
-    const sSpeed = g.readDb(dbContent, 'sSpeed');
+    let sSpeed = g.readDb(dbContent, 'sSpeed'); //not constant because it changes based on platform
     const zSpeed = g.readDb(dbContent, 'zSpeed');
     const sTables = g.readDb(dbContent, 'sTables');
     const sType = g.readDb(dbContent, 'sType');
@@ -459,11 +459,11 @@ async function command(interaction)
         let twoSheepSpeed;
         switch (sSpeed)
         {
-            case 'Very Slow': twoSheepSpeed = 5; /*sSpeed = 'Relaxed';*/ break;
-            case 'Slow': twoSheepSpeed = 1; /*sSpeed = 'Classic';*/ break;
-            case 'Normal': twoSheepSpeed = 2; /*sSpeed = 'Rapid';*/ break;
-            case 'Fast': twoSheepSpeed = 3; /*sSpeed = 'Blitz';*/ break;
-            case 'Very Fast': twoSheepSpeed = 4; /*sSpeed = 'Bullet';*/ break;
+            case 'Very Slow': twoSheepSpeed = 5; sSpeed = 'Relaxed'; break;
+            case 'Slow': twoSheepSpeed = 1; sSpeed = 'Classic'; break;
+            case 'Normal': twoSheepSpeed = 2; sSpeed = 'Rapid'; break;
+            case 'Fast': twoSheepSpeed = 3; sSpeed = 'Blitz'; break;
+            case 'Very Fast': twoSheepSpeed = 4; sSpeed = 'Bullet'; break;
             case 'None': twoSheepSpeed = 0; break;
         }
         
