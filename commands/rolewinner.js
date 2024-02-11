@@ -5,17 +5,23 @@ let success = false;
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('rolewinner')
-		.setDescription('Used to handle the weekly winner role – change the winner, the name or both')
-        .addUserOption
-        (option =>
-            option.setName('user')
-            .setDescription('Select a user')
-            .setRequired(false)
-        )
+		.setDescription('Used to handle the weekly winner role – change the winner(s), the name or both')
         .addStringOption
         (option =>
             option.setName('name')
             .setDescription('Select a new name for the role')
+            .setRequired(false)
+        )
+        .addUserOption
+        (option =>
+            option.setName('user1')
+            .setDescription('Select a user')
+            .setRequired(false)
+        )
+        .addUserOption
+        (option =>
+            option.setName('user2')
+            .setDescription('Select a user')
             .setRequired(false)
         ),
     
@@ -35,27 +41,37 @@ function command(interaction)
     let message = ``;
     
     const name = interaction.options.getString('name');
-    const user = interaction.options.getUser('user');
+    const user1 = interaction.options.getUser('user1');
+    const user2 = interaction.options.getUser('user2');
     
-    if (!name && !user) return interaction.editReply(`You need to provide a name or a user or both.`).catch(console.error);
+    if (!name && !user1 && !user2) return interaction.editReply(`You need to provide a name or a user or both.`).catch(console.error);
     
     interaction.guild.members.fetch();
-    let role = interaction.guild.roles.cache.get('1081074925567217675');
+    let role = interaction.guild.roles.cache.get('1081074925567217675'); //CC
+    //let role = interaction.guild.roles.cache.get('1206368587598790856'); //W9
     if (!role) return interaction.editReply('The role was not found.').catch(console.error);
     if (name)
     {
         role.edit({name: name});
         message += `\nChanged the name of the role to ‘${name}’.`;
     }
-    if (user)
-    {
-        role.members.forEach(member => member.roles.remove(role));
-        interaction.guild.members.cache.get(user.id).roles.add(role);
-        message += `\nGave ${user} the role ${role}.`;
-    }
     
-    let roleTournamentWinner = interaction.guild.roles.cache.find(role => role.name === 'Tournament Winner');
-    interaction.guild.members.cache.get(user.id).roles.add(roleTournamentWinner);
+    let roleTournamentWinner;
+    if (user1 || user2)
+    {
+        role.members.forEach(member => member.roles.remove(role)); //remove weekly winner role from everybody if a new winner was set
+        roleTournamentWinner = interaction.guild.roles.cache.find(role => role.name === 'Tournament Winner');
+    }
+    if (user1)
+    {
+        interaction.guild.members.cache.get(user1.id).roles.add([role, roleTournamentWinner]);
+        message += `\nGave ${user1} the role ${role}.`;
+    }
+    if (user2)
+    {
+        interaction.guild.members.cache.get(user2.id).roles.add([role, roleTournamentWinner]);
+        message += `\nGave ${user2} the role ${role}.`;
+    }
     
     interaction.editReply(`${message}`).catch(console.error);
     
