@@ -15,11 +15,11 @@ module.exports = {
         .addIntegerOption
         (option =>
             option.setName('nameid')
-            .setDescription('Select how the output should look like – defaults to ‘Name’ if omitted')
+            .setDescription('Select how the output should look like – defaults to ‘NAME’ if omitted')
             .setRequired(false)
             .addChoice('Name', 1)
             .addChoice('ID', 2)
-            .addChoice('Name and ID', 3)
+            .addChoice('Both', 3)
             .addChoice('None', 0)
         ),
         

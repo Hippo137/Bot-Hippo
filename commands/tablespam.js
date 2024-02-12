@@ -9,8 +9,7 @@ module.exports = {
         .setName('tablespam')
         .setDescription('Sends the table messages for tournaments')
         //.setDefaultPermission(false)
-        .addSubcommand(subcommand =>
-            subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('qualifier')
             .setDescription('Use this for the qualifiers')
             .addIntegerOption
@@ -22,7 +21,7 @@ module.exports = {
             .addIntegerOption
             (option =>
                 option.setName('tablestart')
-                .setDescription('First table channel which should be posted in – defaults to 1 if omitted')
+                .setDescription('Uses previous round number if set, start with this table – defaults to 1 if omitted')
                 .setRequired(false)
             )
             .addStringOption
@@ -32,8 +31,7 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
-        subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('qualfinal')
             .setDescription('Use this for the Qual Final')
             .addStringOption
@@ -43,8 +41,7 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
-        subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('sixteenthfinal')
             .setDescription('Use this for the sixteenthfinal')
             .addIntegerOption
@@ -60,8 +57,7 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
-        subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('eighthfinal')
             .setDescription('Use this for the eighthfinals')
             .addIntegerOption
@@ -77,8 +73,7 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
-        subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('quarterfinal')
             .setDescription('Use this for the quarterfinals')
             .addIntegerOption
@@ -94,8 +89,7 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
-        subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('semifinal')
             .setDescription('Use this for the semifinals')
             .addIntegerOption
@@ -111,8 +105,7 @@ module.exports = {
                 .setRequired(false)
             )
         )
-        .addSubcommand(subcommand =>
-        subcommand
+        .addSubcommand(subcommand => subcommand
             .setName('final')
             .setDescription('Use this for the finals')
             .addIntegerOption
@@ -176,11 +169,15 @@ async function command(interaction)
     }
 
     let sRound = g.readDb(dbContent, 'sRound');
-    if (tableStart > 1 && sRound > 1) sRound--;
+    
     const sRounds = g.readDb(dbContent, 'sRounds');
-    if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds))
+    if (interaction.options.getSubcommand() === 'qualifier')
     {
-        return interaction.editReply(`‘round’ must not exceed ‘rounds’. Maybe you need to restart the tournament.`).catch(console.error);
+        if (parseInt(sRound) > 1 && interaction.options.getInteger('tablestart')) sRound--; //if you set tablestart, you will not start a new round
+        if (parseInt(sRound) > parseInt(sRounds))
+        {
+            return interaction.editReply(`‘round’ (${sRound}) must not exceed ‘rounds’ (${sRounds}.`).catch(console.error);
+        }
     }
     //if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
     
@@ -196,6 +193,10 @@ async function command(interaction)
     const zDice = g.readDb(dbContent, 'zDice');
     const sDiscard = g.readDb(dbContent, 'sDiscard');
     const zDiscard = g.readDb(dbContent, 'zDiscard');
+    const sInitialMode1 = g.readDb(dbContent, 'sInitialMode1');
+    const sInitialMode2 = g.readDb(dbContent, 'sInitialMode2');
+    const sInitialType1 = g.readDb(dbContent, 'sInitialType1');
+    const sInitialType2 = g.readDb(dbContent, 'sInitialType2');
     const sLoserfinals = g.readDb(dbContent, 'sLoserfinals');
     const sMap = g.readDb(dbContent, 'sMap');
     const zMap = g.readDb(dbContent, 'zMap');
@@ -214,7 +215,7 @@ async function command(interaction)
     const zRobber = g.readDb(dbContent, 'zRobber');
     const sSpecial = g.readDb(dbContent, 'sSpecial');
     const zSpecial = g.readDb(dbContent, 'zSpecial');
-    let sSpeed = g.readDb(dbContent, 'sSpeed'); //not constant because it changes based on platform
+    const sSpeed = g.readDb(dbContent, 'sSpeed');
     const zSpeed = g.readDb(dbContent, 'zSpeed');
     const sTables = g.readDb(dbContent, 'sTables');
     const sType = g.readDb(dbContent, 'sType');
@@ -459,11 +460,11 @@ async function command(interaction)
         let twoSheepSpeed;
         switch (sSpeed)
         {
-            case 'Very Slow': twoSheepSpeed = 5; sSpeed = 'Relaxed'; break;
-            case 'Slow': twoSheepSpeed = 1; sSpeed = 'Classic'; break;
-            case 'Normal': twoSheepSpeed = 2; sSpeed = 'Rapid'; break;
-            case 'Fast': twoSheepSpeed = 3; sSpeed = 'Blitz'; break;
-            case 'Very Fast': twoSheepSpeed = 4; sSpeed = 'Bullet'; break;
+            case 'Very Slow': twoSheepSpeed = 5; break;
+            case 'Slow': twoSheepSpeed = 1; break;
+            case 'Normal': twoSheepSpeed = 2; break;
+            case 'Fast': twoSheepSpeed = 3; break;
+            case 'Very Fast': twoSheepSpeed = 4; break;
             case 'None': twoSheepSpeed = 0; break;
         }
         
@@ -502,8 +503,8 @@ async function command(interaction)
                 //nC : //numCities
                 //nS : //numSettlements
                 rM : twoSheepRobber, //robberMode
-                //fS : //firstSettle
-                //sS : //secondSettle,
+                fS : parseInt(sInitialType1), //firstSettle
+                sS : parseInt(sInitialType2), //secondSettle,
                 sf : sMode == 'Seafarers' || sMode == 'Seafarers + Cities & Knights', //seafarers
                 ck : sMode == 'Cities & Knights' || sMode == 'Seafarers + Cities & Knights', //citiesAndKnights
                 //nSh : //numShips
@@ -512,8 +513,8 @@ async function command(interaction)
                 //rTL : //restrictFoundingToLargestIsland
                 //dCC : //devCardCounts
                 dM : twoSheepDice, //diceMode
-                //fSM : //firstSettleMode
-                //sSM : //secondSettleMode
+                fSM : parseInt(sInitialMode1), //firstSettleMode
+                sSM : parseInt(sInitialMode2), //secondSettleMode
                 //iV : //newIslandVPBonuses
                 //oV : //overrideVPPerStructure
                 //d : //countDesertAsWaterForIslandCalc
@@ -615,7 +616,7 @@ async function command(interaction)
         .replace(/{zDice}/g, zDice)
         .replace(/{sDice}/g, sDice)
         .replace(/{zSpeed}/g, zSpeed)
-        .replace(/{sSpeed}/g, sSpeed)
+        .replace(/{sSpeed}/g, speedName(sPlatform, sSpeed))
         .replace(/{platformLink}/g, platformLink)
         .replace(/{zPlayers}/g, zPlayers)
         .replace(/{sPlayers}/g, sPlayers)
@@ -623,12 +624,20 @@ async function command(interaction)
         .replace(/{sDiscard}/g, sDiscard)
         .replace(/{zVp}/g, zVp)
         .replace(/{sVp}/g, sVp)
+        .replace(/{zInitialMode1}/g, sInitialMode1==0?'+':'-')
+        .replace(/{sInitialMode1}/g, g.initialModeToName(sInitialMode1))
+        .replace(/{zInitialMode2}/g, sInitialMode2==0?'+':'-')
+        .replace(/{sInitialMode2}/g, g.initialModeToName(sInitialMode2))
+        .replace(/{zInitialType1}/g, sInitialType1==0?'+':'-')
+        .replace(/{sInitialType1}/g, g.initialTypeToName(sInitialType1))
+        .replace(/{zInitialType2}/g, (sInitialType2==1)==['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode)?'+':'-')
+        .replace(/{sInitialType2}/g, g.initialTypeToName(sInitialType2))
         .replace(/{sType}/g, sType)
         .replace(/{roundName}/g, roundName[sRound>=sRounds ? 0 : sRound])
         .replace(/{screenshotMessage}/g, screenshotMessage)
         .replace(/{extraMessage1}/g, extraMessage1)
         .replace(/{extraMessage2}/g, extraMessage2)
-        .replace(/{screenshots}/g, /*await*/ interaction.guild.channels.cache.find(channel => channel.name === `💻screenshots`));
+        .replace(/{screenshots}/g, interaction.guild.channels.cache.find(channel => channel.name === `💻screenshots`));
         //.replace(/{screenshots}/g, interaction.guild.channels.cache.get('894372076884992015'));
     //console.log(botMessage)
     
@@ -652,7 +661,7 @@ async function command(interaction)
         let channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
         if (channelTarget)
         {
-            channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            //channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessage.replace(/{link}/g, gameIDs[linkIndex]));
         }
         if (sSpecial !== 'Ntnt') //don’t open voice channels in NTNT tournaments
@@ -660,7 +669,7 @@ async function command(interaction)
             channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
             if (channelTarget)
             {
-                channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+                //channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             }
         }
         linkIndex++;
@@ -704,4 +713,19 @@ async function command(interaction)
     //console.log(dbContent);
     dbMessage.edit(dbContent).catch(console.error);
     success = true;
+}
+
+function speedName(platform, speed)
+{
+    if (platform === 'Colonist') return speed;
+    
+    switch (speed)
+    {
+        case 'Very Slow': return 'Relaxed';
+        case 'Slow': return 'Classic';
+        case 'Normal': return 'Rapid';
+        case 'Fast': return 'Blitz';
+        case 'Very Fast': return 'Bullet';
+        case 'None': return 'None';
+    }
 }

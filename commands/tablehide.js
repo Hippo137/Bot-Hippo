@@ -5,7 +5,7 @@ let success = false;
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tablehide')
-        .setDescription('hide tables')
+        .setDescription('toggle table channel visibility')
         //.setDefaultPermission(false)
         .addStringOption
         (option =>
@@ -26,6 +26,15 @@ module.exports = {
             option.setName('tablestart')
             .setDescription('First table channel which should be hidden – defaults to 1 if omitted')
             .setRequired(false)
+        )
+        .addIntegerOption
+        (option =>
+            option.setName('channeltype')
+            .setDescription('Select if you want to affect text or voice channel – defaults to ‘BOTH’ if omitted')
+            .setRequired(false)
+            .addChoice('Text', 1)
+            .addChoice('Voice', 2)
+            .addChoice('Both', 3)
         ),
     
     async execute(interaction)
@@ -44,23 +53,51 @@ function command(interaction, dbMessage)
     const show = interaction.options.getString('show') ?? 'No';
     const tableStart = interaction.options.getInteger('tablestart') ?? 1;
     const tableEnd = interaction.options.getInteger('tableend') ?? 50;
-
-    for (let i=tableStart; i<=tableEnd; i++)
+    
+    const channelType = interaction.options.getInteger('channeltype') ?? 3;
+    const text = channelType % 2 == 1;
+    const voice = channelType > 1;
+    
+    if (text)
     {
-        let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i);
-        if (channelTarget)
+        if (show=='Yes')
         {
-            if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
-            else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+            for (let i=tableStart; i<=tableEnd; i++)
+            {
+                let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i);
+                if (channelTarget) channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            }
         }
-        channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i);
-        if (channelTarget)
+        else
         {
-            if (show=='Yes') channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
-            else channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+            for (let i=tableStart; i<=tableEnd; i++)
+            {
+                let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table-`+i);
+                if (channelTarget) channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+            }
         }
     }
-    interaction.editReply(`Tables updated to be ${show=='Yes'?'shown':'hidden'}.`).catch(console.error); //error handling in case the message was removed either by the command itself (used in table channel) or manually removed in the meantime
+    if (voice)
+    {
+        if (show=='Yes') 
+        {
+            for (let i=tableStart; i<=tableEnd; i++)
+            {
+                let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i);
+                if (channelTarget) channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            }
+        }
+        else
+        {
+            for (let i=tableStart; i<=tableEnd; i++)
+            {
+                let channelTarget = interaction.guild.channels.cache.find(channel => channel.name == `table `+i);
+                if (channelTarget) channelTarget.permissionOverwrites.edit(channelTarget.guild.roles.everyone, { VIEW_CHANNEL: false });
+            }
+        }
+    }
+    let updatedChannels = text ? `text${voice ? ' and voice' : ''}` : 'voice';
+    interaction.editReply(`Table ${updatedChannels} channels updated to be ${show=='Yes'?'shown':'hidden'}.`).catch(console.error); //error handling in case the message was removed either by the command itself (used in table channel) or manually removed in the meantime
     
     success = true;
 }

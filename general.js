@@ -64,5 +64,35 @@ module.exports =
         Robber: 'Normal',
         Dice: 'Random Dice',
         Speed: 'Fast'
+    },
+    
+    initialModeToName:
+    function (mode)
+    {
+        switch (parseInt(mode))
+        {
+            case 0: return 'Normal';
+            case 1: return 'Coastal';
+            case 2: return 'Inland';
+            case 3: return 'Port';
+            case 4: return 'Blind Terrain';
+            case 5: return 'Blind Number';
+            case 6: return 'Blind All';
+            case 7: return 'Adverse Pick';
+            case 8: return 'Highest Production';
+            case 9: return 'Skip';
+            case 10: return 'Sahel';
+            case 11: return 'Different Island';
+        }
+    },
+    
+    initialTypeToName:
+    function (type)
+    {
+        switch (parseInt(type))
+        {
+            case 0: return 'Settlement';
+            case 1: return 'City';
+        }
     }
 };

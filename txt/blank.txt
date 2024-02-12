@@ -12,6 +12,10 @@
 {zPlayers} Max Players:         {sPlayers}
 {zDiscard} Card Discard Limit:  {sDiscard}
 {zVp} VP to Win:           {sVp}
+{zInitialType1} First Settle:        {sInitialType1}
+{zInitialType2} Second Settle:       {sInitialType2}
+{zInitialMode1} First Settle Mode:   {sInitialMode1}
+{zInitialMode2} Second Settle Mode:  {sInitialMode2}
 ```
 :arrow_right: <https://{platformLink}{link}>
 
