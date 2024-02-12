@@ -28,7 +28,7 @@ client.once('ready', () => {
     
     
     
-    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
 
@@ -72,7 +72,7 @@ sTeamsize: 1
 sType: Open
 sVp: 10
 zVp: +
-`).catch(console.error)})
+`).catch(console.error)})*/
     
     
     
