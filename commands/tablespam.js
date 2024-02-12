@@ -661,7 +661,7 @@ async function command(interaction)
         let channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table-`+table);
         if (channelTarget)
         {
-            //channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+            channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessage.replace(/{link}/g, gameIDs[linkIndex]));
         }
         if (sSpecial !== 'Ntnt') //don’t open voice channels in NTNT tournaments
@@ -669,7 +669,7 @@ async function command(interaction)
             channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
             if (channelTarget)
             {
-                //channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
+                channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             }
         }
         linkIndex++;
