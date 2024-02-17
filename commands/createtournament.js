@@ -417,7 +417,7 @@ async function command(interaction)
     let sVp = interaction.options.getInteger('vp');
 
     let updateVP;
-
+    
     if (create === 'New')
     {
         sBox = sBox ?? 1;
@@ -447,10 +447,10 @@ async function command(interaction)
         sType = sType ?? 'Open';
         //sVp = sVp; //depends on mode and map
         
-        sInitialType2 = sInitialType2 ?? ['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 1 : 0; //second building defaults to City in CK and CKSF
-        sLoserfinals = sLoserfinals ?? sType === 'Cash' ? 'Yes' : 'No';
-        sQualfinal = sQualfinal ?? ['Cash', 'Weekday'].includes(sType) ? 'No' : 'Yes';
-        sRounds = sRounds ?? ['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 2 : 3;
+        sInitialType2 = sInitialType2 ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 1 : 0); //second building defaults to City in CK and CKSF
+        sLoserfinals = sLoserfinals ?? (sType === 'Cash' ? 'Yes' : 'No');
+        sQualfinal = sQualfinal ?? (['Cash', 'Weekday'].includes(sType) ? 'No' : 'Yes');
+        sRounds = sRounds ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 2 : 3);
 
         updateVP = true;
     }
@@ -546,7 +546,7 @@ async function command(interaction)
     
     if (sLoserfinals != null) dbContent = g.writeDb(dbContent, 'sLoserfinals', sLoserfinals);
     else sLoserfinals = g.readDb(dbContent, 'sLoserfinals');
-
+    
     if (sQualfinal != null) dbContent = g.writeDb(dbContent, 'sQualfinal', `${sQualfinal}`);
     else sQualfinal = g.readDb(dbContent, 'sQualfinal');
     
