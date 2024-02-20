@@ -750,7 +750,7 @@ async function command(interaction)
         {
             addErrorMessage(`The discard setting can’t be set above 20 on Colonist. It’s currently set to ${sDiscard}.`)
         }
-        if (sRobber != 'Normal' && sRobber != 'Friendly')
+        if (!['Normal', 'Friendly'].includes(sRobber))
         {
             addErrorMessage(`The robber setting ‘${sRobber}’ does not exist on Colonist.`);
         }
