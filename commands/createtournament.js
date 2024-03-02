@@ -518,18 +518,23 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zMap', sMap === 'Base' ? '+' : '-');
     }
     else sMap = g.readDb(dbContent, 'sMap');
-
+    
+    if (sRound != null) dbContent = g.writeDb(dbContent, 'sRound', `${sRound}`);
+    else sRound = g.readDb(dbContent, 'sRound');
+    
     if (sMode != null)
     {
         dbContent = g.writeDb(dbContent, 'sMode', sMode);
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
         
-        if (create === 'Update')
+        if (create === 'Update') //since createtournament had to be split in two subcommands, it’s awkward to only update the settings you pass to the command. If you for example use the design subcommand with create=New and then the lobby subcommand with create=Update, you keep the 3 Rounds instead of the 2 you want for CK. So when you update the gameMode, it only updates a couple settings now
         {
             sInitialMode1 = sInitialMode1 ?? 0;
             sInitialMode2 = sInitialMode2 ?? 0;
             sInitialType1 = sInitialType1 ?? 0;
             sInitialType2 = sInitialType2 ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 1 : 0); //second building defaults to City in CK and CKSF
+            
+            if (sRound == 1) sRounds = sRounds ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 2 : 3); //only in first round in case we have an event with different game modes
         }
     }
     else sMode = g.readDb(dbContent, 'sMode');
@@ -571,9 +576,6 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === g.colonistDefaults.Robber ? '+' : '-'}`);
     }
     else sRobber = g.readDb(dbContent, 'sRobber');
-
-    if (sRound != null) dbContent = g.writeDb(dbContent, 'sRound', `${sRound}`);
-    else sRound = g.readDb(dbContent, 'sRound');
 
     if (sRounds != null) dbContent = g.writeDb(dbContent, 'sRounds', `${sRounds}`);
     else sRounds = g.readDb(dbContent, 'sRounds');
