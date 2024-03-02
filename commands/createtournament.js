@@ -424,9 +424,6 @@ async function command(interaction)
         sBrackets = sBrackets ?? 4;
         sDice = sDice ?? g.tournamentDefaults.Dice;
         sDiscard = sDiscard ?? 7;
-        sInitialMode1 = sInitialMode1 ?? 0;
-        sInitialMode2 = sInitialMode2 ?? 0;
-        sInitialType1 = sInitialType1 ?? 0;
         //sInitialType2 = //at the bottom because it depends on sMode
         //sLoserfinals = //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
@@ -447,11 +444,15 @@ async function command(interaction)
         sType = sType ?? 'Open';
         //sVp = sVp; //depends on mode and map
         
-        sInitialType2 = sInitialType2 ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 1 : 0); //second building defaults to City in CK and CKSF
         sLoserfinals = sLoserfinals ?? (sType === 'Cash' ? 'Yes' : 'No');
         sQualfinal = sQualfinal ?? (['Cash', 'Weekday'].includes(sType) ? 'No' : 'Yes');
         sRounds = sRounds ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 2 : 3);
-
+        
+        sInitialMode1 = sInitialMode1 ?? 0;
+        sInitialMode2 = sInitialMode2 ?? 0;
+        sInitialType1 = sInitialType1 ?? 0;
+        sInitialType2 = sInitialType2 ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 1 : 0); //second building defaults to City in CK and CKSF
+        
         updateVP = true;
     }
     else updateVP = sVp != null || sMode != null || sMap != null || sPlatform != null;
@@ -511,18 +512,6 @@ async function command(interaction)
     }
     else sDiscard = g.readDb(dbContent, 'sDiscard');
     
-    if (sInitialMode1 != null) dbContent = g.writeDb(dbContent, 'sInitialMode1', sInitialMode1);
-    else sInitialMode1 = g.readDb(dbContent, 'sInitialMode1');
-    
-    if (sInitialMode2 != null) dbContent = g.writeDb(dbContent, 'sInitialMode2', sInitialMode2);
-    else sInitialMode2 = g.readDb(dbContent, 'sInitialMode2');
-    
-    if (sInitialType1 != null) dbContent = g.writeDb(dbContent, 'sInitialType1', sInitialType1);
-    else sInitialType1 = g.readDb(dbContent, 'sInitialType1');
-    
-    if (sInitialType2 != null) dbContent = g.writeDb(dbContent, 'sInitialType2', sInitialType2);
-    else sInitialType2 = g.readDb(dbContent, 'sInitialType2');
-    
     if (sMap != null)
     {
         dbContent = g.writeDb(dbContent, 'sMap', sMap);
@@ -534,8 +523,28 @@ async function command(interaction)
     {
         dbContent = g.writeDb(dbContent, 'sMode', sMode);
         dbContent = g.writeDb(dbContent, 'zMode', sMode === 'Base' ? '+' : '-');
+        
+        if (create === 'Update')
+        {
+            sInitialMode1 = sInitialMode1 ?? 0;
+            sInitialMode2 = sInitialMode2 ?? 0;
+            sInitialType1 = sInitialType1 ?? 0;
+            sInitialType2 = sInitialType2 ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 1 : 0); //second building defaults to City in CK and CKSF
+        }
     }
     else sMode = g.readDb(dbContent, 'sMode');
+    
+    if (sInitialMode1 != null) dbContent = g.writeDb(dbContent, 'sInitialMode1', sInitialMode1);
+    else sInitialMode1 = g.readDb(dbContent, 'sInitialMode1');
+    
+    if (sInitialMode2 != null) dbContent = g.writeDb(dbContent, 'sInitialMode2', sInitialMode2);
+    else sInitialMode2 = g.readDb(dbContent, 'sInitialMode2');
+    
+    if (sInitialType1 != null) dbContent = g.writeDb(dbContent, 'sInitialType1', sInitialType1);
+    else sInitialType1 = g.readDb(dbContent, 'sInitialType1');
+    
+    if (sInitialType2 != null) dbContent = g.writeDb(dbContent, 'sInitialType2', sInitialType2);
+    else sInitialType2 = g.readDb(dbContent, 'sInitialType2');
     
     if (sNumber != null)
     {
