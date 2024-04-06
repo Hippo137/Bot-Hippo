@@ -420,25 +420,28 @@ async function command(interaction)
     
     if (create === 'New')
     {
+        sPlatform = sPlatform ?? 'Colonist';
+        
         sBox = sBox ?? 1;
         sBrackets = sBrackets ?? 4;
-        sDice = sDice ?? g.tournamentDefaults.Dice;
+        sDice = sDice ?? g.tournamentDefaults(sPlatform, 'Dice');
         sDiscard = sDiscard ?? 7;
         //sInitialType2 = //at the bottom because it depends on sMode
         //sLoserfinals = //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
         sMode = sMode ?? 'Base';
         sNumber = sNumber ?? -1;
-        sPlatform = sPlatform ?? 'Colonist';
+        sPlacements = sPlacements ?? 'Random';
+        //sPlatform = sPlatform ?? 'Colonist'; //at the top because other things depend on it
         sPlayers = sPlayers ?? 4;
         //sQualfinal = //at the bottom because it depends on sType
         sQualfinalPrize = sQualfinalPrize ?? 'Cash Ticket';
         sRandom = sRandom ?? 'No';
-        sRobber = sRobber ?? g.tournamentDefaults.Robber;
+        sRobber = sRobber ?? g.tournamentDefaults(sPlatform, 'Robber');
         sRound = sRound ?? 1;
         //sRounds = //at the bottom because it depends on the sMode
         sSpecial = sSpecial ?? 'None';
-        sSpeed = sSpeed ?? g.tournamentDefaults.Speed;
+        sSpeed = sSpeed ?? g.tournamentDefaults(sPlatform, 'Speed');
         sTables = sTables ?? 0;
         sTeamsize = sTeamsize ?? 1;
         sType = sType ?? 'Open';
@@ -501,7 +504,7 @@ async function command(interaction)
     if (sDice != null)
     {
         dbContent = g.writeDb(dbContent, 'sDice', sDice);
-        dbContent = g.writeDb(dbContent, 'zDice', `${sDice === g.colonistDefaults.Dice ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zDice', `${sDice === g.lobbyDefaults(sPlatform, 'Dice') ? '+' : '-'}`);
     }
     else sDice = g.readDb(dbContent, 'sDice');
 
@@ -573,7 +576,7 @@ async function command(interaction)
     if (sRobber != null)
     {
         dbContent = g.writeDb(dbContent, 'sRobber', sRobber);
-        dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === g.colonistDefaults.Robber ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zRobber', `${sRobber === g.lobbyDefaults(sPlatform, 'Robber') ? '+' : '-'}`);
     }
     else sRobber = g.readDb(dbContent, 'sRobber');
 
@@ -590,7 +593,7 @@ async function command(interaction)
     if (sSpeed != null)
     {
         dbContent = g.writeDb(dbContent, 'sSpeed', `${sSpeed}`);
-        dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === g.colonistDefaults.Speed ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === g.lobbyDefaults(sPlatform, 'Speed') ? '+' : '-'}`);
     }
     else sSpeed = g.readDb(dbContent, 'sSpeed');
     
@@ -796,7 +799,7 @@ async function command(interaction)
         .replace(/{sBox}/g, sBox)
         .replace(/{zBrackets}/g, sBrackets==4?'+':'-')
         .replace(/{sBrackets}/g, sBrackets)
-        .replace(/{zDice}/g, sDice===g.colonistDefaults.Dice?'+':'-')
+        .replace(/{zDice}/g, sDice===g.lobbyDefaults(sPlatform, 'Dice')?'+':'-')
         .replace(/{sDice}/g, sDice)
         .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
         .replace(/{sDiscard}/g, sDiscard)
@@ -828,7 +831,7 @@ async function command(interaction)
         .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
         .replace(/{zRandom}/g, sRandom==='No'?'+':'-')
         .replace(/{sRandom}/g, sRandom)
-        .replace(/{zRobber}/g, sRobber===g.colonistDefaults.Robber?'+':'-')
+        .replace(/{zRobber}/g, sRobber===g.lobbyDefaults(sPlatform, 'Robber') ?'+':'-')
         .replace(/{sRobber}/g, sRobber)
         .replace(/{zRound}/g, sRound==1?'+':'-')
         .replace(/{sRound}/g, sRound)
@@ -836,7 +839,7 @@ async function command(interaction)
         .replace(/{sRounds}/g, sRounds)
         .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
         .replace(/{sSpecial}/g, sSpecial)
-        .replace(/{zSpeed}/g, sSpeed===g.colonistDefaults.Speed?'+':'-')
+        .replace(/{zSpeed}/g, sSpeed===g.lobbyDefaults(sPlatform, 'Speed') ?'+':'-')
         .replace(/{sSpeed}/g, sSpeed)
         .replace(/{zTables}/g, sTables==0?'+':'-')
         .replace(/{sTables}/g, sTables)

@@ -52,18 +52,26 @@ module.exports =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
     
         
-    colonistDefaults:
+    lobbyDefaults:
+    function (platform, type)
     {
-        Robber: 'Normal',
-        Dice: 'Random Dice', //'Balanced Dice',
-        Speed: 'Normal'
+        switch (type)
+        {
+            case 'Robber': return 'Normal'; break;
+            case 'Dice': return 'Random Dice'; break;
+            case 'Speed': return platform == 'Colonist' ? 'Normal' : 'Rapid'; break;
+        }
     },
     
     tournamentDefaults:
+    function (platform, type)
     {
-        Robber: 'Normal',
-        Dice: 'Random Dice',
-        Speed: 'Fast'
+        switch (type)
+        {
+            case 'Robber': return 'Normal'; break;
+            case 'Dice': return 'Random Dice'; break;
+            case 'Speed': return platform == 'Colonist' ? 'Fast' : 'Blitz'; break;
+        }
     },
     
     initialModeToName:
