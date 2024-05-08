@@ -1,6 +1,31 @@
 **roleadd**
-Adds a new Discord role with a random color to the correct position. Otherwise, you need to move it from the bottom all the way to the top manually. The position of the new role is one below the role “Back Up Hero”.
+Adds a new Discord role with a random color. to the correct position. Otherwise, you need to move it from the bottom all the way to the top manually. The position of the new role is one below the role “Back Up Hero”.
+
+Subcommands: week, month, custom
+
+*Required*
+__number__ / week
+Tournament number.
+
+__type__ / week
+Tournament type.
+
+__mode__ / week+month
+Tournament mode.
+
+__event__ / week
+Tournament Event. Required for non-Weekday, ignored otherwise
+
+__month__ / month
+Month of the End Of Month Tournament.
+
+__year__ / month
+Year of the End Of Month Tournament.
+
+__rolebelow__ / month+custom
+For End Of Month Tournament, provide previous End Of Month role. New role will be put right above.
+Required for month, optional for custom (defaults to the bottom if omitted).
 
 *Optional*
-__name__ (new role)
+__name__ (new role) / custom
 Specifies the name of the new role.
