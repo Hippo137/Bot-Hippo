@@ -28,13 +28,14 @@ client.once('ready', () => {
     
     
     
-    /*client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
+    client.channels.cache.get('862422544652828713').messages.fetch(process.env.DATABASE).then(async dbMsg =>{
     dbMsg.edit(`Database
 
 
 corrupted: False
 sBox: 1
 sBrackets: 4
+sChatMode: Full
 sDice: Random Dice
 zDice: +
 sDiscard: 7
@@ -69,10 +70,11 @@ sSpeed: Fast
 zSpeed: -
 sTables: 0
 sTeamsize: 1
+sTradeMode: Full
 sType: Open
 sVp: 10
 zVp: +
-`).catch(console.error)})*/
+`).catch(console.error)})
     
     
     

@@ -189,6 +189,7 @@ async function command(interaction)
     
     const sBox = g.readDb(dbContent, 'sBox');
     const sBrackets = g.readDb(dbContent, 'sBrackets');
+    const sChatMode = g.readDb(dbContent, 'sChatMode');
     const sDice = g.readDb(dbContent, 'sDice');
     const zDice = g.readDb(dbContent, 'zDice');
     const sDiscard = g.readDb(dbContent, 'sDiscard');
@@ -218,6 +219,7 @@ async function command(interaction)
     const sSpeed = g.readDb(dbContent, 'sSpeed');
     const zSpeed = g.readDb(dbContent, 'zSpeed');
     const sTables = g.readDb(dbContent, 'sTables');
+    const sTradeMode = g.readDb(dbContent, 'sTradeMode');
     const sType = g.readDb(dbContent, 'sType');
     const sVp = g.readDb(dbContent, 'sVp');
     const zVp = g.readDb(dbContent, 'zVp');
@@ -415,7 +417,7 @@ async function command(interaction)
             case 'Base': twoSheepMap = 0; break;
             case 'Base 5-6 Player': twoSheepMap = 1; break;
             case 'Base 7-8 Player': twoSheepMap = 3; break;
-            case 'Base Random': twoSheepMap = 9; break;
+            case 'Base Random': twoSheepMap = 8; break;
             case 'Black Forest': twoSheepMap = -1; break;
             case 'Diamond', 'Diamond': twoSheepMap = -1; break;
             case 'Earth', 'Earth': twoSheepMap = -1; break;
@@ -482,7 +484,21 @@ async function command(interaction)
             if (modeTemp) id = `CC-${sType}-${sNumber}-${modeTemp}`;
         }
         
-        //console.log(id);
+        let twoSheepChatMode;
+        switch (sChatMode)
+        {
+            case 'Full': twoSheepChatMode = 0; break;
+            case 'Canned': twoSheepChatMode = 1; break;
+            case 'None': twoSheepChatMode = 2; break;
+        }
+        
+        let twoSheepTradeMode;
+        switch (sTradeMode)
+        {
+            case 'Full': twoSheepTradeMode = 0; break;
+            case 'Bank': twoSheepTradeMode = 1; break;
+            case 'None': twoSheepTradeMode = 2; break;
+        }
         
         twoSheepData =
         {
@@ -536,6 +552,8 @@ async function command(interaction)
                 //R : //randomizeMapMode
                 RP : twoSheepPlacements, //randomizePlacementOrder
                 gS : twoSheepSpeed,//gameSpeedMode
+                cM : twoSheepChatMode, //chatMode
+                tM : twoSheepTradeMode //tradeMode
             }
         };
     }
@@ -616,7 +634,7 @@ async function command(interaction)
         .replace(/{zDice}/g, zDice)
         .replace(/{sDice}/g, sDice)
         .replace(/{zSpeed}/g, zSpeed)
-        .replace(/{sSpeed}/g, speedName(sPlatform, sSpeed))
+        .replace(/{sSpeed}/g, g.displaySpeed(sPlatform, sSpeed))
         .replace(/{platformLink}/g, platformLink)
         .replace(/{zPlayers}/g, zPlayers)
         .replace(/{sPlayers}/g, sPlayers)
@@ -713,19 +731,4 @@ async function command(interaction)
     //console.log(dbContent);
     dbMessage.edit(dbContent).catch(console.error);
     success = true;
-}
-
-function speedName(platform, speed)
-{
-    if (platform === 'Colonist') return speed;
-    
-    switch (speed)
-    {
-        case 'Very Slow': return 'Relaxed';
-        case 'Slow': return 'Classic';
-        case 'Normal': return 'Rapid';
-        case 'Fast': return 'Blitz';
-        case 'Very Fast': return 'Bullet';
-        case 'None': return 'None';
-    }
 }

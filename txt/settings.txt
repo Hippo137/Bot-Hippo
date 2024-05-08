@@ -28,4 +28,6 @@
 {zInitialType2} Second Settle:       {sInitialType2}
 {zInitialMode1} First Settle Mode:   {sInitialMode1}
 {zInitialMode2} Second Settle Mode:  {sInitialMode2}
+{zChatMode} Chat Mode:           {sChatMode}
+{zTradeMode} Trade Mode:          {sTradeMode}
 ```

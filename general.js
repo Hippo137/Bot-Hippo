@@ -102,5 +102,21 @@ module.exports =
             case 0: return 'Settlement';
             case 1: return 'City';
         }
+    },
+    
+    displaySpeed:
+    function (platform, speed)
+    {
+        if (platform === 'Colonist') return speed;
+        
+        switch (speed)
+        {
+            case 'Very Slow': return 'Relaxed';
+            case 'Slow': return 'Classic';
+            case 'Normal': return 'Rapid';
+            case 'Fast': return 'Blitz';
+            case 'Very Fast': return 'Bullet';
+            case 'None': return 'None';
+        }
     }
 };
