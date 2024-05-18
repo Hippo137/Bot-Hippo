@@ -64,13 +64,13 @@ module.exports =
     },
     
     tournamentDefaults:
-    function (platform, type)
+    function (platform, type) //currently platform doesn’t matter. Speed name isn’t changed in the database based on platform, only when displaying it in the tables
     {
         switch (type)
         {
             case 'Robber': return 'Normal'; break;
             case 'Dice': return 'Random Dice'; break;
-            case 'Speed': return platform == 'Colonist' ? 'Fast' : 'Blitz'; break;
+            case 'Speed': return 'Fast'; break;
         }
     },
     

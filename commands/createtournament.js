@@ -445,7 +445,7 @@ async function command(interaction)
         sBox = sBox ?? 1;
         sBrackets = sBrackets ?? 4;
         sChatMode = sChatMode ?? 'Full';
-        sDice = sDice ?? 'Normal';
+        sDice = sDice ?? 'Random Dice';
         sDiscard = sDiscard ?? 7;
         //sInitialType2 = //at the bottom because it depends on sMode
         //sLoserfinals = //at the bottom because it depends on sType
@@ -618,7 +618,7 @@ async function command(interaction)
     if (sSpeed != null)
     {
         dbContent = g.writeDb(dbContent, 'sSpeed', `${sSpeed}`);
-        dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === 'Fast' ? '+' : '-'}`);
+        dbContent = g.writeDb(dbContent, 'zSpeed', `${sSpeed === g.lobbyDefaults(sPlatform, 'Speed') ? '+' : '-'}`);
     }
     else sSpeed = g.readDb(dbContent, 'sSpeed');
     
@@ -829,7 +829,7 @@ async function command(interaction)
         .replace(/{sBrackets}/g, sBrackets)
         .replace(/{zChatMode}/g, sChatMode==='Full'?'+':'-')
         .replace(/{sChatMode}/g, sChatMode)
-        .replace(/{zDice}/g, sDice==='Normal'?'+':'-')
+        .replace(/{zDice}/g, sDice==='Random Dice'?'+':'-')
         .replace(/{sDice}/g, sDice)
         .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
         .replace(/{sDiscard}/g, sDiscard)
@@ -869,7 +869,7 @@ async function command(interaction)
         .replace(/{sRounds}/g, sRounds)
         .replace(/{zSpecial}/g, sSpecial==='None'?'+':'-')
         .replace(/{sSpecial}/g, sSpecial)
-        .replace(/{zSpeed}/g, sSpeed==='Normal'?'+':'-')
+        .replace(/{zSpeed}/g, sSpeed === g.tournamentDefaults(sPlatform, 'Speed')?'+':'-')
         .replace(/{sSpeed}/g, g.displaySpeed(sPlatform, sSpeed))
         .replace(/{zTables}/g, sTables==0?'+':'-')
         .replace(/{sTables}/g, sTables)

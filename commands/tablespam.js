@@ -217,7 +217,6 @@ async function command(interaction)
     const sSpecial = g.readDb(dbContent, 'sSpecial');
     const zSpecial = g.readDb(dbContent, 'zSpecial');
     const sSpeed = g.readDb(dbContent, 'sSpeed');
-    const zSpeed = g.readDb(dbContent, 'zSpeed');
     const sTables = g.readDb(dbContent, 'sTables');
     const sTradeMode = g.readDb(dbContent, 'sTradeMode');
     const sType = g.readDb(dbContent, 'sType');
@@ -633,7 +632,7 @@ async function command(interaction)
         .replace(/{sMap}/g, mapKey && sPlatform == 'TwoSheep' ? 'Custom' : sMap)
         .replace(/{zDice}/g, zDice)
         .replace(/{sDice}/g, sDice)
-        .replace(/{zSpeed}/g, zSpeed)
+        .replace(/{zSpeed}/g, sSpeed===g.lobbyDefaults(sPlatform, 'Speed')?'+':'-')
         .replace(/{sSpeed}/g, g.displaySpeed(sPlatform, sSpeed))
         .replace(/{platformLink}/g, platformLink)
         .replace(/{zPlayers}/g, zPlayers)
