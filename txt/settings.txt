@@ -30,4 +30,5 @@
 {zInitialMode2} Second Settle Mode:  {sInitialMode2}
 {zChatMode} Chat Mode:           {sChatMode}
 {zTradeMode} Trade Mode:          {sTradeMode}
+{zEndGameCondition} End Game Condition:  {sEndGameCondition}
 ```

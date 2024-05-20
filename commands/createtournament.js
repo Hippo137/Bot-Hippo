@@ -122,7 +122,7 @@ module.exports = {
                 option.setName('special')
                 .setDescription('Any special rules – defaults to NONE if omitted')
                 .setRequired(false)
-                .addChoice('NTNT', 'Ntnt')
+                //.addChoice('NTNT', 'Ntnt')
                 .addChoice('First Building on Coast', 'CoastFirst')
                 .addChoice('One Building on Coast', 'CoastSingle')
                 .addChoice('Both Buildings on Coast', 'CoastDouble')
@@ -210,6 +210,16 @@ module.exports = {
                 .addChoice('11', 11)
                 .addChoice('12', 12)
             )
+            .addStringOption
+            (option =>
+                option.setName('endgamecondition')
+                .setDescription('Additional End Game Condition – defaults to NONE if omitted')
+                .setRequired(false)
+                .addChoice('None', 'None')
+                .addChoice('Turn 30', 'Turn 30')
+                .addChoice('Turn 60', 'Turn 60')
+                .addChoice('Turn 90', 'Turn 90')
+            )
             .addIntegerOption
             (option =>
                 option.setName('initialmode1')
@@ -274,9 +284,12 @@ module.exports = {
                 .addChoice('Black Forest', 'Black Forest')
                 .addChoice('Diamond', 'Diamond')
                 .addChoice('Earth', 'Earth')
-                .addChoice('Heading for New Shores', 'Heading for New Shores')
-                .addChoice('Fog Islands', 'Fog Islands')
-                .addChoice('Four Islands', 'Four Islands')
+                .addChoice('Heading for New Shores 3P', 'Heading for New Shores 3P')
+                .addChoice('Heading for New Shores 4P', 'Heading for New Shores 4P')
+                .addChoice('Fog Islands 3P', 'Fog Islands 3P')
+                .addChoice('Fog Islands 4P', 'Fog Islands 4P')
+                .addChoice('Four Islands 3P', 'Four Islands 3P')
+                .addChoice('Four Islands 4P', 'Four Islands 4P')
                 .addChoice('Gear', 'Gear')
                 .addChoice('Gold Rush', 'Gold Rush')
                 .addChoice('Lakes', 'Lakes')
@@ -285,7 +298,8 @@ module.exports = {
                 .addChoice('UK & Ireland', 'UK & Ireland')
                 .addChoice('USA', 'USA')
                 .addChoice('Shuffle Board', 'Shuffle Board')
-                .addChoice('Through the Desert', 'Through the Desert')
+                .addChoice('Through the Desert 3P', 'Through the Desert 3P')
+                .addChoice('Through the Desert 4P', 'Through the Desert 4P')
                 .addChoice('Twirl', 'Twirl')
                 .addChoice('Volcano', 'Volcano')
             )
@@ -335,7 +349,7 @@ module.exports = {
             .addStringOption
             (option =>
                 option.setName('speed')
-                .setDescription('game speed – defaults to FAST if omitted')
+                .setDescription('game speed – defaults to FAST/BLITZ if omitted')
                 .setRequired(false)
                 .addChoice('Very Slow / Relaxed', 'Very Slow')
                 .addChoice('Slow / Classic', 'Slow')
@@ -411,6 +425,7 @@ async function command(interaction)
     let sChatMode = interaction.options.getString('chatmode');
     let sDice = interaction.options.getString('dice');
     let sDiscard = interaction.options.getInteger('discard');
+    let sEndGameCondition = interaction.options.getString('endgamecondition');
     let sLoserfinals = interaction.options.getString('loserfinal');
     let sInitialMode1 = interaction.options.getInteger('initialmode1');
     let sInitialMode2 = interaction.options.getInteger('initialmode2');
@@ -447,6 +462,7 @@ async function command(interaction)
         sChatMode = sChatMode ?? 'Full';
         sDice = sDice ?? 'Random Dice';
         sDiscard = sDiscard ?? 7;
+        sEndGameCondition = sEndGameCondition ?? 'None'
         //sInitialType2 = //at the bottom because it depends on sMode
         //sLoserfinals = //at the bottom because it depends on sType
         sMap = sMap ?? 'Base';
@@ -539,6 +555,9 @@ async function command(interaction)
         dbContent = g.writeDb(dbContent, 'zDiscard', `${sDiscard === 7 ? '+' : '-'}`);
     }
     else sDiscard = g.readDb(dbContent, 'sDiscard');
+    
+    if (sEndGameCondition != null) dbContent = g.writeDb(dbContent, 'sEndGameCondition', `${sEndGameCondition}`);
+    else sEndGameCondition = g.readDb(dbContent, 'sEndGameCondition');
     
     if (sMap != null)
     {
@@ -639,11 +658,15 @@ async function command(interaction)
             case 'Base':
             switch (sMap)
             {
-                case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert': case 'New World':
-                //do nothing
-                break;
-
-                default:
+                case 'Heading for New Shores 3P': case 'Heading for New Shores 4P': case 'Heading for New Shores 6P':
+                case 'Fog Islands 3P': case 'Fog Islands 4P': case 'Fog Islands 6P':
+                case 'Four Islands 3P': case 'Four Islands 4P': case 'Four Islands 6P':
+                case 'Through the Desert 3P': case 'Through the Desert 4P': case 'Through the Desert 6P':
+                case 'New World':
+                
+                if (sPlatform === 'Colonist') break;
+                
+                default:    //other map or TwoSheep
                 if (!sVp) sVp = 10;
                 zVp = sVp === 10 ? '+' : '-';
                 break;
@@ -653,22 +676,22 @@ async function command(interaction)
             case 'Seafarers':
             switch (sMap)
             {
-                case 'Heading for New Shores':
+                case 'Heading for New Shores 3P': case 'Heading for New Shores 4P': case 'Heading for New Shores 6P':
                 if (!sVp) sVp = 14;
                 zVp = sVp === 14 ? '+' : '-';
                 break;
 
-                case 'Four Islands':
+                case 'Four Islands 3P': case 'Four Islands 4P': case 'Four Islands 6P':
                 if (!sVp) sVp = 13;
                 zVp = sVp === 13 ? '+' : '-';
                 break;
 
-                case 'Fog Islands':
+                case 'Fog Islands 3P': case 'Fog Islands 4P': case 'Fog Islands 6P':
                 if (!sVp) sVp = 12;
                 zVp = sVp === 12 ? '+' : '-';
                 break;
 
-                case 'Through the Desert':
+                case 'Through the Desert 3P': case 'Through the Desert 4P': case 'Through the Desert 6P':
                 if (!sVp) sVp = 14;
                 zVp = sVp === 14 ? '+' : '-';
                 break;
@@ -703,11 +726,15 @@ async function command(interaction)
             case 'Cities & Knights':
             switch (sMap)
             {
-                case 'Heading for New Shores': case 'Fog Islands': case 'Four Islands': case 'Through the Desert': case 'New World':
-                //do nothing
-                break;
-
-                default:
+                case 'Heading for New Shores 3P': case 'Heading for New Shores 4P': case 'Heading for New Shores 6P':
+                case 'Fog Islands 3P': case 'Fog Islands 4P': case 'Fog Islands 6P':
+                case 'Four Islands 3P': case 'Four Islands 4P': case 'Four Islands 6P':
+                case 'Through the Desert 3P': case 'Through the Desert 4P': case 'Through the Desert 6P':
+                case 'New World':
+                
+                if (sPlatform === 'Colonist') break;
+                
+                default:    //other map or TwoSheep
                 if (!sVp) sVp = 13;
                 zVp = sVp === 13 ? '+' : '-';
                 break;
@@ -717,22 +744,22 @@ async function command(interaction)
             case 'Seafarers + Cities & Knights':
             switch (sMap)
             {
-                case 'Heading for New Shores':
+                case 'Heading for New Shores 3P': case 'Heading for New Shores 4P': case 'Heading for New Shores 6P':
                 if (!sVp) sVp = 16;
                 zVp = sVp === 16 ? '+' : '-';
                 break;
 
-                case 'Four Islands':
+                case 'Four Islands 3P': case 'Four Islands 4P': case 'Four Islands 6P':
                 if (!sVp) sVp = 15;
                 zVp = sVp === 15 ? '+' : '-';
                 break;
 
-                case 'Fog Islands':
+                case 'Fog Islands 3P': case 'Fog Islands 4P': case 'Fog Islands 6P':
                 if (!sVp) sVp = 14;
                 zVp = sVp === 14 ? '+' : '-';
                 break;
 
-                case 'Through the Desert':
+                case 'Through the Desert 3P': case 'Through the Desert 4P': case 'Through the Desert 6P':
                 if (!sVp) sVp = 16;
                 zVp = sVp === 16 ? '+' : '-';
                 break;
@@ -796,6 +823,10 @@ async function command(interaction)
         {
             addErrorMessage(`The robber setting ‘${sRobber}’ does not exist on Colonist.`);
         }
+        if (sEndGameCondition !== 'None')
+        {
+            addErrorMessage('Colonist doesn’t support additional end game conditions');
+        }
         if (sSpeed === 'None')
         {
             addErrorMessage(`The speed setting ‘${sSpeed}’ does not exist on Colonist.`);
@@ -833,6 +864,8 @@ async function command(interaction)
         .replace(/{sDice}/g, sDice)
         .replace(/{zDiscard}/g, sDiscard==7?'+':'-')
         .replace(/{sDiscard}/g, sDiscard)
+        .replace(/{zEndGameCondition}/g, sEndGameCondition==='None'?'+':'-')
+        .replace(/{sEndGameCondition}/g, sEndGameCondition)
         .replace(/{zInitialMode1}/g, sInitialMode1==0?'+':'-')
         .replace(/{sInitialMode1}/g, g.initialModeToName(sInitialMode1))
         .replace(/{zInitialMode2}/g, sInitialMode2==0?'+':'-')
@@ -962,13 +995,15 @@ function addErrorMessage(message)
 
 function consistentModeMap(mode, map) //in Colonist, you can’t play SF maps in Base/CK or non-SF maps in SF
 {
-    let sfOnly = ['Heading for New Shores', 'Four Islands', 'Fog Islands'];
+    let sfOnly = ['Heading for New Shores 3P', 'Heading for New Shores 4P', 'Heading for New Shores 6P', 'Fog Islands 3P', 'Fog Islands 4P', 'Fog Islands 6P', 'Four Islands 3P', 'Four Islands 4P', 'Four Islands 6P', 'Through the Desert 3P', 'Through the Desert 4P', 'Through the Desert 6P'];
     if (mode == 'Seafarers' || mode == 'Seafarers + Cities & Knights')
     {
-        return sfOnly.includes(map) || ['Through the Desert', 'Earth', 'UK & Ireland'].includes(map);
+        return sfOnly.includes(map) || ['Earth', 'UK & Ireland'].includes(map);
     }
     else
     {
         return !sfOnly.includes(map);
     }
+    
+    
 }

@@ -194,6 +194,7 @@ async function command(interaction)
     const zDice = g.readDb(dbContent, 'zDice');
     const sDiscard = g.readDb(dbContent, 'sDiscard');
     const zDiscard = g.readDb(dbContent, 'zDiscard');
+    const sEndGameCondition = g.readDb(dbContent, 'sEndGameCondition');
     const sInitialMode1 = g.readDb(dbContent, 'sInitialMode1');
     const sInitialMode2 = g.readDb(dbContent, 'sInitialMode2');
     const sInitialType1 = g.readDb(dbContent, 'sInitialType1');
@@ -367,10 +368,6 @@ async function command(interaction)
         extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Goon’. Everyone has to place one of their initial buildings on only a single hex. The desert counts as a hex. No exceptions!`;
         break;
         
-        case 'Ntnt':
-        extraMessage2 += '\n\n:warning: Remember that this game is played with the special rule ‘NTNT’. No messages, no talking, no trades until the game officially ended. No exceptions!';
-        break;
-        
         case 'Port0':
         extraMessage2 += `\n\n:warning: Remember that this game is played with the special rule ‘Ports are for the weak’. For the entire game, you are not allowed to settle a port. No exceptions!`;
         break;
@@ -400,6 +397,21 @@ async function command(interaction)
         break;
     }
     
+    if (sEndGameCondition !== 'None')
+    {
+        extraMessage2 += `\n\n:next_track: The game will end on ${sEndGameCondition} if not finished earlier.`;
+    }
+    
+    if (sTradeMode === 'None') extraMessage2 += '\n\n:no_entry_sign: Trading is disabled, including trading with the bank.';
+    else if (sTradeMode === 'Bank') extraMessage2 += '\n\n:no_entry_sign: Trading with other players is not allowed. Trading with the bank is allowed.';
+    
+    if (sChatMode !== 'Full')
+    {
+        extraMessage2 += '\n\n:no_entry_sign: Remember that this game is played without active communication between players. No messages and no talking until the game officially ended.';
+        if (sChatMode === 'None') extramessage2 += ' No exceptions!';
+        else if (sPlatform === 'TwoSheep') extramessage2 += ' You are allowed to use the canned messages.';
+    }
+    
     link = link.replace(/{sRound}/g, sRound);
     let platformLink, twoSheepData;
     switch (sPlatform)
@@ -418,22 +430,26 @@ async function command(interaction)
             case 'Base 7-8 Player': twoSheepMap = 3; break;
             case 'Base Random': twoSheepMap = 8; break;
             case 'Black Forest': twoSheepMap = -1; break;
-            case 'Diamond', 'Diamond': twoSheepMap = -1; break;
-            case 'Earth', 'Earth': twoSheepMap = -1; break;
-            case 'Heading for New Shores', 'Heading for New Shores': twoSheepMap = 11; break;
-            case 'Fog Islands', 'Fog Islands': twoSheepMap = 15; break;
-            case 'Four Islands', 'Four Islands': twoSheepMap = 13; break;
-            case 'Gear', 'Gear': twoSheepMap = -1; break;
-            case 'Gold Rush', 'Gold Rush': twoSheepMap = -1; break;
-            case 'Lakes', 'Lakes': twoSheepMap = -1; break;
-            case 'New World', 'New World': twoSheepMap = 18; break;
-            case 'Pond', 'Pond': twoSheepMap = -1; break;
-            case 'UK & Ireland', 'UK & Ireland': twoSheepMap = -1; break;
-            case 'USA', 'USA': twoSheepMap = -1; break;
-            case 'Shuffle Board', 'Shuffle Board': twoSheepMap = -1; break;
-            case 'Through the Desert', 'Through the Desert': twoSheepMap = 17; break;
-            case 'Twirl', 'Twirl': twoSheepMap = -1; break;
-            case 'Volcano', 'Volcano': twoSheepMap = -1; break;
+            case 'Diamond': twoSheepMap = -1; break;
+            case 'Earth': twoSheepMap = -1; break;
+            case 'Heading for New Shores 3P': twoSheepMap = 10; break;
+            case 'Heading for New Shores 4P': twoSheepMap = 11; break;
+            case 'Fog Islands 3P': twoSheepMap = 14; break;
+            case 'Fog Islands 4P': twoSheepMap = 15; break;
+            case 'Four Islands 3P': twoSheepMap = 12; break;
+            case 'Four Islands 4P': twoSheepMap = 13; break;
+            case 'Gear': twoSheepMap = -1; break;
+            case 'Gold Rush': twoSheepMap = -1; break;
+            case 'Lakes': twoSheepMap = -1; break;
+            case 'New World': twoSheepMap = 18; break;
+            case 'Pond': twoSheepMap = -1; break;
+            case 'UK & Ireland': twoSheepMap = -1; break;
+            case 'USA': twoSheepMap = -1; break;
+            case 'Shuffle Board': twoSheepMap = -1; break;
+            case 'Through the Desert 3P': twoSheepMap = 16; break;
+            case 'Through the Desert 4P': twoSheepMap = 17; break;
+            case 'Twirl': twoSheepMap = -1; break;
+            case 'Volcano': twoSheepMap = -1; break;
         }
         if (twoSheepMap == -1) return interaction.editReply(`The map ${sMap} doesn’t exist on TwoSheep or was not implemented to this bot yet.`).catch(console.error);
         
@@ -443,6 +459,14 @@ async function command(interaction)
             case 'Random Dice': twoSheepDice = 0; break;
             case 'Balanced Dice': twoSheepDice = 1; break;
             case 'Uniform Dice': twoSheepDice = 2; break;
+        }
+        
+        let twoSheepEndGameCondition = 0;
+        switch (sEndGameCondition)
+        {
+            case 'Turn 30': twoSheepEndGameCondition = 4; break;
+            case 'Turn 60': twoSheepEndGameCondition = 5; break;
+            case 'Turn 90': twoSheepEndGameCondition = 6; break;
         }
         
         let twoSheepPlacements = sPlacements === 'Random';
@@ -550,9 +574,10 @@ async function command(interaction)
                 //bR : //bankResourceSetting
                 //R : //randomizeMapMode
                 RP : twoSheepPlacements, //randomizePlacementOrder
-                gS : twoSheepSpeed,//gameSpeedMode
+                gS : twoSheepSpeed, //gameSpeedMode
                 cM : twoSheepChatMode, //chatMode
-                tM : twoSheepTradeMode //tradeMode
+                tM : twoSheepTradeMode, //tradeMode
+                GG : twoSheepEndGameCondition //endGameCondition
             }
         };
     }
@@ -681,7 +706,7 @@ async function command(interaction)
             channelTarget.permissionOverwrites.delete(channelTarget.guild.roles.everyone);
             channelTarget.send(botMessage.replace(/{link}/g, gameIDs[linkIndex]));
         }
-        if (sSpecial !== 'Ntnt') //don’t open voice channels in NTNT tournaments
+        if (sChatMode === 'Full')
         {
             channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `table `+table);
             if (channelTarget)
