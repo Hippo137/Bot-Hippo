@@ -732,21 +732,27 @@ async function command(interaction)
         switch (interaction.options.getSubcommand())
         {
             case 'qualifier': case 'qualfinal':
-
-            let players = sTables * sPlayers;
-            if (sTables < 3)
+            if (new Date().getUTCDay() == 0)
             {
-                if (sQualfinal == 'Yes') interaction.channel.send(`:warning: Since we have less than three tables, there should be no Qualfinal. ${interaction.user}`);
-            }
-            else if (sTables < 6)
-            {
-                if (sQualfinal == 'No') interaction.channel.send(`:warning: Since we have at least three tables, there should be a Qualfinal which has no prize. ${interaction.user}`);
-                else if (sQualfinalPrize != 'Nothing') interaction.channel.send(`:warning: Since we have less than six tables, the Qualfinal should not have a prize. ${interaction.user}`);
+                if (sQualfinal == 'Yes') interaction.channel.send(`:warning: Since today is Sunday, there should be no Qualfinal. ${interaction.user}`);
             }
             else
             {
-                if (sQualfinal == 'No') interaction.channel.send(`:warning: Since we have at least three tables, there should be a Qualfinal which gives a Cash Ticket. ${interaction.user}`);
-                else if (sQualfinalPrize != 'Cash Ticket') interaction.channel.send(`:warning: Since we have at least six tables, the Qualfinal should give a Cash Ticket. ${interaction.user}`);
+                let players = sTables * sPlayers;
+                if (sTables < 3)
+                {
+                    if (sQualfinal == 'Yes') interaction.channel.send(`:warning: Since we have less than three tables, there should be no Qualfinal. ${interaction.user}`);
+                }
+                else if (sTables < 6)
+                {
+                    if (sQualfinal == 'No') interaction.channel.send(`:warning: Since we have at least three tables, there should be a Qualfinal which has no prize. ${interaction.user}`);
+                    else if (sQualfinalPrize != 'Nothing') interaction.channel.send(`:warning: Since we have less than six tables, the Qualfinal should not have a prize. ${interaction.user}`);
+                }
+                else
+                {
+                    if (sQualfinal == 'No') interaction.channel.send(`:warning: Since we have at least three tables, there should be a Qualfinal which gives a Cash Ticket. ${interaction.user}`);
+                    else if (sQualfinalPrize != 'Cash Ticket') interaction.channel.send(`:warning: Since we have at least six tables, the Qualfinal should give a Cash Ticket. ${interaction.user}`);
+                }
             }
         }
     }
