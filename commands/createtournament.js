@@ -956,7 +956,11 @@ async function command(interaction)
     let players = sTables * sPlayers;
     if (sType != 'Cash' && sTables > 0)
     {
-        if (sTables < 3)
+        if (new Date().getUTCDay() == 0)
+        {
+            if (sQualfinal == 'Yes') interaction.channel.send(`:warning: Since today is Sunday, there should be no Qualfinal. ${interaction.user}`);
+        }
+        else if (sTables < 3)
         {
             if (sQualfinal == 'Yes') botMessage += `\n:warning: Since we have less than three tables, there should be no Qualfinal.`;
         }
