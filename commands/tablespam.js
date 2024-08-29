@@ -408,8 +408,8 @@ async function command(interaction)
     if (sChatMode !== 'Full')
     {
         extraMessage2 += '\n\n:no_entry_sign: Remember that this game is played without active communication between players. No messages and no talking until the game officially ended.';
-        if (sChatMode === 'None') extramessage2 += ' No exceptions!';
-        else if (sPlatform === 'TwoSheep') extramessage2 += ' You are allowed to use the canned messages.';
+        if (sChatMode === 'None') extraMessage2 += ' No exceptions!';
+        else if (sPlatform === 'TwoSheep') extraMessage2 += ' You are allowed to use the canned messages.';
     }
     
     link = link.replace(/{sRound}/g, sRound);
