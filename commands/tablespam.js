@@ -176,7 +176,7 @@ async function command(interaction)
         if (parseInt(sRound) > 1 && interaction.options.getInteger('tablestart')) sRound--; //if you set tablestart, you will not start a new round
         if (parseInt(sRound) > parseInt(sRounds))
         {
-            return interaction.editReply(`‘round’ (${sRound}) must not exceed ‘rounds’ (${sRounds}.`).catch(console.error);
+            return interaction.editReply(`‘round’ (${sRound}) must not exceed ‘rounds’ (${sRounds}).`).catch(console.error);
         }
     }
     //if (interaction.options.getSubcommand() === 'qualifier' && parseInt(sRound) > parseInt(sRounds)) return interaction.editReply(`‘round’ must not exceed ‘rounds’`).catch(console.error);
@@ -249,13 +249,13 @@ async function command(interaction)
         //roomname = `CC${sType} Round ${sRound} Table {sTable}`;
         if (remainingRounds == 0)
         {
-            if (sType === 'Weekday')
+            switch (sQualfinal)
             {
-                extraMessage2 += `There is a Final for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
-            }
-            else if (sQualfinal === 'Yes')
-            {
-                extraMessage2 += `There is a Qual Final for the Top ${sPlayers/sTeamsize} after this match. You might be in with a good performance.`
+                case 'No': extraMessage2 += 'This is the last round in the qualifier.'; break;
+                case 'Yes (Semifinal)': extraMessage2 += `The Semifinal happens for the Top ${sPlayers/sTeamsize} right after this last round. Win it to advance to the Final! Stay around even if you aren’t in the Top ${sPlayers/sTeamsize} in case someone goes missing.`; break;
+                case 'Yes (Final)': extraMessage2 += `The Final happens for the Top ${sPlayers/sTeamsize} right after this last round. Stay around even if you aren’t in the Top ${sPlayers/sTeamsize} in case someone goes missing.`; break;
+                case 'Yes':
+                extraMessage2 += `There is a Qual Final for the Top ${sPlayers/sTeamsize} after this match. Stay around even if you aren’t in the Top ${sPlayers/sTeamsize} in case someone goes missing.`;
                 switch (sQualfinalPrize)
                 {
                     case 'Cash Ticket':
@@ -270,8 +270,8 @@ async function command(interaction)
                     //extraMessage2 += ' ';
                     break;
                 }
+                break;
             }
-            else extraMessage2 += 'This is the last round in the qualifier.';
         }
         else extraMessage2 += `In this qualifier, everyone will play ${intNames[remainingRounds]} more ${remainingRounds>1?'rounds':'round'} after this round.`;
         message = `Posted Round ${sRound}.`;
@@ -279,28 +279,33 @@ async function command(interaction)
         break;
 
         case 'qualfinal':
-        if (sType == 'Weekday')
+        switch (sQualfinal)
         {
-            return interaction.editReply(`Weekday tournaments don’t have a Qualfinal. Use ‘tablespam final’ instead.`).catch(console.error);
-        }
-        intro = 'Qual Final';
-        //roomname = `CC${sType} Qualfinal`;
-        switch (sQualfinalPrize)
-        {
-            case 'Cash Ticket':
-            extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
-            break;
+            case 'No': return interaction.editReply(`The tournament does not have a qualfinal.`).catch(console.error); break;
+            case 'Yes (Semifinal)': intro = 'Semifinal'; link = 'SF'; extraMessage2 += 'Win this match to advance to the Final.'; break;
+            case 'Yes (Final)': intro = 'Final'; link = 'FT'; break;
+            case 'Yes':
+            intro = 'Qual Final';
+            link = 'QF';
+            switch (sQualfinalPrize)
+            {
+                case 'Cash Ticket':
+                extraMessage2 += 'Win this match to win a free entry to a future Cash Tournament.';
+                break;
 
-            case 'Final Spot':
-            extraMessage2 += 'Win this match to win a guaranteed spot in the final. :trophy:'
-            break;
-            
-            case 'Nothing':
-            extraMessage2 += 'This is your very last match in this qualifier. :slight_smile:';
+                case 'Final Spot':
+                extraMessage2 += 'Win this match to win a guaranteed spot in the final. :trophy:'
+                break;
+
+                case 'Nothing':
+                extraMessage2 += 'This is your very last match in this qualifier. :slight_smile:';
+                break;
+            }
             break;
         }
+        //roomname = `CC${sType} Qualfinal`;
+        
         tableEnd = 1;
-        link = 'QF';
         message = 'Posted the Qual Final.';
         break;
 
@@ -332,6 +337,10 @@ async function command(interaction)
         break;
 
         case 'semifinal':
+        if (sQualfinal == 'Yes (Semifinal)')
+        {
+            return interaction.editReply(`The tournament uses the qualfinal as its semifinal. Use ‘tablespam qualfinal’ instead.`).catch(console.error);
+        }
         intro = 'Semifinal';
         //roomname = `CC${type} Semifinal Table {sTable}`;
         if (sLoserfinals === 'Yes') extraMessage2 += 'Everyone plays one more match after this one.';
@@ -342,6 +351,10 @@ async function command(interaction)
         break;
 
         case 'final':
+        if (sQualfinal == 'Yes (Final)')
+        {
+            return interaction.editReply(`The tournament uses the qualfinal as its final. Use ‘tablespam qualfinal’ instead.`).catch(console.error);
+        }
         intro = '{finalName}';
         //roomname = `CC${type} {finalName} Table {table}`;
         extraMessage2 += 'This is your last match in the tournament.'
@@ -727,7 +740,7 @@ async function command(interaction)
     if (interaction.options.getSubcommand() === 'qualifier') dbContent = g.writeDb(dbContent, 'sRound', `${parseInt(sRound)+1}`);
     interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed in the meantime
     
-    if (sType == 'Open')
+    /*if (sType == 'Open')
     {
         switch (interaction.options.getSubcommand())
         {
@@ -755,7 +768,7 @@ async function command(interaction)
                 }
             }
         }
-    }
+    }*/
         
     
     //console.log(dbContent);

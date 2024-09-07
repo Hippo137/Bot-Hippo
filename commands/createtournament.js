@@ -73,15 +73,17 @@ module.exports = {
             .addStringOption
             (option =>
                 option.setName('qualfinal')
-                .setDescription('YES if the qualifier has a final – defaults to YES in OPEN and NO in WEEKDAY/CASH if omitted')
+                .setDescription('YES if the qualifier has a Final – defaults are SEMI in OPEN, FINAL in WEEKDAY and NO in CASH')
                 .setRequired(false)
                 .addChoice('Yes', 'Yes')
+                .addChoice('Yes (Semifinal)', 'Yes (Semifinal)')
+                .addChoice('Yes (Final)', 'Yes (Final)')
                 .addChoice('No', 'No')
             )
             .addStringOption
             (option =>
                 option.setName('qualfinalprize')
-                .setDescription('What does winning the Qual Final reward? – defaults to CASH TICKET if omitted')
+                .setDescription('Reward for winning the Qual Final (if qualfinal is plain YES) – defaults to Cash Ticket if omitted')
                 .setRequired(false)
                 .addChoice('Cash Ticket', 'Cash Ticket')
                 .addChoice('Final Spot', 'Final Spot')
@@ -455,6 +457,8 @@ async function command(interaction)
     
     if (create === 'New')
     {
+        /** Sets all unprovided values to their default */
+        
         sPlatform = sPlatform ?? 'Colonist';
         
         sBox = sBox ?? 1;
@@ -486,7 +490,15 @@ async function command(interaction)
         //sVp = sVp; //depends on mode and map
         
         sLoserfinals = sLoserfinals ?? (sType === 'Cash' ? 'Yes' : 'No');
-        sQualfinal = sQualfinal ?? (['Cash', 'Weekday'].includes(sType) ? 'No' : 'Yes');
+        if (!sQualfinal)
+        {
+            switch (sType)
+            {
+                case 'Open': sQualfinal = 'Yes (Semifinal)'; break;
+                case 'Weekday': sQualfinal = 'Yes (Final)'; break;
+                case 'Cash': sQualfinal = 'No'; break;
+            }
+        }
         sRounds = sRounds ?? (['Cities & Knights', 'Seafarers + Cities & Knights'].includes(sMode) ? 2 : 3);
         
         sInitialMode1 = sInitialMode1 ?? 0;
@@ -497,6 +509,8 @@ async function command(interaction)
         updateVP = true;
     }
     else updateVP = sVp != null || sMode != null || sMap != null || sPlatform != null;
+    
+    /** Reads all unprovided values from the database and checks for errors in the configuration */
     
     errorMessage = '';
     
@@ -888,7 +902,7 @@ async function command(interaction)
         .replace(/{sPlatform}/g, sPlatform)
         .replace(/{zPlayers}/g, sPlayers==4?'+':'-')
         .replace(/{sPlayers}/g, sPlayers)
-        .replace(/{zQualfinal}/g, (sQualfinal==='No')==(sType!='Open')?'+':'-')
+        .replace(/{zQualfinal}/g, ((sType==='Open')&&(sQualfinal==='Yes (Semifinal)')||(sType==='Weekday')&&(sQualfinal==='Yes (Final)')||(sType==='Cash')&&(sQualfinal==='No')) ?'+':'-')
         .replace(/{sQualfinal}/g, sQualfinal)
         .replace(/{zQualfinalPrize}/g, sQualfinalPrize==='Cash Ticket'?'+':'-')
         .replace(/{sQualfinalPrize}/g, sQualfinalPrize)
@@ -953,7 +967,7 @@ async function command(interaction)
         }
     }
     
-    let players = sTables * sPlayers;
+    /*let players = sTables * sPlayers;
     if (sType != 'Cash' && sTables > 0)
     {
         if (new Date().getUTCDay() == 0)
@@ -974,7 +988,7 @@ async function command(interaction)
             if (sQualfinal == 'No') botMessage += `\n:warning: Since we have at least three tables, there should be a Qualfinal which gives a Cash Ticket.`;
             else if (sQualfinalPrize != 'Cash Ticket') botMessage += `\n:warning: Since we have at least six tables, the Qualfinal should give a Cash Ticket.`;
         }
-    }
+    }*/
     
     interaction.editReply(`${create === 'New' ? 'Created' : 'Updated'} the tournament.\n\n${botMessage}`).catch(console.error); //error handling in case the message was manually removed in the meantime
     
