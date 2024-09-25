@@ -53,7 +53,7 @@ function command(interaction)
     const user1 = interaction.options.getUser('user1');
     const user2 = interaction.options.getUser('user2');
     
-    if (!name && !user1 && !user2) return interaction.editReply(`You need to provide a name or a user or both.`).catch(console.error);
+    //if (!name && !user1 && !user2) return interaction.editReply(`You need to provide a name or a user or both.`).catch(console.error);
     
     interaction.guild.members.fetch();
     let role = [interaction.guild.roles.cache.get('1081074925567217675'), interaction.guild.roles.cache.get('1282782231638573129')]; //CC
@@ -81,9 +81,16 @@ function command(interaction)
         interaction.guild.members.cache.get(user2.id).roles.add([role[mode], roleTournamentWinner]);
         message += `\nGave ${user2} the role ${role[mode]}.`;
     }
-    console.log(role[0].position, role[1].position)
-    if (role[mode].position < role[1-mode].position) role[1-mode].setPosition(role[mode].position); //move the changed role above the other one if it was lower
-    console.log(role[0].position, role[1].position)
+    //console.log(role[0].position, role[1].position)
+    if (role[mode].position < role[1-mode].position)
+    {
+        role[1-mode].setPosition(role[mode].position); //move the changed role above the other one if it was lower
+        message += `\nChanged the role order.`;
+    }
+    
+    if (!message) message = 'Nothing changed.';
+    //console.log(role[0].position, role[1].position)
+    
     interaction.editReply(`${message}`).catch(console.error);
     
     success = true;
