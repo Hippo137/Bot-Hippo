@@ -40,10 +40,10 @@ module.exports = {
                 option.setName('events')
                 .setDescription('tournament events – required for non-Weekday, ignored for Weekday')
                 .setRequired(false)
-                .addChoice('One Qualifier and Final', 1)
-                .addChoice('Two Qualifiers and Final', 2)
-                .addChoice('Three Qualifiers and Final', 3)
-                .addChoice('Four Qualifiers and Final', 4)
+                .addChoice('1 Qualifier', 1)
+                .addChoice('2 Qualifiers', 2)
+                .addChoice('3 Qualifiers', 3)
+                .addChoice('4 Qualifiers', 4)
             )
         )
         .addSubcommand(subcommand => subcommand
@@ -131,7 +131,7 @@ async function command(interaction)
     const number = interaction.options.getInteger('number');
     const type = interaction.options.getString('type');
     const mode = interaction.options.getString('mode');
-    const events = interaction.options.getInteger('events');
+    let events = interaction.options.getInteger('events');
     switch (interaction.options.getSubcommand())
     {
         case 'week':
@@ -162,11 +162,13 @@ async function command(interaction)
     let i = 1, last = false;
     do
     {
+        let fullName = name;
+        if (type != 'Weekday') fullName += ` ${nameSuffix[i]}`; //Weekday tournament role does not have Q1 etc. in the end
         await interaction.guild.roles.create(
         {
             position: position,
             hoist: hoist,
-            name: `${name} ${nameSuffix[i]}`,
+            name: fullName,
             color: 'RANDOM'
         }).catch((e) =>
         {
@@ -176,9 +178,14 @@ async function command(interaction)
                 return interaction.editReply('Couldn’t create all new roles. Maximum number of roles reached.').catch(console.error); //error handling in case the message was manually removed in the meantime
             }
         });
-        if (last == true) break;
+        if (last == true || type == 'Weekday') break;
         position++;
-        if (++i > events) {last = true; i = 0};
+        if (++i > events)
+        {
+            if (events == 4) break; //no final role when there are four qualifiers or it’s a weekday tournament
+            last = true;
+            i = 0;
+        };
     }
     while (true);
     
