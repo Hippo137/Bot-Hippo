@@ -37,9 +37,10 @@ module.exports = {
             )
             .addIntegerOption
             (option =>
-                option.setName('events')
-                .setDescription('tournament events – required for non-Weekday, ignored for Weekday')
+                option.setName('qualifiers')
+                .setDescription('tournament qualifiers – default 4 for non-Weekday, 0 for Weekday')
                 .setRequired(false)
+                .addChoice('Tournament with just one event', 0)
                 .addChoice('1 Qualifier', 1)
                 .addChoice('2 Qualifiers', 2)
                 .addChoice('3 Qualifiers', 3)
@@ -49,16 +50,6 @@ module.exports = {
         .addSubcommand(subcommand => subcommand
             .setName('month')
             .setDescription('Use this to create a new tournament role for End of Month tournaments')
-            .addStringOption
-            (option =>
-                option.setName('mode')
-                .setDescription('tournament mode')
-                .setRequired(true)
-                .addChoice('Base', 'Base')
-                .addChoice('SF', 'SF')
-                .addChoice('CK', 'CK')
-                .addChoice('CKSF', 'CKSF')
-            )
             .addStringOption
             (option =>
                 option.setName('month')
@@ -74,7 +65,7 @@ module.exports = {
                 .addChoice('08 August', 'August')
                 .addChoice('09 September', 'September')
                 .addChoice('10 October', 'October')
-                .addChoice('11 November', 'October')
+                .addChoice('11 November', 'November')
                 .addChoice('12 December', 'December')
             )
             .addIntegerOption
@@ -88,12 +79,6 @@ module.exports = {
                 .addChoice('2027', 2027)
                 .addChoice('2028', 2028)
                 .addChoice('2029', 2029)
-            )
-            .addRoleOption
-            (option =>
-                option.setName('rolebelow')
-                .setDescription('Provide the latest End Of Month role')
-                .setRequired(true)
             )
         )
         .addSubcommand(subcommand => subcommand
@@ -126,49 +111,90 @@ async function command(interaction)
 {
     if (!g.allowed(interaction, 1)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
-    const nameSuffix = ['Finals', 'Q1', 'Q2', 'Q3', 'Q4'];
-    let position, hoist;
-    const number = interaction.options.getInteger('number');
-    const type = interaction.options.getString('type');
-    const mode = interaction.options.getString('mode');
-    let events = interaction.options.getInteger('events');
+    let position, hoist, message, names = [];
     switch (interaction.options.getSubcommand())
     {
         case 'week':
-        if (type != 'Weekday' && !events)
+        const number = interaction.options.getInteger('number');
+        const type = interaction.options.getString('type');
+        const mode = interaction.options.getString('mode');
+        let qualifiers = interaction.options.getInteger('qualifiers') ?? 4;
+        if (type == 'Weekday') qualifiers = 0;
+        /*if (type != 'Weekday' && !qualifiers)
         {
-            return interaction.editReply('For non-Weekday tournaments, you must provide the events option.').catch(console.error);
-        }
+            return interaction.editReply('For non-Weekday tournaments, you must provide the qualifiers option.').catch(console.error);
+        }*/
         name = `${number} ${type} ${mode}`;
         //if (interaction.options.getString('type') != 'Weekday') name += ` ${interaction.options.getString('event')}`;
         position = interaction.guild.roles.cache.find(role => role.name === 'Back Up Hero').position;
         hoist = true;
+        message = `Successfully created the new ${qualifiers>0?'roles':'role'} for the ${type} ${mode} Tournament ${number}.`
+        if (qualifiers == 0) names.push(`${name}`);
+        else
+        {
+            for (let i=1; i<=qualifiers; i++)
+            {
+                names.push(`${name} Q${i}`);
+            }
+            if (qualifiers != 4) names.push(`${name} Finals`); //no finals if there are four qualifiers
+        }
         break;
         
         case 'month':
-        name = `${interaction.options.getString('month')} ${interaction.options.getInteger('year')} ${mode}`;
-        position = 1+interaction.options.getRole('rolebelow').position;
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const month = interaction.options.getString('month');
+        const year = interaction.options.getInteger('year');
+        let lastYear = year;
+        name = `${month} ${year}`;
+        let roles = [interaction.guild.roles.cache.find(role => role.name === `${name} Base`), interaction.guild.roles.cache.find(role => role.name === `${name} CK`)];
+        monthPos = months.indexOf(month);
+        if (monthPos==0) {monthPos = 11; lastYear--;}
+        else {monthPos--;}
+        const lastRole = interaction.guild.roles.cache.find(role => role.name === `${months[monthPos]} ${lastYear} CK`);
+        if (!lastRole) return interaction.editReply(`The CK role of the previous month (${months[monthPos]} ${lastYear}) wasn’t found.`).catch(console.error);
+        position = 1 + lastRole.position;
         hoist = false;
+        if (roles[0] && roles[1]) return interaction.editReply(`Both roles of ${name} already existed.`).catch(console.error);
+        message = `Successfully created the `;
+        if (!roles[0])
+        {
+            names.push(`${name} Base`);
+            if (!roles[1]) message += `new Base and CK roles`;
+            else
+            {
+                message += `missing Base role`;
+            }
+        }
+        if (!roles[1])
+        {
+            names.push(`${name} CK`);
+            if (roles[0])
+            {
+                message += `missing CK role`;
+                position++;
+            }
+        }
+        message += ` for ${name}.`;
         break;
         
         case 'custom':
         name = interaction.options.getString('name') ?? 'new role';
         position = interaction.options.getRole('rolebelow') ? 1+interaction.options.getRole('rolebelow').position : 1;
         hoist = false;
+        message = `Successfully created the custom role ${name}.`;
+        names.push(`${name}`);
         break;
     }
-    
+    //console.log(`names: ${names}`)
+    //console.log(`message: ${message}`)
     success = true;
-    let i = 1, last = false;
-    do
+    while (names.length > 0)
     {
-        let fullName = name;
-        if (type != 'Weekday') fullName += ` ${nameSuffix[i]}`; //Weekday tournament role does not have Q1 etc. in the end
         await interaction.guild.roles.create(
         {
-            position: position,
+            position: position++,
             hoist: hoist,
-            name: fullName,
+            name: names.shift(),
             color: 'RANDOM'
         }).catch((e) =>
         {
@@ -178,18 +204,9 @@ async function command(interaction)
                 return interaction.editReply('Couldn’t create all new roles. Maximum number of roles reached.').catch(console.error); //error handling in case the message was manually removed in the meantime
             }
         });
-        if (last == true || type == 'Weekday') break;
-        position++;
-        if (++i > events)
-        {
-            if (events == 4) break; //no final role when there are four qualifiers or it’s a weekday tournament
-            last = true;
-            i = 0;
-        };
     }
-    while (true);
     
-    if (success) interaction.editReply(`Successfully created the new roles for the ${type} ${mode} Tournament ${number}.`).catch(console.error); //error handling in case the message was manually removed
+    if (success) interaction.editReply(message).catch(console.error); //error handling in case the message was manually removed
     
     //success = true;
 }
