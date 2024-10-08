@@ -38,7 +38,7 @@ module.exports = {
             .addIntegerOption
             (option =>
                 option.setName('qualifiers')
-                .setDescription('tournament qualifiers – default 4 for non-Weekday, 0 for Weekday')
+                .setDescription('tournament qualifiers – default 4 for non-Weekday, ignored for Weekday')
                 .setRequired(false)
                 .addChoice('Tournament with just one event', 0)
                 .addChoice('1 Qualifier', 1)
