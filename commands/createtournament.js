@@ -92,7 +92,7 @@ module.exports = {
             .addStringOption
             (option =>
                 option.setName('random')
-                .setDescription('adds random letters to the game link – defaults to NO if omitted')
+                .setDescription('adds random letters to the game link (ignored in Colonist) – defaults to NO if omitted')
                 .setRequired(false)
                 .addChoice('Yes', 'Yes')
                 .addChoice('No', 'No')

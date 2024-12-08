@@ -212,7 +212,7 @@ async function command(interaction)
     const zPlayers = g.readDb(dbContent, 'zPlayers');
     const sQualfinal = g.readDb(dbContent, 'sQualfinal');
     const sQualfinalPrize = g.readDb(dbContent, 'sQualfinalPrize');
-    const sRandom = g.readDb(dbContent, 'sRandom');
+    let sRandom = g.readDb(dbContent, 'sRandom');
     const sRobber = g.readDb(dbContent, 'sRobber');
     const zRobber = g.readDb(dbContent, 'zRobber');
     const sSpecial = g.readDb(dbContent, 'sSpecial');
@@ -596,13 +596,19 @@ async function command(interaction)
     }
     
     let gameIDs = []; //links
+    let event = '';
+    if (sPlatform === 'Colonist')
+    {
+        event = 'event';
+        sRandom = 'No';
+    }
     for (let i=tableStart; i<=tableEnd; i++)
     {
         let linkTemp = link;
         let randomLetters = '';
         if (sRandom === 'Yes')
         {
-            for (let i=0; i<3; i++)
+            for (let i=0; i<2; i++)
             {
                 randomLetters += g.symbols[Math.floor(Math.random()*g.symbols.length)];
             }
@@ -620,7 +626,7 @@ async function command(interaction)
                 linkTemp = linkTemp.replace(/{X}/g, 'F');
             }
         }
-        linkTemp = linkTemp.replace(/{sTable}/g, table<10?'0'+table:table) + randomLetters;
+        linkTemp = linkTemp.replace(/{sTable}/g, table<10?'0'+table:table) + randomLetters + event;
         gameIDs.push(linkTemp);
         
         
