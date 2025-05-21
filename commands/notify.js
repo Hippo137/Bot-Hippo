@@ -35,7 +35,7 @@ async function command(interaction)
     let message = `${interaction.user} used the notify command here: https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.id}\n${roleTournamentTeam}`;
     if (content) message += `\n\nThe following message was added:\n${content}`;
     
-    const channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `notifications`);
+    const channelTarget = interaction.guild.channels.cache.find(channel => channel.name === `updates-from-other-teams`);
     channelTarget.send(message);
     
     interaction.editReply(`You successfully notified the team.`).catch(console.error); //error handling in case the message was manually removed in the meantime
