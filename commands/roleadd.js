@@ -23,6 +23,7 @@ module.exports = {
                 .setRequired(true)
                 .addChoice('Open', 'Open')
                 .addChoice('Weekday', 'Weekday')
+                .addChoice('Fun Tournament', 'Fun Tournament')
                 .addChoice('Cash', 'Cash')
             )
             .addStringOption
@@ -82,6 +83,16 @@ module.exports = {
             )
         )
         .addSubcommand(subcommand => subcommand
+            .setName('season')
+            .setDescription('Use this to create a new tournament role for End of Season tournaments')
+            .addIntegerOption
+            (option =>
+                option.setName('number')
+                .setDescription('tournament number')
+                .setRequired(true)
+            )
+        )
+        .addSubcommand(subcommand => subcommand
             .setName('custom')
             .setDescription('Use this to create a custom role for various purposes')
             .addStringOption
@@ -111,15 +122,15 @@ async function command(interaction)
 {
     if (!g.allowed(interaction, 1)) return interaction.editReply('You are not allowed to use this command.').catch(console.error);
     
-    let position, hoist, message, names = [];
+    let position, hoist, message='', names = [], number, roles, lastRole;
     switch (interaction.options.getSubcommand())
     {
         case 'week':
-        const number = interaction.options.getInteger('number');
+        number = interaction.options.getInteger('number');
         const type = interaction.options.getString('type');
         const mode = interaction.options.getString('mode');
         let qualifiers = interaction.options.getInteger('qualifiers') ?? 4;
-        if (type == 'Weekday') qualifiers = 0;
+        if (type == 'Weekday' || 'Fun Tournament') qualifiers = 0;
         /*if (type != 'Weekday' && !qualifiers)
         {
             return interaction.editReply('For non-Weekday tournaments, you must provide the qualifiers option.').catch(console.error);
@@ -146,16 +157,56 @@ async function command(interaction)
         const year = interaction.options.getInteger('year');
         let lastYear = year;
         name = `${month} ${year}`;
-        let roles = [interaction.guild.roles.cache.find(role => role.name === `${name} Base`), interaction.guild.roles.cache.find(role => role.name === `${name} CK`)];
+        roles = [interaction.guild.roles.cache.find(role => role.name === `${name} Base`), interaction.guild.roles.cache.find(role => role.name === `${name} CK`)];
         monthPos = months.indexOf(month);
         if (monthPos==0) {monthPos = 11; lastYear--;}
         else {monthPos--;}
-        const lastRole = interaction.guild.roles.cache.find(role => role.name === `${months[monthPos]} ${lastYear} CK`);
-        if (!lastRole) return interaction.editReply(`The CK role of the previous month (${months[monthPos]} ${lastYear}) wasn’t found.`).catch(console.error);
-        position = 1 + lastRole.position;
+        lastRole = interaction.guild.roles.cache.find(role => role.name === `${months[monthPos]} ${lastYear} CK`);
+        if (!lastRole)
+        {
+            message = `:warning: The CK role of the previous month (${months[monthPos]} ${lastYear}) wasn’t found. The new roles were placed at the very bottom.\n\n`;
+            position = 1;
+        }
+        //if (!lastRole) return interaction.editReply(`The CK role of the previous month (${months[monthPos]} ${lastYear}) wasn’t found.`).catch(console.error);
+        else position = 1 + lastRole.position;
         hoist = false;
         if (roles[0] && roles[1]) return interaction.editReply(`Both roles of ${name} already existed.`).catch(console.error);
-        message = `Successfully created the `;
+        message += `Successfully created the `;
+        if (!roles[0])
+        {
+            names.push(`${name} Base`);
+            if (!roles[1]) message += `new Base and CK roles`;
+            else
+            {
+                message += `missing Base role`;
+            }
+        }
+        if (!roles[1])
+        {
+            names.push(`${name} CK`);
+            if (roles[0])
+            {
+                message += `missing CK role`;
+                position++;
+            }
+        }
+        message += ` for ${name}.`;
+        break;
+        
+        case 'season':
+        number = interaction.options.getInteger('number');
+        name = `${number} Season`;
+        roles = [interaction.guild.roles.cache.find(role => role.name === `${name} Base`), interaction.guild.roles.cache.find(role => role.name === `${name} CK`)];
+        lastRole = interaction.guild.roles.cache.find(role => role.name === `${number-1} Season CK`);
+        if (!lastRole)
+        {
+            message = `:warning: The CK role of the previous season ${number-1} wasn’t found. The new roles were placed at the very bottom.\n\n`;
+            position = 1;
+        }
+        else position = 1 + lastRole.position;
+        hoist = false;
+        if (roles[0] && roles[1]) return interaction.editReply(`Both roles of ${name} already existed.`).catch(console.error);
+        message += `Successfully created the `;
         if (!roles[0])
         {
             names.push(`${name} Base`);
