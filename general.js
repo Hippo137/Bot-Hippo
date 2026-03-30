@@ -6,11 +6,10 @@ module.exports =
         switch (level)  //There are no breaks in the switch cases. This is not an accident. You don’t need the exact level, you need at least this level
         {
             case 0: return true;
-            case 1: if (interaction.member.roles.cache.find(role => role.name === 'Tournament Team')) return true;
-            case 2: if (interaction.member.roles.cache.find(role => role.name === 'CC Team')) return true;
-            case 3: if (interaction.member.roles.cache.find(role => role.name === 'Server Lead')) return true;
-            case 4: if (interaction.member.id === '383011975057113088') return true;
-            //if (interaction.member.id === '383011975057113088' || interaction.member.id === '512608910914617366') return true; //currently Hippo and Athanais
+            case 1: if (interaction.member.roles.cache.find(role => role.name === 'CC Host')) return true; //used to be Tournament Team
+            case 2: if (interaction.member.roles.cache.find(role => role.name === 'CC Mod')) return true; // used to be CC Team
+            case 3: if (interaction.member.roles.cache.find(role => role.name === 'CC Owner')) return true; //used to be Server Lead
+            case 4: if (interaction.member.id === '383011975057113088') return true; //myself
         }
         return false;
     },
