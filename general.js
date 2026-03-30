@@ -1,7 +1,7 @@
 module.exports =
 {
     allowed:
-    function (interaction, level) //level 0=everyone, 1=Tournament Team, 2=CC-Team, 3=Transition Team, 4=Hippo
+    function (interaction, level) //level 0=everyone, 1=CC Host, 2=CC Mod, 3=CC Owner, 4=Hippo
     {
         switch (level)  //There are no breaks in the switch cases. This is not an accident. You don’t need the exact level, you need at least this level
         {
