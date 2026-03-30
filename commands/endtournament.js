@@ -72,10 +72,10 @@ async function command(interaction)
     dbMessage.edit(dbContent).catch(console.error);
     message += `\nRestarted the tournament.`;
     
-    //clearing check-in channel
-    let checkInChannel = interaction.guild.channels.cache.find(channel => channel.name === `✅check-in`)
-    checkInChannel.bulkDelete(100, true).catch(console.error);
-    message += `\nCleared ${checkInChannel}.`;
+    //clearing check-in channel **DEACTIVATED**
+    //let checkInChannel = interaction.guild.channels.cache.find(channel => channel.name === `✅check-in`)
+    //checkInChannel.bulkDelete(100, true).catch(console.error);
+    //message += `\nCleared ${checkInChannel}.`;
     
     message += `\n\n:bell: Make sure to update the [Quit Spreadsheet](<http://tiny.cc/QuitSheet>).`;
     
