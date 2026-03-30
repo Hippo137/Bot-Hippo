@@ -73,7 +73,7 @@ async function command(interaction)
     message += `\nRestarted the tournament.`;
     
     //clearing check-in channel
-    let checkInChannel = interaction.guild.channels.cache.find(channel => channel.name === `📑check-in`)
+    let checkInChannel = interaction.guild.channels.cache.find(channel => channel.name === `✅check-in`)
     checkInChannel.bulkDelete(100, true).catch(console.error);
     message += `\nCleared ${checkInChannel}.`;
     
